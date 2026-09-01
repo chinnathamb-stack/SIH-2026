@@ -1,0 +1,77 @@
+{
+  "system_info": {
+    "name": "BIS AI Intelligent Assistant",
+    "version": "2.0.0-JS",
+    "problem_statement": "SIH Problem Statement 26107",
+    "mandate": "Evidence-grounded assistant for Indian Standards, certification, laboratory testing, and compliance."
+  },
+  "intent_patterns": {
+    "product_compliance": ["manufacture", "make", "create", "launch", "compliance", "standard applies", "isi mark", "certification", "requirements for", "electric kettle", "water", "toy", "helmet", "battery", "solar", "cooker", "gold", "jewellery"],
+    "standard_search": ["is number", "standard", "is 302", "is 14543", "is 16046", "is 4151", "is 9873", "is 14286", "is 2347", "is 1417", "clause", "specification"],
+    "lab_search": ["lab", "laboratory", "testing center", "where to test", "lims", "nabl", "test facility"],
+    "scheme_info": ["scheme", "scheme 1", "crs", "scheme 2", "hallmarking", "how to apply", "manakonline", "license fee"],
+    "verification": ["verify", "huid", "check licence", "cml", "fake isi", "bis care", "complaint"]
+  },
+  "clarification_templates": {
+    "electric_kettle": {
+      "product_name": "Electric Kettle / Liquid Heating Appliance",
+      "missing_fields": ["rated_voltage", "cordless_base", "capacity_litres", "body_material"],
+      "questions": [
+        {
+          "id": "q1",
+          "field": "body_material",
+          "text": "What is the primary material of the kettle body?",
+          "options": ["Stainless Steel (SS 304)", "Food-Grade Plastic / Polypropylene", "Borosilicate Glass"]
+        },
+        {
+          "id": "q2",
+          "field": "cordless_base",
+          "text": "Is this a cordless kettle with a separate 360° rotational power base?",
+          "options": ["Yes, Cordless with 360° base", "No, Cord-attached unit"]
+        },
+        {
+          "id": "q3",
+          "field": "rated_voltage",
+          "text": "What is the rated voltage and power rating?",
+          "options": ["230V AC Single Phase (~1500W - 2200W)", "110V / 12V DC (Travel/Vehicle)"]
+        }
+      ]
+    },
+    "packaged_drinking_water": {
+      "product_name": "Packaged Drinking Water",
+      "missing_fields": ["source_water", "packaging_format", "in_house_lab"],
+      "questions": [
+        {
+          "id": "q1",
+          "field": "packaging_format",
+          "text": "What is your planned packaging format?",
+          "options": ["PET Bottles (250ml - 2L)", "20-Litre Polycarbonate / PET Jars", "Pouches / Glass bottles"]
+        },
+        {
+          "id": "q2",
+          "field": "in_house_lab",
+          "text": "Do you have an in-house laboratory equipped with a microbiologist?",
+          "options": ["Yes, In-house lab setup planned", "No, Need laboratory setup guidance"]
+        }
+      ]
+    },
+    "lithium_battery": {
+      "product_name": "Lithium-ion Battery Pack / Cell",
+      "missing_fields": ["application_type", "cell_chemistry", "bms_integration"],
+      "questions": [
+        {
+          "id": "q1",
+          "field": "application_type",
+          "text": "What is the target application for the battery?",
+          "options": ["Portable Electronics / Power Bank", "Electric Two-Wheeler / EV", "Industrial / Solar Energy Storage"]
+        },
+        {
+          "id": "q2",
+          "field": "cell_chemistry",
+          "text": "What is the cell chemistry?",
+          "options": ["NMC (Nickel Manganese Cobalt)", "LFP (Lithium Iron Phosphate)", "LCO (Lithium Cobalt Oxide)"]
+        }
+      ]
+    }
+  }
+}

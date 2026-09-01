@@ -1,0 +1,23 @@
+{
+  "name": "bis-ai-assistant",
+  "version": "1.0.0",
+  "description": "BIS AI Intelligent Assistant - SIH Problem Statement 26107 (100% JavaScript Implementation)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "keywords": [
+    "bis",
+    "ai-assistant",
+    "standards",
+    "compliance",
+    "javascript"
+  ],
+  "author": "SIH Team",
+  "license": "MIT"
+}

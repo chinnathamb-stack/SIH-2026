@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIS AI Intelligent Assistant | Bureau of Indian Standards (SIH 26107)</title>
+  <meta name="description" content="AI-Powered Compliance and Standards Orchestrator for Bureau of Indian Standards (BIS). Discover Indian Standards, certification schemes, testing requirements, and recognized laboratories.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇮🇳</text></svg>">
+</head>
+<body>
+  <!-- App Container -->
+  <div class="app-layout">
+    
+    <!-- Left Sidebar (ChatGPT-Style) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <div class="bis-emblem">
+            <span class="emblem-symbol">BIS</span>
+          </div>
+          <div class="brand-text">
+            <h2>BIS AI Assistant</h2>
+            <span class="badge-sih">SIH 26107</span>
+          </div>
+        </div>
+        <button class="btn-icon" id="newChatBtn" title="Start New Chat" aria-label="Start New Chat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>
+
+      <!-- Quick Action / New Analysis -->
+      <div class="sidebar-action">
+        <button class="btn-new-chat" id="sidebarNewChatBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          <span data-i18n="new_chat">New Conversation</span>
+        </button>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-title" data-i18n="workspace">WORKSPACE</div>
+        <button class="nav-item active" data-view="chatView">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span data-i18n="nav_assistant">AI Assistant</span>
+        </button>
+        <button class="nav-item" data-view="analyzerView">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span data-i18n="nav_analyzer">Product Analyzer</span>
+        </button>
+        <button class="nav-item" data-view="standardsView">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span data-i18n="nav_standards">Standards Explorer</span>
+        </button>
+        <button class="nav-item" data-view="labsView">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31L4.66 18.2A2 2 0 0 0 6.36 21h11.28a2 2 0 0 0 1.7-2.8L14 9.31V2"/><line x1="8" y1="2" x2="16" y2="2"/></svg>
+          <span data-i18n="nav_labs">Laboratory Finder (LIMS)</span>
+        </button>
+        <button class="nav-item" data-view="servicesView">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span data-i18n="nav_services">Official BIS Portals</span>
+        </button>
+        <button class="nav-item" data-view="healthView">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span data-i18n="nav_health">Admin & Health</span>
+        </button>
+      </nav>
+
+      <!-- History List -->
+      <div class="sidebar-history">
+        <div class="nav-section-title" data-i18n="recent_chats">RECENT SESSIONS</div>
+        <div class="history-list" id="historyList">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- User / Footer Profile -->
+      <div class="sidebar-footer">
+        <div class="bis-authority-card">
+          <div class="authority-dot"></div>
+          <div>
+            <span class="auth-title">Bureau of Indian Standards</span>
+            <span class="auth-sub">Official AI Verification Layer</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Navigation Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="btn-icon mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="current-view-title" id="viewTitle">BIS AI Intelligent Assistant</div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Language Selector -->
+          <div class="lang-selector-wrapper">
+            <select id="langSelector" class="select-lang" aria-label="Select Language">
+              <option value="en">English (EN)</option>
+              <option value="ta">தமிழ் (Tamil)</option>
+              <option value="hi">हिंदी (Hindi)</option>
+            </select>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="btn-icon theme-toggle" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
+            <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW 1: AI ASSISTANT (CHAT VIEW) -->
+      <section class="view-panel active" id="chatView">
+        <div class="chat-container">
+          
+          <!-- Message Stream Area -->
+          <div class="chat-stream" id="chatStream">
+            
+            <!-- Hero Welcome Card (Shown when chat is empty) -->
+            <div class="chat-welcome" id="chatWelcome">
+              <div class="welcome-badge">
+                <span class="badge-icon">🇮🇳</span>
+                <span>SIH Problem Statement 26107 Solution</span>
+              </div>
+              <h1 class="welcome-heading" data-i18n="welcome_title">How can I assist your BIS compliance today?</h1>
+              <p class="welcome-desc" data-i18n="welcome_sub">
+                Ask about Indian Standards (IS), mandatory Quality Control Orders (QCOs), testing protocols, Scheme I (ISI Mark), Scheme II (CRS), or laboratory matching across India.
+              </p>
+
+              <!-- Example Prompt Chips -->
+              <div class="prompt-chips">
+                <button class="chip" data-prompt="I want to manufacture an electric kettle. What BIS requirements must my product satisfy, which standard applies, what tests are required, and which laboratory can test it?">
+                  <span class="chip-icon">⚡</span>
+                  <div>
+                    <strong>Electric Kettle Compliance</strong>
+                    <span>IS 302-2-15, Safety Tests, BIS Scheme I</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="What are the mandatory testing and licensing steps to setup a Packaged Drinking Water bottling plant under IS 14543?">
+                  <span class="chip-icon">💧</span>
+                  <div>
+                    <strong>Packaged Drinking Water</strong>
+                    <span>IS 14543, FSSAI-BIS Mandate, In-house Lab</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="What is the Compulsory Registration Scheme (CRS) process and tests for Lithium-ion battery packs under IS 16046?">
+                  <span class="chip-icon">🔋</span>
+                  <div>
+                    <strong>Lithium-ion Battery (CRS)</strong>
+                    <span>IS 16046 Part 2, MeitY Order, R-Number</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="What are the maximum weight and impact absorption requirements for two-wheeler protective helmets under IS 4151?">
+                  <span class="chip-icon">🪖</span>
+                  <div>
+                    <strong>Two-Wheeler Helmets</strong>
+                    <span>IS 4151:2020, 1.2kg Max Weight, 300g Impact</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="How do I verify 6-digit Gold Hallmarking HUID and what are the recognized fineness grades under IS 1417?">
+                  <span class="chip-icon">✨</span>
+                  <div>
+                    <strong>Gold Hallmarking & HUID</strong>
+                    <span>IS 1417, 22K916 / 18K750, BIS CARE App</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="What safety regulations apply to children toys under IS 9873 and the Toy Quality Control Order?">
+                  <span class="chip-icon">🧸</span>
+                  <div>
+                    <strong>Toy Safety & Flammability</strong>
+                    <span>IS 9873 Parts 1-9, DPIIT QCO, Heavy Metals</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Messages will be injected here -->
+          </div>
+
+          <!-- Bottom Chat Input Bar -->
+          <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+              <button class="btn-icon input-tool-btn" id="attachBtn" title="Attach Document / Spec" aria-label="Attach File">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              </button>
+              
+              <textarea 
+                id="messageInput" 
+                class="chat-textarea" 
+                rows="1" 
+                placeholder="Ask about any product, IS standard, testing requirement, or lab..." 
+                data-i18n-placeholder="input_placeholder"
+                aria-label="Message Input"
+              ></textarea>
+
+              <button class="btn-icon input-tool-btn" id="voiceBtn" title="Voice Input (Speech-to-Text)" aria-label="Voice Input">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              </button>
+
+              <button class="btn-send" id="sendBtn" title="Send Message" aria-label="Send Message">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+            <div class="input-disclaimer">
+              <span class="disclaimer-text">BIS AI Assistant provides authoritative guidance grounded in Indian Standards. Always confirm formal licensing on <a href="https://www.manakonline.in/" target="_blank" rel="noopener">Manakonline</a>.</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- VIEW 2: PRODUCT ANALYZER & COMPLIANCE DASHBOARD -->
+      <section class="view-panel" id="analyzerView">
+        <div class="panel-content-scroll">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title" data-i18n="analyzer_heading">Product Compliance Analyzer & Dashboard</h2>
+              <p class="panel-subtitle" data-i18n="analyzer_sub">Enter your product details to generate an automated BIS compliance roadmap, testing schedule, and licensing checklist.</p>
+            </div>
+          </div>
+
+          <div class="analyzer-grid">
+            <!-- Left: Form -->
+            <div class="card form-card">
+              <h3 class="card-title">Product Specification Input</h3>
+              <form id="productAnalysisForm">
+                <div class="form-group">
+                  <label for="prodName">Product Name / Description *</label>
+                  <input type="text" id="prodName" class="form-input" placeholder="e.g. Electric Kettle with Cordless Base" value="Electric Kettle" required>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="prodCategory">Industry Sector</label>
+                    <select id="prodCategory" class="form-select">
+                      <option value="Electrical & Electronics">Electrical & Electronics</option>
+                      <option value="Food & Agriculture">Food & Agriculture</option>
+                      <option value="Electronics & IT Goods (CRS)">Electronics & IT Goods (CRS)</option>
+                      <option value="Mechanical / Road Safety">Mechanical / Road Safety</option>
+                      <option value="Consumer Goods / Toys">Consumer Goods / Toys</option>
+                      <option value="Renewable Energy / Solar">Renewable Energy / Solar</option>
+                      <option value="Household & Kitchen Utensils">Household & Kitchen Utensils</option>
+                      <option value="Precious Metals & Hallmarking">Precious Metals & Hallmarking</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="prodMaterial">Primary Body Material</label>
+                    <input type="text" id="prodMaterial" class="form-input" placeholder="e.g. SS 304 / Food grade PP" value="Stainless Steel 304">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="prodVoltage">Rated Voltage / Power</label>
+                    <input type="text" id="prodVoltage" class="form-input" placeholder="e.g. 230V AC, 1800W" value="230V AC, 1500W">
+                  </div>
+                  <div class="form-group">
+                    <label for="prodCapacity">Rated Capacity / Size</label>
+                    <input type="text" id="prodCapacity" class="form-input" placeholder="e.g. 1.8 Litres" value="1.8 Litres">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="prodMarket">Target Market / Channel</label>
+                  <select id="prodMarket" class="form-select">
+                    <option value="Domestic Indian Market (Mandatory QCO)">Domestic Indian Market (Mandatory QCO)</option>
+                    <option value="Export & Domestic Dual Compliance">Export & Domestic Dual Compliance</option>
+                    <option value="Institutional & Government GeM Procurement">Institutional & Government GeM Procurement</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="btn-primary" id="analyzeSubmitBtn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <span>Generate Full Compliance Plan</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- Right: Live Result Card -->
+            <div class="card result-card" id="analyzerResults">
+              <div class="result-placeholder" id="analyzerPlaceholder">
+                <div class="placeholder-icon">📋</div>
+                <h4>Ready to Analyze Product</h4>
+                <p>Fill in the product specification and click Generate to see the grounded Indian Standard, testing matrix, and step-by-step checklist.</p>
+              </div>
+
+              <div class="result-display" id="analyzerDisplay" style="display: none;">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 3: STANDARDS EXPLORER (KNOW YOUR STANDARD) -->
+      <section class="view-panel" id="standardsView">
+        <div class="panel-content-scroll">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title" data-i18n="standards_heading">Indian Standards Explorer (KYS)</h2>
+              <p class="panel-subtitle" data-i18n="standards_sub">Search authorized Bureau of Indian Standards (IS), explore clauses, safety limits, testing parameters, and Quality Control Orders.</p>
+            </div>
+          </div>
+
+          <div class="search-filter-bar">
+            <div class="search-input-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="standardSearchInput" placeholder="Search standard by IS Number (e.g. IS 302, IS 14543), title, or product..." aria-label="Search Standards">
+            </div>
+            <select id="standardCategoryFilter" class="filter-select" aria-label="Filter by Category">
+              <option value="">All Categories</option>
+              <option value="Electrical">Electrical & Electronics</option>
+              <option value="Food">Food & Agriculture</option>
+              <option value="CRS">Electronics CRS</option>
+              <option value="Safety">Mechanical & Road Safety</option>
+              <option value="Toys">Toys Safety</option>
+              <option value="Solar">Solar & Renewable</option>
+              <option value="Kitchen">Household & Kitchen</option>
+              <option value="Hallmarking">Precious Metals & Hallmarking</option>
+            </select>
+          </div>
+
+          <div class="standards-grid" id="standardsGrid">
+            <!-- Standards cards injected dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 4: LABORATORY FINDER (LIMS) -->
+      <section class="view-panel" id="labsView">
+        <div class="panel-content-scroll">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title" data-i18n="labs_heading">BIS-Recognized Laboratory Finder (LIMS)</h2>
+              <p class="panel-subtitle" data-i18n="labs_sub">Search BIS Central/Regional Labs and NABL-accredited third party testing centers matched to your required test scopes.</p>
+            </div>
+          </div>
+
+          <div class="search-filter-bar">
+            <div class="search-input-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="labSearchInput" placeholder="Search by city, lab name, or test standard (e.g. Chennai, IS 302, Water)..." aria-label="Search Labs">
+            </div>
+            <select id="labStateFilter" class="filter-select" aria-label="Filter by State">
+              <option value="">All States / Regions</option>
+              <option value="Tamil Nadu">Tamil Nadu (Chennai)</option>
+              <option value="Uttar Pradesh">Uttar Pradesh (Sahibabad)</option>
+              <option value="Maharashtra">Maharashtra (Mumbai)</option>
+              <option value="West Bengal">West Bengal (Kolkata)</option>
+              <option value="Punjab">Punjab / Chandigarh</option>
+              <option value="Karnataka">Karnataka (Bangalore)</option>
+            </select>
+          </div>
+
+          <div class="labs-grid" id="labsGrid">
+            <!-- Labs injected dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 5: OFFICIAL BIS SERVICES HUB -->
+      <section class="view-panel" id="servicesView">
+        <div class="panel-content-scroll">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title" data-i18n="services_heading">Official BIS Ecosystem & Deep Links</h2>
+              <p class="panel-subtitle" data-i18n="services_sub">Direct access to official government portals for license applications, verification, standard downloads, and laboratory tracking.</p>
+            </div>
+          </div>
+
+          <div class="services-grid" id="servicesGrid">
+            <!-- Services injected dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 6: ADMIN & SYSTEM HEALTH -->
+      <section class="view-panel" id="healthView">
+        <div class="panel-content-scroll">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">System Health & Ingestion Telemetry</h2>
+              <p class="panel-subtitle">Real-time status of backend services, RAG knowledge stores, citation verification pipelines, and audit logs.</p>
+            </div>
+          </div>
+
+          <div class="health-dashboard-grid" id="healthMetrics">
+            <div class="metric-card">
+              <div class="metric-icon">🟢</div>
+              <div class="metric-info">
+                <span class="metric-val" id="healthStatus">Operational</span>
+                <span class="metric-lbl">API Server Health</span>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon">📚</div>
+              <div class="metric-info">
+                <span class="metric-val" id="metricStandards">8 Standards</span>
+                <span class="metric-lbl">Ingested Indian Standards</span>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon">🔬</div>
+              <div class="metric-info">
+                <span class="metric-val" id="metricLabs">6 Labs</span>
+                <span class="metric-lbl">BIS-Recognized Test Centers</span>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon">🌐</div>
+              <div class="metric-info">
+                <span class="metric-val" id="metricServices">6 Portals</span>
+                <span class="metric-lbl">Integrated Official Services</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-24">
+            <h3 class="card-title">Orchestration & Verification Rules</h3>
+            <ul class="telemetry-list">
+              <li><strong>RAG Grounding:</strong> Only citations from verified Indian Standards (IS) clauses are returned.</li>
+              <li><strong>Zero Hallucination Policy:</strong> Missing product attributes trigger interactive clarification cards.</li>
+              <li><strong>Regulatory Authority:</strong> Clear distinction between automated guidance and final official BIS licensing.</li>
+              <li><strong>Language Engine:</strong> Technical identifiers (e.g., IS 302-2-15, Cl. 13, 0.75mA) are strictly preserved across English, Tamil, and Hindi translations.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Slide-out Evidence & Citation Drawer -->
+    <div class="evidence-drawer" id="evidenceDrawer">
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <span class="drawer-badge">BIS Official Evidence</span>
+          <h3 id="drawerTitle">IS 302-2-15: 2009</h3>
+        </div>
+        <button class="btn-icon" id="closeDrawerBtn" aria-label="Close Evidence Drawer">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="drawer-body" id="drawerBody">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="drawer-footer">
+        <a href="https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails" target="_blank" rel="noopener" class="btn-primary" id="drawerOfficialBtn">
+          <span>Open in Know Your Standard (KYS)</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- Global Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/api.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/standards.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/labs.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

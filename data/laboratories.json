@@ -1,0 +1,120 @@
+[
+  {
+    "id": "lab_001",
+    "lab_code": "BIS-CL-SAHIBABAD",
+    "name": "BIS Central Laboratory (CL)",
+    "category": "Central Government BIS Laboratory",
+    "address": "Plot No. 20/9, Site IV, Sahibabad Industrial Area, Ghaziabad",
+    "state": "Uttar Pradesh",
+    "district": "Ghaziabad",
+    "pincode": "201010",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2028-12-31",
+    "contact": { "phone": "+91-120-4177100", "email": "cl@bis.gov.in" },
+    "scopes": [
+      "IS 302-2-15 (Electric Kettles & Liquid Heaters)",
+      "IS 302-1 (Household Electrical Appliances General Safety)",
+      "IS 14543 (Packaged Drinking Water Microbiological & Chemical)",
+      "IS 4151 (Protective Helmets Impact & Retention)",
+      "IS 2347 (Domestic Pressure Cookers Hydrostatic Proof Test)",
+      "IS 9873 (Toy Safety Mechanical, Chemical & Flammability)"
+    ]
+  },
+  {
+    "id": "lab_002",
+    "lab_code": "BIS-SRO-CHENNAI",
+    "name": "BIS Southern Regional Laboratory (SRL)",
+    "category": "Regional BIS Laboratory",
+    "address": "CIT Campus, IV Cross Road, Taramani, Chennai",
+    "state": "Tamil Nadu",
+    "district": "Chennai",
+    "pincode": "600113",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2027-10-31",
+    "contact": { "phone": "+91-44-22541216", "email": "srl@bis.gov.in" },
+    "scopes": [
+      "IS 302-2-15 (Electric Kettles & Kitchen Appliances)",
+      "IS 14543 (Packaged Drinking Water Complete Spectrum)",
+      "IS 16046 (Lithium-ion Cells & Battery Packs)",
+      "IS 14286 (Solar PV Modules Environmental & Electrical)",
+      "IS 4151 (Two-Wheeler Helmets)",
+      "IS 1418 (Gold Assaying & Fire Assay)"
+    ]
+  },
+  {
+    "id": "lab_003",
+    "lab_code": "BIS-WRO-MUMBAI",
+    "name": "BIS Western Regional Laboratory (WRL)",
+    "category": "Regional BIS Laboratory",
+    "address": "Manakalaya, E-9, MIDC, Andheri (East), Mumbai",
+    "state": "Maharashtra",
+    "district": "Mumbai Suburban",
+    "pincode": "400093",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2028-06-30",
+    "contact": { "phone": "+91-22-28329295", "email": "wrl@bis.gov.in" },
+    "scopes": [
+      "IS 302-2-15 (Electric Heating Appliances)",
+      "IS 14543 (Packaged Drinking Water Heavy Metals & Pesticides)",
+      "IS 9873 (Safety of Toys Part 1-9)",
+      "IS 2347 (Pressure Cookers)",
+      "IS 16046 (Lithium Batteries & Power Banks)"
+    ]
+  },
+  {
+    "id": "lab_004",
+    "lab_code": "BIS-ERO-KOLKATA",
+    "name": "BIS Eastern Regional Laboratory (ERL)",
+    "category": "Regional BIS Laboratory",
+    "address": "1/14, C.I.T. Scheme VII (M), VIP Road, Kankurgachi, Kolkata",
+    "state": "West Bengal",
+    "district": "Kolkata",
+    "pincode": "700054",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2027-08-31",
+    "contact": { "phone": "+91-33-23207080", "email": "erl@bis.gov.in" },
+    "scopes": [
+      "IS 14543 (Packaged Drinking Water)",
+      "IS 4151 (Protective Helmets)",
+      "IS 2347 (Domestic Pressure Cookers)",
+      "IS 1417 / IS 1418 (Gold & Precious Metal Assaying)"
+    ]
+  },
+  {
+    "id": "lab_005",
+    "lab_code": "BIS-NRO-CHANDIGARH",
+    "name": "BIS Northern Regional Laboratory (NRL)",
+    "category": "Regional BIS Laboratory",
+    "address": "Plot No. 4-A, Sector 27-B, Madhya Marg, Chandigarh",
+    "state": "Chandigarh / Punjab",
+    "district": "Chandigarh",
+    "pincode": "160019",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2028-03-31",
+    "contact": { "phone": "+91-172-2650206", "email": "nrl@bis.gov.in" },
+    "scopes": [
+      "IS 302-2-15 (Electric Kettles)",
+      "IS 14543 (Packaged Drinking Water)",
+      "IS 4151 (Helmets)",
+      "IS 9873 (Toys Safety)"
+    ]
+  },
+  {
+    "id": "lab_006",
+    "lab_code": "BIS-BLR-PV-LAB",
+    "name": "National Institute of Solar Energy (NISE) / CPRI Bangalore",
+    "category": "BIS-Recognized Third-Party National Laboratory",
+    "address": "Sir C.V. Raman Road, Sadashivanagar, Bangalore",
+    "state": "Karnataka",
+    "district": "Bengaluru Urban",
+    "pincode": "560080",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2029-01-15",
+    "contact": { "phone": "+91-80-22072210", "email": "solar-testing@cpri.in" },
+    "scopes": [
+      "IS 14286 (Solar Photovoltaic Modules Design Qualification)",
+      "IS 16046 (Lithium-ion Cells & Batteries)",
+      "IS 302-2-15 (Electrical Appliance Safety)"
+    ]
+  }
+]

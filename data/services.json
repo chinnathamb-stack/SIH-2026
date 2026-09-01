@@ -1,0 +1,56 @@
+[
+  {
+    "id": "srv_001",
+    "name": "BIS CARE Portal & Mobile App",
+    "category": "Consumer & Verification Services",
+    "description": "Verify ISI Mark Licences, CRS Registration R-Numbers, 6-digit Gold Hallmarking HUID, and file consumer complaints online.",
+    "official_url": "https://www.bis.gov.in/bis-care-app/",
+    "badge": "Official Consumer App",
+    "features": ["Verify ISI Licence (CM/L)", "Check HUID Purity", "Verify CRS R-Number", "Lodge Grievance"]
+  },
+  {
+    "id": "srv_002",
+    "name": "Manakonline (e-BIS Portal)",
+    "category": "Manufacturer & Certification Application",
+    "description": "Unified digital portal for applying for new BIS Product Certification (Scheme I), CRS Registration (Scheme II), and Hallmarking registration.",
+    "official_url": "https://www.manakonline.in/",
+    "badge": "Certification Application",
+    "features": ["New License Application", "Renewal of Licence", "Inclusion of New Models", "Surveillance Reports"]
+  },
+  {
+    "id": "srv_003",
+    "name": "Know Your Standard (KYS)",
+    "category": "Standards Discovery & Evidence",
+    "description": "Search, preview, and download authoritative Indian Standards, amendments, Scheme of Inspection & Testing (SIT), and technical committees.",
+    "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+    "badge": "Authoritative Standards",
+    "features": ["IS Number Search", "Download Gazette QCOs", "View Clause Revisions", "SIT Download"]
+  },
+  {
+    "id": "srv_004",
+    "name": "BIS LIMS (Laboratory Information Management System)",
+    "category": "Laboratory & Testing Services",
+    "description": "Comprehensive portal to search BIS-recognized and NABL accredited laboratories, evaluate test scope, and track sample testing status.",
+    "official_url": "https://www.lims.bis.gov.in/",
+    "badge": "Lab Testing & Scopes",
+    "features": ["Lab Scope Finder", "Track Sample Testing", "Find NABL Accredited Labs", "Turnaround Times"]
+  },
+  {
+    "id": "srv_005",
+    "name": "Compulsory Registration Scheme (CRS) Portal",
+    "category": "IT & Electronics Self-Declaration",
+    "description": "Dedicated portal for Electronics, IT Goods, Solar PV, and Lithium Batteries under MeitY and MNRE mandatory orders.",
+    "official_url": "https://www.crsbis.in/BIS/",
+    "badge": "CRS Electronics",
+    "features": ["CRS Registration Guide", "Recognized CRS Labs", "Labeling Guidelines", "Brand Inclusion"]
+  },
+  {
+    "id": "srv_006",
+    "name": "Hallmarking & Assaying Portal",
+    "category": "Jewellery & Precious Metals",
+    "description": "Manage jeweller registration, locate Assaying and Hallmarking Centres (AHC), and verify hallmarked jewellery tracking.",
+    "official_url": "https://www.manakonline.in/MANAK/JewellersLandingPage",
+    "badge": "Gold Hallmarking",
+    "features": ["Jeweller Registration", "Find Nearest AHC", "HUID Generation Rules", "Caratage Guide"]
+  }
+]

@@ -1,0 +1,400 @@
+[
+  {
+    "id": "std_001",
+    "is_number": "IS 302-2-15: 2009",
+    "title": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)",
+    "version": "2009 (Reaffirmed 2019)",
+    "status": "Active / Mandatory",
+    "category": "Electrical & Electronics",
+    "product_names": ["electric kettle", "kettle", "water heater", "liquid heating appliance", "tea maker", "water boiler"],
+    "scheme": "Scheme I (ISI Mark Certification)",
+    "mandatory_order": "Quality Control Order (QCO) for Electrical Appliances",
+    "scope": "Covers safety of electric kettles, water boilers and appliances which heat liquids for household and similar use with rated voltage not exceeding 250 V.",
+    "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+    "clauses": [
+      {
+        "clause_no": "Clause 8",
+        "heading": "Protection against access to live parts",
+        "page": 7,
+        "text": "Appliances shall be constructed and enclosed so that there is adequate protection against accidental contact with live parts during normal use and cleaning.",
+        "test_method": "Standard test finger B of IS 1401 applied with a force of 50 N."
+      },
+      {
+        "clause_no": "Clause 10",
+        "heading": "Power input and current verification",
+        "page": 9,
+        "text": "The power input at normal operating temperature shall not deviate from the rated power input by more than +5% or -10% for rated inputs > 200W.",
+        "test_method": "Wattmeter measurement at 1.06 times rated voltage under boiling conditions."
+      },
+      {
+        "clause_no": "Clause 13",
+        "heading": "Leakage current and electric strength at operating temperature",
+        "page": 12,
+        "text": "Leakage current shall not exceed 0.75 mA for Class I portable appliances. Electric strength test voltage of 1000 V AC applied for 1 min between live parts and accessible metal parts.",
+        "test_method": "High voltage breakdown tester applying 1000V/1500V 50Hz for 60s."
+      },
+      {
+        "clause_no": "Clause 19",
+        "heading": "Abnormal operation and boil-dry safety",
+        "page": 18,
+        "text": "Kettles must incorporate a thermal cutout to prevent hazardous temperatures and fire hazard if switched on without water or when boiling dry.",
+        "test_method": "Boil-dry endurance test run for 100 cycles without liquid."
+      },
+      {
+        "clause_no": "Clause 22",
+        "heading": "Construction and Cordless Base Connection",
+        "page": 24,
+        "text": "For cordless kettles, contacts in the base must not become live when kettle is detached, and must withstand 10,000 insertions.",
+        "test_method": "Mechanical endurance cycling test at 10 cycles/min."
+      },
+      {
+        "clause_no": "Clause 29",
+        "heading": "Clearances, creepage distances and solid insulation",
+        "page": 31,
+        "text": "Creepage distance across basic insulation shall be >= 3.0 mm for Pollution Degree 2.",
+        "test_method": "Vernier caliper / micrometer optical measurement."
+      }
+    ],
+    "requirements": [
+      { "name": "Boil-dry thermal safety cutout", "category": "Safety", "mandatory": true, "clause": "Clause 19" },
+      { "name": "Dielectric insulation strength (1000V)", "category": "Electrical", "mandatory": true, "clause": "Clause 13" },
+      { "name": "Food-grade internal contact material (SS 304 / BPA-free plastic)", "category": "Material", "mandatory": true, "clause": "Clause 22" },
+      { "name": "Earthing continuity and ground resistance < 0.1 ohm", "category": "Safety", "mandatory": true, "clause": "Clause 27" },
+      { "name": "ISI Mark, Rated Voltage, Power, and Manufacturer Marking", "category": "Marking", "mandatory": true, "clause": "Clause 7" }
+    ],
+    "tests": [
+      { "name": "Electric Strength & Insulation Resistance Test", "standard_ref": "IS 302-2-15 Cl. 13", "frequency": "100% Routine Test" },
+      { "name": "Earth Continuity Test", "standard_ref": "IS 302-1 Cl. 27", "frequency": "100% Routine Test" },
+      { "name": "Boil-Dry Abnormal Operation Test", "standard_ref": "IS 302-2-15 Cl. 19", "frequency": "Type Test" },
+      { "name": "Cordless Base Contact Cycling Test (10,000 cycles)", "standard_ref": "IS 302-2-15 Cl. 22", "frequency": "Type Test" },
+      { "name": "Temperature Rise Test", "standard_ref": "IS 302-1 Cl. 11", "frequency": "Type Test" }
+    ]
+  },
+  {
+    "id": "std_002",
+    "is_number": "IS 14543: 2024",
+    "title": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification",
+    "version": "2024 (Fifth Revision)",
+    "status": "Active / Mandatory",
+    "category": "Food & Agriculture",
+    "product_names": ["packaged drinking water", "bottled water", "purified drinking water", "mineral water", "ro water", "drinking water jar"],
+    "scheme": "Scheme I (Mandatory ISI Mark Certification - FSSAI & BIS Joint Regulatory Mandate)",
+    "mandatory_order": "Food Safety and Standards (Packaging and Labelling) Regulations / BIS Act",
+    "scope": "Prescribes requirements and methods of sampling and test for packaged drinking water other than packaged natural mineral water.",
+    "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+    "clauses": [
+      {
+        "clause_no": "Clause 3",
+        "heading": "Treatment and Processing Methods",
+        "page": 3,
+        "text": "Water shall be derived from any source and subjected to treatments like decantation, filtration, aeration, RO, demineralization, remineralization and disinfection (UV / Ozonation).",
+        "test_method": "Plant inspection and process flow audit."
+      },
+      {
+        "clause_no": "Clause 4.1",
+        "heading": "Organoleptic and Physical Parameters",
+        "page": 4,
+        "text": "Colour: Max 2 Hazen units; Turbidity: Max 2 NTU; Odour: Agreeable; Taste: Agreeable; TDS: 75 to 500 mg/L; pH: 6.5 to 8.5.",
+        "test_method": "Turbidimeter, Spectrophotometer, and pH meter testing."
+      },
+      {
+        "clause_no": "Clause 4.2",
+        "heading": "Chemical & Toxic Substance Limits",
+        "page": 6,
+        "text": "Lead (Pb) max 0.01 mg/L; Arsenic (As) max 0.01 mg/L; Mercury (Hg) max 0.001 mg/L; Nitrate max 45 mg/L; Fluoride max 1.0 mg/L; Pesticide residues below detectable limit (0.0001 mg/L).",
+        "test_method": "ICP-MS, AAS, and GC-MS/MS testing."
+      },
+      {
+        "clause_no": "Clause 5",
+        "heading": "Microbiological Requirements",
+        "page": 8,
+        "text": "Total Coliforms: Absent in 250 mL; E. coli: Absent in 250 mL; Faecal Streptococci: Absent in 250 mL; Pseudomonas aeruginosa: Absent in 250 mL; Yeast and Mould: Absent in 250 mL.",
+        "test_method": "Membrane filtration and incubation on selective media."
+      }
+    ],
+    "requirements": [
+      { "name": "Total Dissolved Solids (TDS) between 75 and 500 mg/L", "category": "Chemical", "mandatory": true, "clause": "Clause 4.1" },
+      { "name": "Zero Microbiological Contamination in 250 mL sample", "category": "Microbiological", "mandatory": true, "clause": "Clause 5" },
+      { "name": "In-house Testing Laboratory with Microbiologist and Chemist", "category": "Infrastructure", "mandatory": true, "clause": "Clause 7" },
+      { "name": "Tamper-evident food grade PET/Glass packaging container complying with IS 15410", "category": "Packaging", "mandatory": true, "clause": "Clause 6" }
+    ],
+    "tests": [
+      { "name": "Microbiological Testing (E. coli, Coliform, Pseudomonas)", "standard_ref": "IS 14543 Cl. 5", "frequency": "Every Batch" },
+      { "name": "Physical and Chemical Parameters (pH, TDS, Hardness)", "standard_ref": "IS 14543 Cl. 4.1", "frequency": "Daily / Shift basis" },
+      { "name": "Heavy Metals (Lead, Arsenic, Cadmium)", "standard_ref": "IS 14543 Cl. 4.2", "frequency": "Bi-annually by BIS lab" },
+      { "name": "Pesticide Residue Analysis (GC-MS/MS)", "standard_ref": "IS 14543 Annex D", "frequency": "Bi-annually" }
+    ]
+  },
+  {
+    "id": "std_003",
+    "is_number": "IS 16046 (Part 1 & 2): 2018",
+    "title": "Secondary Cells and Batteries Containing Alkaline or Other Non-Acid Electrolytes - Safety Requirements for Portable Sealed Secondary Cells/Batteries (Lithium Systems)",
+    "version": "2018 / IEC 62133-2: 2017",
+    "status": "Active / Mandatory",
+    "category": "Electronics & IT Goods (CRS)",
+    "product_names": ["lithium battery", "lithium-ion cell", "power bank", "mobile phone battery", "ev battery cell", "rechargeable battery pack"],
+    "scheme": "Compulsory Registration Scheme (CRS) - Scheme II",
+    "mandatory_order": "MeitY Compulsory Registration Order (CRO)",
+    "scope": "Specifies requirements and tests for the safe operation of portable sealed secondary lithium cells and batteries containing non-acid electrolyte, under intended use and reasonably foreseeable misuse.",
+    "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+    "clauses": [
+      {
+        "clause_no": "Clause 7.2.1",
+        "heading": "Continuous charging at constant voltage",
+        "page": 8,
+        "text": "A fully charged cell/battery is subjected to continuous charging at manufacturer specified voltage for 7 days without fire or explosion.",
+        "test_method": "Constant voltage charging chamber test."
+      },
+      {
+        "clause_no": "Clause 7.3.1",
+        "heading": "External short circuit test",
+        "page": 11,
+        "text": "Cell or battery is short-circuited by connecting positive and negative terminals with total resistance < 80 mOhm at 20°C and 55°C. No fire, no explosion.",
+        "test_method": "Automated short circuit current tester."
+      },
+      {
+        "clause_no": "Clause 7.3.3",
+        "heading": "Free fall test",
+        "page": 14,
+        "text": "Each fully charged cell/battery is dropped 3 times from height of 1.0 m onto a concrete floor without fire or explosion.",
+        "test_method": "Pneumatic drop test apparatus."
+      },
+      {
+        "clause_no": "Clause 7.3.6",
+        "heading": "Crush test for cells",
+        "page": 17,
+        "text": "Cell is crushed between two flat surfaces with hydraulic force of 13 kN +/- 0.78 kN. No fire or explosion.",
+        "test_method": "Hydraulic crush testing machine with load cell."
+      }
+    ],
+    "requirements": [
+      { "name": "Protection against external short circuit", "category": "Safety", "mandatory": true, "clause": "Clause 7.3.1" },
+      { "name": "Overcharge and over-discharge electronic protection circuit (BMS)", "category": "Electronic", "mandatory": true, "clause": "Clause 7.2.2" },
+      { "name": "Thermal shock resistance (-20°C to +75°C)", "category": "Environmental", "mandatory": true, "clause": "Clause 7.3.7" },
+      { "name": "CRS Standard Mark with R-Number display", "category": "Marking", "mandatory": true, "clause": "Clause 8" }
+    ],
+    "tests": [
+      { "name": "External Short Circuit Test (at 20°C & 55°C)", "standard_ref": "IS 16046-2 Cl. 7.3.1", "frequency": "Type Test" },
+      { "name": "Crush & Impact Test", "standard_ref": "IS 16046-2 Cl. 7.3.6", "frequency": "Type Test" },
+      { "name": "Forced Internal Short Circuit Test", "standard_ref": "IS 16046-2 Cl. 7.3.9", "frequency": "Type Test" },
+      { "name": "Continuous Overcharge Test", "standard_ref": "IS 16046-2 Cl. 7.2.1", "frequency": "Type Test" }
+    ]
+  },
+  {
+    "id": "std_004",
+    "is_number": "IS 4151: 2020",
+    "title": "Protective Helmets for Two-Wheeler Motor Vehicle Riders - Specification",
+    "version": "2020 (Fifth Revision)",
+    "status": "Active / Mandatory",
+    "category": "Mechanical / Road Safety",
+    "product_names": ["helmet", "two-wheeler helmet", "motorcycle helmet", "rider protective helmet", "safety helmet"],
+    "scheme": "Scheme I (ISI Mark Certification)",
+    "mandatory_order": "Ministry of Road Transport & Highways (MoRTH) Mandatory QCO",
+    "scope": "Prescribes requirements regarding materials, construction, finish, mass and performance of protective helmets for riders of two-wheeled motor vehicles.",
+    "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+    "clauses": [
+      {
+        "clause_no": "Clause 5",
+        "heading": "General and Ergonomic Requirements",
+        "page": 4,
+        "text": "Total mass of the helmet with all accessories shall not exceed 1.2 kg (1200 g). Helmets must provide unobstructed peripheral vision of >= 105 degrees.",
+        "test_method": "Mass balance and peripheral visual field fixture."
+      },
+      {
+        "clause_no": "Clause 8.1",
+        "heading": "Impact Absorption Test",
+        "page": 9,
+        "text": "Peak headform acceleration shall not exceed 300 g (2940 m/s^2), and head acceleration exceeding 150 g shall not exceed 5 ms duration when dropped onto flat/kerbstone anvil.",
+        "test_method": "Monorail drop tower with triaxial accelerometer headform."
+      },
+      {
+        "clause_no": "Clause 8.3",
+        "heading": "Retention System (Chin Strap) Dynamic Strength",
+        "page": 13,
+        "text": "Dynamic displacement shall not exceed 35 mm and residual displacement after release shall not exceed 25 mm under 10 kg drop weight.",
+        "test_method": "Drop hammer retention apparatus."
+      }
+    ],
+    "requirements": [
+      { "name": "Maximum helmet weight limit <= 1.2 kg", "category": "Physical", "mandatory": true, "clause": "Clause 5" },
+      { "name": "Shock absorption head acceleration < 300 g", "category": "Safety", "mandatory": true, "clause": "Clause 8.1" },
+      { "name": "Retention strap elongation < 35 mm under load", "category": "Mechanical", "mandatory": true, "clause": "Clause 8.3" },
+      { "name": "Permanent ISI Mark embossing with License CM/L number", "category": "Marking", "mandatory": true, "clause": "Clause 10" }
+    ],
+    "tests": [
+      { "name": "Impact Attenuation Test (Ambient, Heat, Cold, Water conditioning)", "standard_ref": "IS 4151 Cl. 8.1", "frequency": "Type & Routine Test" },
+      { "name": "Retention System Dynamic Test", "standard_ref": "IS 4151 Cl. 8.3", "frequency": "Batch Test" },
+      { "name": "Visor Optical & Scratch Resistance Test", "standard_ref": "IS 4151 Cl. 8.4", "frequency": "Batch Test" }
+    ]
+  },
+  {
+    "id": "std_005",
+    "is_number": "IS 9873 (Parts 1 to 9)",
+    "title": "Safety of Toys - Mechanical, Flammability, Migration of Elements and Electrical Safety",
+    "version": "2019 / 2020",
+    "status": "Active / Mandatory",
+    "category": "Consumer Goods / Toys",
+    "product_names": ["toys", "electric toy", "plastic toy", "wooden toy", "stuffed toy", "plush toy", "educational toy", "baby toy"],
+    "scheme": "Scheme I (Mandatory ISI Mark Certification for Domestic and Foreign Manufacturers)",
+    "mandatory_order": "Toys (Quality Control) Order, 2020 (DPIIT)",
+    "scope": "Covers safety aspects of toys intended for use by children under 14 years of age including physical hazards, flammability, heavy metals toxicity, and phthalates.",
+    "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+    "clauses": [
+      {
+        "clause_no": "Part 1 Cl. 4.1",
+        "heading": "Small parts hazard for children under 36 months",
+        "page": 6,
+        "text": "Toys and removable components shall not fit entirely inside the small parts cylinder (31.7 mm diameter x 57.1 mm depth) to prevent choking.",
+        "test_method": "Small parts test fixture cylinder."
+      },
+      {
+        "clause_no": "Part 3 Cl. 4.2",
+        "heading": "Migration of Certain Toxic Elements",
+        "page": 11,
+        "text": "Maximum element migration limits (mg/kg): Lead (Pb) <= 90; Cadmium (Cd) <= 75; Mercury (Hg) <= 60; Arsenic (As) <= 25; Antimony (Sb) <= 60; Barium (Ba) <= 1000.",
+        "test_method": "Acid extraction and ICP-OES measurement."
+      },
+      {
+        "clause_no": "Part 2 Cl. 4.3",
+        "heading": "Flammability of plush and costume toys",
+        "page": 8,
+        "text": "Rate of flame spread shall not exceed 30 mm/s or flame must self-extinguish before reaching indicator line.",
+        "test_method": "Flammability combustion chamber with butane burner."
+      }
+    ],
+    "requirements": [
+      { "name": "Choking prevention & Small parts compliance", "category": "Mechanical", "mandatory": true, "clause": "Part 1 Cl. 4.1" },
+      { "name": "Heavy metals migration within prescribed threshold (Pb < 90 mg/kg)", "category": "Chemical", "mandatory": true, "clause": "Part 3 Cl. 4.2" },
+      { "name": "Phthalates content <= 0.1% by mass", "category": "Chemical", "mandatory": true, "clause": "Part 9 Cl. 4" },
+      { "name": "Factory audit and valid BIS Scheme I License before market entry", "category": "Certification", "mandatory": true, "clause": "Scheme Rules" }
+    ],
+    "tests": [
+      { "name": "Torque and Tension Test for Small Detachable Parts", "standard_ref": "IS 9873-1 Cl. 5.24", "frequency": "Batch Test" },
+      { "name": "Heavy Metal Toxicity Migration (ICP-OES)", "standard_ref": "IS 9873-3 Cl. 5", "frequency": "Type Test" },
+      { "name": "Drop & Impact Mechanical Resistance", "standard_ref": "IS 9873-1 Cl. 5.23", "frequency": "Routine Test" }
+    ]
+  },
+  {
+    "id": "std_006",
+    "is_number": "IS 14286: 2019 / IS/IEC 61215",
+    "title": "Terrestrial Photovoltaic (PV) Modules - Design Qualification and Type Approval (Solar Panels)",
+    "version": "2019 / IEC 61215: 2016",
+    "status": "Active / Mandatory",
+    "category": "Renewable Energy / Solar",
+    "product_names": ["solar panel", "solar pv module", "photovoltaic module", "crystalline silicon solar panel", "solar cell array"],
+    "scheme": "Compulsory Registration Scheme (CRS) - Scheme II (MNRE Order)",
+    "mandatory_order": "Solar Photovoltaics, Systems, Devices and Components Goods (Requirements for Compulsory Registration) Order",
+    "scope": "Lays down requirements for design qualification and type approval of terrestrial PV modules suitable for long-term operation in open-air climates.",
+    "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+    "clauses": [
+      {
+        "clause_no": "Clause 10.11",
+        "heading": "Thermal cycling test (200 cycles from -40°C to +85°C)",
+        "page": 15,
+        "text": "Module is subjected to 200 thermal cycles with peak current injection. Power degradation shall be < 5% with no dielectric breakdown.",
+        "test_method": "Climatic thermal cycling chamber."
+      },
+      {
+        "clause_no": "Clause 10.13",
+        "heading": "Damp heat test (1000 hours at 85°C and 85% RH)",
+        "page": 19,
+        "text": "Continuous environmental stress test without delamination, yellowing or power loss > 5%.",
+        "test_method": "Environmental humidity-temperature chamber."
+      },
+      {
+        "clause_no": "Clause 10.17",
+        "heading": "Mechanical load test (Snow & Wind resistance)",
+        "page": 24,
+        "text": "Static mechanical load of 2400 Pa (wind) and 5400 Pa (snow) applied uniformly for 3 cycles of 1 hour.",
+        "test_method": "Pneumatic/hydraulic surface load frame."
+      }
+    ],
+    "requirements": [
+      { "name": "Maximum power degradation < 5% post environmental endurance", "category": "Performance", "mandatory": true, "clause": "Clause 10.11" },
+      { "name": "Wet leakage current insulation resistance > 40 MΩ·m²", "category": "Safety", "mandatory": true, "clause": "Clause 10.15" },
+      { "name": "ALMM (Approved List of Models and Manufacturers) listing + BIS CRS Registration", "category": "Regulatory", "mandatory": true, "clause": "MNRE QCO" }
+    ],
+    "tests": [
+      { "name": "Flash Simulator STC Maximum Power Determination", "standard_ref": "IS 14286 Cl. 10.2", "frequency": "100% End of Line" },
+      { "name": "Damp Heat 1000h & Humidity Freeze Testing", "standard_ref": "IS 14286 Cl. 10.13", "frequency": "Type Approval" },
+      { "name": "Electroluminescence (EL) Defect Inspection", "standard_ref": "IS 14286 Cl. 10.1", "frequency": "100% Quality Check" }
+    ]
+  },
+  {
+    "id": "std_007",
+    "is_number": "IS 2347: 2017",
+    "title": "Domestic Pressure Cookers - Specification",
+    "version": "2017 (Fifth Revision)",
+    "status": "Active / Mandatory",
+    "category": "Household & Kitchen Utensils",
+    "product_names": ["pressure cooker", "cooker", "aluminium pressure cooker", "stainless steel pressure cooker", "induction cooker"],
+    "scheme": "Scheme I (Mandatory ISI Mark Certification)",
+    "mandatory_order": "Domestic Pressure Cooker (Quality Control) Order",
+    "scope": "Prescribes requirements for domestic pressure cookers made of aluminium alloys or stainless steel with capacity up to 20 litres.",
+    "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+    "clauses": [
+      {
+        "clause_no": "Clause 6",
+        "heading": "Safety Devices and Operating Pressure",
+        "page": 5,
+        "text": "Operating pressure shall be 1.0 kgf/cm² (98 kPa). Cooker must be fitted with at least one secondary safety device (fusible plug / GRS) releasing before 3.0 kgf/cm².",
+        "test_method": "Hydraulic pressure testing rig."
+      },
+      {
+        "clause_no": "Clause 8.3",
+        "heading": "Proof Pressure and Bursting Pressure Test",
+        "page": 8,
+        "text": "Cooker body and lid must withstand hydrostatic proof pressure of 2.0 kgf/cm² for 2 minutes without leakage or permanent deformation.",
+        "test_method": "Water pressure pump with calibrated digital manometer."
+      }
+    ],
+    "requirements": [
+      { "name": "Secondary safety device (Fusible Alloy Plug / GRS System)", "category": "Safety", "mandatory": true, "clause": "Clause 6" },
+      { "name": "Hydrostatic proof pressure test at 2.0 kgf/cm²", "category": "Mechanical", "mandatory": true, "clause": "Clause 8.3" },
+      { "name": "Food contact material compliance (Alloy Grade / SS 304)", "category": "Material", "mandatory": true, "clause": "Clause 4" }
+    ],
+    "tests": [
+      { "name": "Proof Pressure Hydrostatic Test (2x Operating Pressure)", "standard_ref": "IS 2347 Cl. 8.3", "frequency": "100% Routine Test" },
+      { "name": "Safety Valve Release Pressure Test", "standard_ref": "IS 2347 Cl. 8.2", "frequency": "Batch Test" },
+      { "name": "Handle Thermal Insulation Test", "standard_ref": "IS 2347 Cl. 8.6", "frequency": "Type Test" }
+    ]
+  },
+  {
+    "id": "std_008",
+    "is_number": "IS 1417: 2016",
+    "title": "Gold and Gold Alloys, Jewellery/Artefacts - Fineness and Marking (Hallmarking)",
+    "version": "2016 (Fourth Revision)",
+    "status": "Active / Mandatory",
+    "category": "Precious Metals & Hallmarking",
+    "product_names": ["gold jewellery", "gold ring", "gold chain", "gold ornament", "hallmarked gold", "gold coin"],
+    "scheme": "Mandatory Gold Hallmarking Scheme with HUID (6-digit alphanumeric)",
+    "mandatory_order": "Department of Consumer Affairs Mandatory Hallmarking Order",
+    "scope": "Prescribes purity standards, assaying methods, and hallmarking requirements for gold jewellery and artefacts.",
+    "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+    "clauses": [
+      {
+        "clause_no": "Clause 4",
+        "heading": "Recognized Caratage and Fineness Grades",
+        "page": 3,
+        "text": "Recognized grades: 14K (585), 18K (750), 20K (833), 22K (916), 23K (958), and 24K (995/999).",
+        "test_method": "Fire Assay (Cupellation) conforming to IS 1418 or XRF screening."
+      },
+      {
+        "clause_no": "Clause 6",
+        "heading": "Hallmarking Marks Composition",
+        "page": 5,
+        "text": "3 mandatory marks: 1. BIS Logo (Triangle), 2. Purity in Karat & Fineness (e.g., 22K916), 3. Unique 6-digit alphanumeric HUID stamped by BIS Assaying and Hallmarking Centre (AHC).",
+        "test_method": "Laser inscription by BIS AHC portal integration."
+      }
+    ],
+    "requirements": [
+      { "name": "Registration of Jeweller on Manakonline portal", "category": "Regulatory", "mandatory": true, "clause": "Portal Reg." },
+      { "name": "Assaying at BIS-recognized AHC via Fire Assay IS 1418", "category": "Quality", "mandatory": true, "clause": "Clause 4" },
+      { "name": "6-digit HUID verification on BIS CARE App", "category": "Traceability", "mandatory": true, "clause": "Clause 6" }
+    ],
+    "tests": [
+      { "name": "Fire Assay Cupellation (Gold Purity Testing)", "standard_ref": "IS 1418", "frequency": "Every Consignment at AHC" },
+      { "name": "X-Ray Fluorescence (XRF) Non-destructive screening", "standard_ref": "IS 2112", "frequency": "Initial check" }
+    ]
+  }
+]
