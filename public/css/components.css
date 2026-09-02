@@ -1057,3 +1057,249 @@
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
+
+/* ==========================================================================
+   8. Markdown Rich Content Formatting
+   ========================================================================== */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  margin: 14px 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.markdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.markdown-table th {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.markdown-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.markdown-table tr:hover td {
+  background: var(--bg-card-hover);
+}
+
+.message-bubble ol, .message-bubble ul {
+  margin: 10px 0 10px 20px;
+  padding: 0;
+}
+
+.message-bubble li {
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.message-bubble h1, .message-bubble h2, .message-bubble h3 {
+  color: var(--text-primary);
+  margin-top: 14px;
+  margin-bottom: 8px;
+}
+
+/* ==========================================================================
+   9. Interactive Follow-Up Suggestion Chips (ChatGPT-Style)
+   ========================================================================== */
+.followup-suggestions-wrapper {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.followup-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.followup-title svg {
+  color: #3b82f6;
+}
+
+.followup-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.followup-chip-btn {
+  background: var(--bg-tertiary);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.followup-chip-btn:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: #3b82f6;
+  color: #60a5fa;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.followup-chip-btn:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   10. Light Theme Component Enhancements (Ultra-Clean & High Contrast)
+   ========================================================================== */
+[data-theme="light"] .chat-container {
+  background: var(--bg-primary);
+}
+
+[data-theme="light"] .chat-input-wrapper {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.07);
+}
+
+[data-theme="light"] .chat-textarea {
+  color: #0f172a;
+}
+
+[data-theme="light"] .chat-textarea::placeholder {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .message-row.assistant .message-bubble {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  color: #0f172a;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] .message-bubble code {
+  background: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+  border: 1px solid rgba(37, 99, 235, 0.15);
+  font-weight: 500;
+}
+
+[data-theme="light"] .card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] .chip {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+}
+
+[data-theme="light"] .chip:hover {
+  background: #f8fafc;
+  border-color: #2563eb;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
+}
+
+[data-theme="light"] .standard-highlight-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-left: 4px solid var(--accent-primary);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] .service-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] .metric-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+}
+
+[data-theme="light"] .form-input, 
+[data-theme="light"] .form-select,
+[data-theme="light"] .filter-select,
+[data-theme="light"] .search-input-box {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  color: #0f172a;
+}
+
+[data-theme="light"] .markdown-table th {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-bottom: 2px solid rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .markdown-table td {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  color: #334155;
+}
+
+[data-theme="light"] .markdown-table tr:hover td {
+  background: #f8fafc;
+}
+
+[data-theme="light"] .followup-chip-btn {
+  background: #ffffff;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  color: #1e40af;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+}
+
+[data-theme="light"] .followup-chip-btn:hover {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: #2563eb;
+  color: #1d4ed8;
+}
+
+[data-theme="light"] .is-badge {
+  color: #1d4ed8;
+  background: rgba(37, 99, 235, 0.1);
+}
+
+[data-theme="light"] .scheme-tag {
+  color: #059669;
+  background: rgba(16, 185, 129, 0.12);
+}
+
+[data-theme="light"] .evidence-drawer {
+  background: #ffffff;
+  border-left: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: -8px 0 30px rgba(15, 23, 42, 0.1);
+}
+
+[data-theme="light"] .clause-evidence-item {
+  background: #f8fafc;
+  border: 1px solid rgba(15, 23, 42, 0.09);
+}

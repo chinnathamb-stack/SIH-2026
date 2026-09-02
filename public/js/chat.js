@@ -1,5 +1,5 @@
 /**
- * BIS AI Intelligent Assistant - Chat Controller (ChatGPT-Style)
+ * BIS AI Intelligent Assistant - Chat Controller (ChatGPT-Style Interactive AI)
  * SIH Problem Statement 26107
  */
 
@@ -43,7 +43,7 @@ class ChatController {
     // Send button click
     this.sendBtn.addEventListener('click', () => this.handleSend());
 
-    // Prompt Chips click
+    // Welcome Prompt Chips click
     document.querySelectorAll('.prompt-chips .chip').forEach(chip => {
       chip.addEventListener('click', () => {
         const prompt = chip.getAttribute('data-prompt');
@@ -64,7 +64,7 @@ class ChatController {
         const file = e.target.files[0];
         if (file) {
           window.app.showToast(`Document "${file.name}" uploaded for compliance inspection.`, 'info');
-          this.inputEl.value = `Attached document: ${file.name}. Please inspect applicable BIS standards and tests.`;
+          this.inputEl.value = `Attached document: ${file.name}. Please inspect applicable Indian Standards and tests.`;
           this.handleSend();
         }
       };
@@ -135,6 +135,7 @@ class ChatController {
 
     // Append User Message
     this.appendMessage('user', text);
+    this.messages.push({ role: 'user', text, timestamp: new Date().toISOString() });
 
     // Append Assistant Message with Typing Indicator
     const assistantMsgObj = this.appendMessage('assistant', '', true);
@@ -151,7 +152,7 @@ class ChatController {
         language: lang
       });
 
-      // Stream text to bubble
+      // Stream / Render formatted response text
       await this.streamResponse(assistantMsgObj.bubbleEl, res.answer);
 
       // Remove typing indicator
@@ -167,6 +168,11 @@ class ChatController {
         this.renderClarificationCard(assistantMsgObj.contentEl, res.clarification_questions);
       }
 
+      // Render Interactive Follow-Up Chips (ChatGPT-Style Suggestions)
+      if (res.suggested_followups && res.suggested_followups.length > 0) {
+        this.renderFollowUpChips(assistantMsgObj.contentEl, res.suggested_followups);
+      }
+
       // Render Official Next Action links
       if (res.official_actions && res.official_actions.length > 0) {
         this.renderOfficialActions(assistantMsgObj.contentEl, res.official_actions);
@@ -175,8 +181,16 @@ class ChatController {
       // Add message actions (Copy, Speak, Feedback)
       this.renderMessageActions(assistantMsgObj.contentEl, res.answer, assistantMsgObj.id);
 
-      // Save to chat history
-      window.app.saveSession(this.conversationId, text.slice(0, 32));
+      // Save to local message array
+      this.messages.push({
+        role: 'assistant',
+        text: res.answer,
+        payload: res,
+        timestamp: new Date().toISOString()
+      });
+
+      // Save/sync session in sidebar
+      window.app.saveSession(this.conversationId, text.slice(0, 32), this.messages);
 
     } catch (err) {
       console.error(err);
@@ -189,7 +203,7 @@ class ChatController {
   }
 
   appendMessage(role, text, isTyping = false) {
-    const msgId = `msg_${Date.now()}`;
+    const msgId = `msg_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
     const rowEl = document.createElement('div');
     rowEl.className = `message-row ${role}`;
     rowEl.id = msgId;
@@ -229,25 +243,52 @@ class ChatController {
   async streamResponse(bubbleEl, markdownText) {
     bubbleEl.innerHTML = '';
     const formatted = this.formatMarkdown(markdownText);
-    
-    // Simulate natural typing stream
     bubbleEl.innerHTML = formatted;
     this.scrollToBottom();
   }
 
   formatMarkdown(text) {
     if (!text) return '';
-    let parsed = text
+
+    // Handle Markdown Tables first
+    const tableRegex = /\|(.+)\|\n\| *[-:| ]+ *\|\n((?:\|.*\|\n?)+)/g;
+    let formatted = text.replace(tableRegex, (match, headerRow, bodyRows) => {
+      const headers = headerRow.split('|').map(h => h.trim()).filter(Boolean);
+      const rows = bodyRows.trim().split('\n').map(r => r.split('|').map(c => c.trim()).filter(Boolean));
+      
+      let html = '<div class="table-responsive"><table class="markdown-table"><thead><tr>';
+      headers.forEach(h => html += `<th>${h}</th>`);
+      html += '</tr></thead><tbody>';
+      rows.forEach(r => {
+        html += '<tr>';
+        r.forEach(c => html += `<td>${c}</td>`);
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+      return html;
+    });
+
+    // Headers & Formatting
+    formatted = formatted
       .replace(/### (.*?)\n/g, '<h3>$1</h3>')
       .replace(/## (.*?)\n/g, '<h2>$1</h2>')
+      .replace(/# (.*?)\n/g, '<h1>$1</h1>')
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
       .replace(/`([^`]+)`/g, '<code>$1</code>')
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-      .replace(/\n\n/g, '</p><p>')
-      .replace(/- (.*?)\n/g, '<li>$1</li>');
+      .replace(/^\s*-\s+(.*?)$/gm, '<li>$1</li>')
+      .replace(/^\s*\d+\.\s+(.*?)$/gm, '<li class="numbered">$1</li>')
+      .replace(/\n\n/g, '</p><p>');
 
-    return `<p>${parsed}</p>`.replace(/<p><li>/g, '<ul><li>').replace(/<\/li><\/p>/g, '</li></ul>');
+    formatted = `<p>${formatted}</p>`
+      .replace(/<p><div class="table-responsive">/g, '<div class="table-responsive">')
+      .replace(/<\/div><\/p>/g, '</div>')
+      .replace(/(<li class="numbered">.*?<\/li>)+/g, '<ol>$&</ol>')
+      .replace(/(<li>.*?<\/li>)+/g, '<ul>$&</ul>')
+      .replace(/<p><\/p>/g, '');
+
+    return formatted;
   }
 
   renderInlineStandardCard(containerEl, standard, citations = []) {
@@ -262,7 +303,7 @@ class ChatController {
       <div class="std-card-actions">
         <button class="btn-evidence-trigger" data-is="${standard.is_number}">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <span>View Clause Evidence (${citations.length} Citations)</span>
+          <span>View Clause Evidence (${citations ? citations.length : 0} Citations)</span>
         </button>
       </div>
     `;
@@ -281,14 +322,14 @@ class ChatController {
     let html = `
       <div class="clarification-header">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span>Please clarify product parameters for 100% precision:</span>
+        <span>Please select product details to refine the exact testing roadmap:</span>
       </div>
     `;
 
     questions.forEach(q => {
       html += `
         <div class="clarification-group">
-          <label>${q.text}</label>
+          <label style="font-weight: 600; font-size: 13px; color: var(--text-primary);">${q.text}</label>
           <div class="option-chips" data-field="${q.field}">
             ${q.options.map(opt => `<button type="button" class="option-pill" data-val="${opt}">${opt}</button>`).join('')}
           </div>
@@ -296,7 +337,7 @@ class ChatController {
       `;
     });
 
-    html += `<button class="btn-clarify-confirm">Confirm & Update Roadmap</button>`;
+    html += `<button class="btn-clarify-confirm">Confirm & Get Grounded Roadmap</button>`;
     card.innerHTML = html;
 
     // Option chip selection
@@ -320,12 +361,38 @@ class ChatController {
     containerEl.appendChild(card);
   }
 
+  renderFollowUpChips(containerEl, followups) {
+    const chipWrapper = document.createElement('div');
+    chipWrapper.className = 'followup-suggestions-wrapper';
+    chipWrapper.innerHTML = `
+      <div class="followup-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>Suggested Follow-ups:</span>
+      </div>
+      <div class="followup-chips-row"></div>
+    `;
+
+    const row = chipWrapper.querySelector('.followup-chips-row');
+    followups.forEach(qText => {
+      const chip = document.createElement('button');
+      chip.className = 'followup-chip-btn';
+      chip.textContent = qText;
+      chip.addEventListener('click', () => {
+        this.inputEl.value = qText;
+        this.handleSend();
+      });
+      row.appendChild(chip);
+    });
+
+    containerEl.appendChild(chipWrapper);
+  }
+
   renderOfficialActions(containerEl, actions) {
     const actContainer = document.createElement('div');
     actContainer.style.display = 'flex';
     actContainer.style.flexWrap = 'wrap';
     actContainer.style.gap = '8px';
-    actContainer.style.marginTop = '8px';
+    actContainer.style.marginTop = '10px';
 
     actions.forEach(act => {
       const link = document.createElement('a');
@@ -414,8 +481,62 @@ class ChatController {
     window.speechSynthesis.speak(utterance);
   }
 
+  /**
+   * Load and render an entire past conversation session into the chat view
+   */
+  loadSession(sessionData) {
+    if (!sessionData) return;
+
+    this.conversationId = sessionData.id;
+    this.messages = sessionData.messages || [];
+    this.streamEl.innerHTML = '';
+
+    if (this.messages.length === 0) {
+      if (this.welcomeEl) {
+        this.streamEl.appendChild(this.welcomeEl);
+        this.welcomeEl.style.display = 'flex';
+      }
+      return;
+    }
+
+    // Hide welcome card
+    if (this.welcomeEl) {
+      this.welcomeEl.style.display = 'none';
+    }
+
+    // Replay each message in history
+    this.messages.forEach(msg => {
+      const msgObj = this.appendMessage(msg.role, msg.text || msg.content);
+      
+      if (msg.role === 'assistant' && msg.payload) {
+        const payload = msg.payload;
+
+        if (payload.standards && payload.standards.length > 0) {
+          this.renderInlineStandardCard(msgObj.contentEl, payload.standards[0], payload.citations);
+        }
+
+        if (payload.needs_clarification && payload.clarification_questions && payload.clarification_questions.length > 0) {
+          this.renderClarificationCard(msgObj.contentEl, payload.clarification_questions);
+        }
+
+        if (payload.suggested_followups && payload.suggested_followups.length > 0) {
+          this.renderFollowUpChips(msgObj.contentEl, payload.suggested_followups);
+        }
+
+        if (payload.official_actions && payload.official_actions.length > 0) {
+          this.renderOfficialActions(msgObj.contentEl, payload.official_actions);
+        }
+
+        this.renderMessageActions(msgObj.contentEl, msg.text || msg.content, msgObj.id);
+      }
+    });
+
+    this.scrollToBottom();
+  }
+
   resetChat() {
     this.conversationId = `conv_${Date.now()}`;
+    this.messages = [];
     this.streamEl.innerHTML = '';
     if (this.welcomeEl) {
       this.streamEl.appendChild(this.welcomeEl);

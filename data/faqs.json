@@ -1,0 +1,58 @@
+[
+  {
+    "id": "faq_001",
+    "category": "Product Certification (Scheme I)",
+    "question": "What is the procedure for Grant of Licence under Scheme-I (ISI Mark)?",
+    "answer": "The Grant of Licence under Scheme-I is carried out either through the Normal Procedure (where factory inspection and sample drawing precede testing) or through the Simplified Procedure (where preliminary test reports from NABL accredited labs are submitted along with Form-V on Manakonline, followed by a verification audit). The licence is granted within 30 to 60 days upon satisfactory compliance with the relevant Indian Standard.",
+    "source_url": "https://www.bis.gov.in/product-certification/product-certification-overview/?lang=en"
+  },
+  {
+    "id": "faq_002",
+    "category": "Fees & Concessions",
+    "question": "What concessions are available for Micro, Small and Medium Enterprises (MSMEs) and Startups?",
+    "answer": "BIS provides a 50% concession on the Minimum Marking Fee (MMF) and application fee for Micro Enterprises with Udyam Registration and DPIIT-recognized Startups/Women Entrepreneurs. Small Enterprises receive a 20% concession on Minimum Marking Fees.",
+    "source_url": "https://www.bis.gov.in/product-certification/product-certification-overview/?lang=en"
+  },
+  {
+    "id": "faq_003",
+    "category": "Quality Control Orders (QCO)",
+    "question": "Can I manufacture or sell products under mandatory QCO without BIS certification?",
+    "answer": "No. Under Section 16 of the BIS Act, 2016, manufacturing, importing, stocking, distributing, or selling any product notified under a Quality Control Order without the valid BIS Standard Mark is strictly prohibited. Violators face imprisonment up to 2 years and minimum fines of ₹2,00,000 under Section 29.",
+    "source_url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/?lang=en"
+  },
+  {
+    "id": "faq_004",
+    "category": "Compulsory Registration Scheme (CRS)",
+    "question": "How does the Compulsory Registration Scheme (CRS) differ from the ISI mark?",
+    "answer": "CRS (Scheme II) applies mainly to Electronics, IT goods, and Solar PV under MeitY/MNRE mandates. Unlike Scheme I, CRS does not require a preliminary factory audit; certification is granted on the basis of self-declaration of conformity accompanied by a test report from a BIS-recognized Indian laboratory.",
+    "source_url": "https://www.crsbis.in/BIS/"
+  },
+  {
+    "id": "faq_005",
+    "category": "Foreign Manufacturers Certification (FMCS)",
+    "question": "How can foreign manufacturers obtain a BIS licence for export to India?",
+    "answer": "Foreign manufacturers apply under FMCS (Scheme X). The foreign applicant must nominate an Authorized Indian Representative (AIR), submit an online application on Manakonline, pay the requisite fees, host a physical factory inspection by BIS officers, submit a USD 10,000 Performance Bank Guarantee, and pass independent sample tests.",
+    "source_url": "https://www.bis.gov.in/product-certification/product-certification-overview/?lang=en"
+  },
+  {
+    "id": "faq_006",
+    "category": "Gold Hallmarking",
+    "question": "What is HUID and why is it mandatory on gold jewellery?",
+    "answer": "HUID (Hallmark Unique Identification) is a 6-digit alphanumeric code laser engraved on every gold jewellery article at an authorized Assaying & Hallmarking Centre (AHC). It ensures traceability, transparency, and guarantees exact caratage purity (22K916, 18K750, 14K585). Consumers can verify authenticity using the BIS CARE App.",
+    "source_url": "https://www.manakonline.in/MANAK/JewellersLandingPage"
+  },
+  {
+    "id": "faq_007",
+    "category": "Laboratories & Testing",
+    "question": "How do I find a BIS-recognized laboratory for product testing?",
+    "answer": "You can search laboratories and their approved testing scopes by Indian Standard (IS Number) or location via the BIS LIMS Portal (https://lims.bis.gov.in/). BIS operates Central and Regional laboratories alongside hundreds of NABL-accredited partner facilities.",
+    "source_url": "https://lims.bis.gov.in/home/search_labs/"
+  },
+  {
+    "id": "faq_008",
+    "category": "Licence Validity & Renewal",
+    "question": "What is the validity period of a BIS licence and how is it renewed?",
+    "answer": "Initial licences under Scheme I and Scheme II are granted for 1 to 2 years. Licences can be renewed for up to 5 years via Manakonline by submitting production returns, paying the marking fee, and ensuring satisfactory factory surveillance reports at least 30 days prior to expiry.",
+    "source_url": "https://www.manakonline.in/"
+  }
+]

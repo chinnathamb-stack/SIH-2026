@@ -11,191 +11,142 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Load datasets
-const standardsData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'standards.json'), 'utf8'));
-const laboratoriesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'laboratories.json'), 'utf8'));
-const servicesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'services.json'), 'utf8'));
-const knowledgeBase = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'knowledge_base.json'), 'utf8'));
+// Initialize Unified Database
+const BISDatabase = require('./database');
+const bisDb = new BISDatabase(path.join(__dirname, 'data'));
+
+// Load datasets from DB
+const standardsData = bisDb.standards;
+const laboratoriesData = bisDb.laboratories;
+const servicesData = bisDb.services;
+const knowledgeBase = bisDb.knowledgeBase;
+
+// Initialize Intelligent Knowledge Engine
+const BISKnowledgeEngine = require('./knowledgeEngine');
+const knowledgeEngine = new BISKnowledgeEngine(standardsData, laboratoriesData, servicesData, knowledgeBase);
 
 // In-memory feedback store
 const feedbackStore = [];
 
 // Helper: Find matching standards by query
 function findMatchingStandards(query) {
-  const q = query.toLowerCase().trim();
-  return standardsData.filter(std => {
-    const matchNumber = std.is_number.toLowerCase().includes(q);
-    const matchTitle = std.title.toLowerCase().includes(q);
-    const matchCategory = std.category.toLowerCase().includes(q);
-    const matchProducts = std.product_names && std.product_names.some(p => q.includes(p) || p.includes(q));
-    const matchScope = std.scope.toLowerCase().includes(q);
-    return matchNumber || matchTitle || matchCategory || matchProducts || matchScope;
-  });
+  return bisDb.searchStandards(query);
 }
 
 // Helper: Match labs by IS standard or location
 function findMatchingLabs(isNumberOrKeyword, state) {
-  return laboratoriesData.filter(lab => {
-    const matchesScope = !isNumberOrKeyword || lab.scopes.some(s => s.toLowerCase().includes(isNumberOrKeyword.toLowerCase()));
-    const matchesState = !state || lab.state.toLowerCase().includes(state.toLowerCase()) || lab.district.toLowerCase().includes(state.toLowerCase());
-    return matchesScope && matchesState;
-  });
+  return bisDb.searchLaboratories('', state, isNumberOrKeyword);
 }
 
 // -------------------------------------------------------------
 // API ENDPOINTS (Specification Conformance)
 // -------------------------------------------------------------
 
-// 1. POST /api/v1/chat
-app.post('/api/v1/chat', (req, res) => {
+// 1. POST /api/v1/chat (Dynamic Context-Aware Intelligence with Session History)
+app.post('/api/v1/chat', async (req, res) => {
   const { message, conversation_id = `conv_${Date.now()}`, clarifications = {}, language = 'en' } = req.body;
 
-  if (!message) {
+  if (!message || typeof message !== 'string' || !message.trim()) {
     return res.status(400).json({ error: 'Message is required' });
   }
 
-  const query = message.toLowerCase();
-  let matchedStandards = findMatchingStandards(query);
-
-  // Fallback match keywords
-  if (matchedStandards.length === 0) {
-    if (query.includes('kettle') || query.includes('water boiler') || query.includes('heater') || query.includes('tea maker')) {
-      matchedStandards = standardsData.filter(s => s.id === 'std_001');
-    } else if (query.includes('water') || query.includes('packaged') || query.includes('bottle') || query.includes('mineral')) {
-      matchedStandards = standardsData.filter(s => s.id === 'std_002');
-    } else if (query.includes('battery') || query.includes('lithium') || query.includes('power bank') || query.includes('cell')) {
-      matchedStandards = standardsData.filter(s => s.id === 'std_003');
-    } else if (query.includes('helmet') || query.includes('bike') || query.includes('motorcycle') || query.includes('rider')) {
-      matchedStandards = standardsData.filter(s => s.id === 'std_004');
-    } else if (query.includes('toy') || query.includes('baby') || query.includes('plush') || query.includes('doll')) {
-      matchedStandards = standardsData.filter(s => s.id === 'std_005');
-    } else if (query.includes('solar') || query.includes('pv') || query.includes('photovoltaic') || query.includes('panel')) {
-      matchedStandards = standardsData.filter(s => s.id === 'std_006');
-    } else if (query.includes('cooker') || query.includes('pressure')) {
-      matchedStandards = standardsData.filter(s => s.id === 'std_007');
-    } else if (query.includes('gold') || query.includes('jewel') || query.includes('huid') || query.includes('hallmark')) {
-      matchedStandards = standardsData.filter(s => s.id === 'std_008');
+  try {
+    // Retrieve existing conversation session
+    let session = bisDb.getConversation(conversation_id);
+    if (!session) {
+      session = {
+        id: conversation_id,
+        title: message.trim().slice(0, 36) + (message.trim().length > 36 ? '...' : ''),
+        created_at: new Date().toISOString(),
+        messages: []
+      };
     }
+
+    const history = session.messages || [];
+
+    const responsePayload = await knowledgeEngine.processQuery({
+      message: message.trim(),
+      conversation_id,
+      clarifications,
+      language,
+      history
+    });
+
+    // Record user message
+    session.messages.push({
+      id: `msg_user_${Date.now()}`,
+      role: 'user',
+      text: message.trim(),
+      timestamp: new Date().toISOString()
+    });
+
+    // Record assistant message with full payload
+    session.messages.push({
+      id: `msg_asst_${Date.now()}`,
+      role: 'assistant',
+      text: responsePayload.answer,
+      payload: responsePayload,
+      timestamp: new Date().toISOString()
+    });
+
+    // Update title if first message
+    if (session.messages.length <= 2) {
+      if (responsePayload.product?.name) {
+        session.title = `${responsePayload.product.name} Compliance`;
+      } else {
+        session.title = message.trim().slice(0, 32);
+      }
+    }
+
+    bisDb.saveConversation(conversation_id, session);
+
+    res.json(responsePayload);
+  } catch (err) {
+    console.error('Error processing chat query:', err);
+    res.status(500).json({ error: 'Failed to process inquiry', details: err.message });
   }
+});
 
-  const primaryStd = matchedStandards[0] || standardsData[0];
-  const isKettleQuery = query.includes('kettle') || primaryStd.id === 'std_001';
-  const hasProvidedClarification = Object.keys(clarifications).length > 0;
-
-  // Check if clarification is needed (For electric kettles, check if user specified material/base)
-  let needsClarification = false;
-  let clarificationQuestions = [];
-
-  if (isKettleQuery && !hasProvidedClarification && !query.includes('stainless') && !query.includes('cordless') && !query.includes('plastic')) {
-    needsClarification = true;
-    clarificationQuestions = knowledgeBase.clarification_templates.electric_kettle.questions;
-  }
-
-  // Find labs for standard
-  const matchedLabs = findMatchingLabs(primaryStd.is_number.split(':')[0]);
-
-  // Generate Grounded Citations
-  const citations = (primaryStd.clauses || []).slice(0, 3).map((cl, idx) => ({
-    evidence_id: `ev_${primaryStd.id}_${idx + 1}`,
-    document: `${primaryStd.title} (${primaryStd.is_number})`,
-    is_number: primaryStd.is_number,
-    clause: cl.clause_no,
-    heading: cl.heading,
-    page: cl.page,
-    text: cl.text,
-    test_method: cl.test_method,
-    official_url: primaryStd.source_url
+// 1.1. GET /api/v1/chat/sessions (List all conversation sessions)
+app.get('/api/v1/chat/sessions', (req, res) => {
+  const list = bisDb.getAllConversations().map(c => ({
+    id: c.id,
+    title: c.title || 'Conversation',
+    created_at: c.created_at,
+    updated_at: c.updated_at,
+    message_count: (c.messages || []).length,
+    preview: (c.messages && c.messages[0]) ? c.messages[0].text.slice(0, 50) : ''
   }));
+  res.json({ total: list.length, sessions: list });
+});
 
-  // Construct grounded response
-  let answerText = '';
-  if (language === 'ta') {
-    answerText = `**${primaryStd.title}** குறித்த BIS சான்றிதழ் வழிகாட்டுதல்:\n\n` +
-      `1. **பொருந்தும் இந்திய தரம் (Applicable Standard):** ${primaryStd.is_number}\n` +
-      `2. **சான்றிதழ் முறை (Scheme):** ${primaryStd.scheme} (${primaryStd.mandatory_order})\n` +
-      `3. **முக்கிய பாதுகாப்பு விதிகள்:** ${primaryStd.requirements.map(r => r.name).join(', ')}.\n` +
-      `4. **பரிசோதனை ஆய்வகங்கள்:** ${matchedLabs.map(l => l.name).join(', ')}.\n` +
-      `5. **அதிகாரப்பூர்வ நடவடிக்கை:** Manakonline இணையதளத்தில் புதிய உரிமத்திற்கு விண்ணப்பிக்கவும்.`;
-  } else if (language === 'hi') {
-    answerText = `**${primaryStd.title}** के लिए बीआईएस (BIS) अनुपालन दिशानिर्देश:\n\n` +
-      `1. **लागू भारतीय मानक:** ${primaryStd.is_number}\n` +
-      `2. **प्रमाणन योजना:** ${primaryStd.scheme}\n` +
-      `3. **अनिवार्य परीक्षण:** ${primaryStd.tests.map(t => t.name).join(', ')}.\n` +
-      `4. **मान्यता प्राप्त प्रयोगशालाएं:** ${matchedLabs.map(l => l.name).join(', ')}.\n` +
-      `5. **अगला कदम:** आधिकारिक मानकऑनलाइन (Manakonline) पोर्टल पर आवेदन करें।`;
-  } else {
-    answerText = `Here is the comprehensive BIS compliance and standards advisory for **${primaryStd.product_names ? primaryStd.product_names[0].toUpperCase() : 'your product'}**:\n\n` +
-      `### 1. Applicable Indian Standard\n` +
-      `- **Standard:** \`${primaryStd.is_number}\`\n` +
-      `- **Title:** ${primaryStd.title}\n` +
-      `- **Regulatory Mandate:** ${primaryStd.mandatory_order} under **${primaryStd.scheme}**.\n\n` +
-      `### 2. Mandatory Technical & Quality Requirements\n` +
-      primaryStd.requirements.map(r => `- **${r.name}** (${r.category}) — *Refer ${r.clause}*`).join('\n') + '\n\n' +
-      `### 3. Key Laboratory Tests Required\n` +
-      primaryStd.tests.map(t => `- **${t.name}**: Reference *${t.standard_ref}* (${t.frequency})`).join('\n') + '\n\n' +
-      `### 4. Matched BIS-Recognized Testing Laboratories\n` +
-      matchedLabs.slice(0, 3).map(l => `- **${l.name}** (${l.district}, ${l.state}) — Validity: ${l.validity}`).join('\n') + '\n\n' +
-      `### 5. Official BIS Next Action\n` +
-      `Submit your application for Factory Inspection and Grant of Licence (GoL) on the official **Manakonline Portal** ([www.manakonline.in](https://www.manakonline.in/)).`;
+// 1.2. GET /api/v1/chat/sessions/:id (Get full conversation history)
+app.get('/api/v1/chat/sessions/:id', (req, res) => {
+  const session = bisDb.getConversation(req.params.id);
+  if (!session) {
+    return res.status(404).json({ error: 'Conversation session not found' });
   }
+  res.json(session);
+});
 
-  const responsePayload = {
-    conversation_id,
-    intent: "product_compliance",
-    needs_clarification: needsClarification,
-    clarification_questions: clarificationQuestions,
-    answer: answerText,
-    product: {
-      name: primaryStd.product_names ? primaryStd.product_names[0] : "Product",
-      category: primaryStd.category,
-      is_number: primaryStd.is_number,
-      scheme: primaryStd.scheme,
-      mandatory_order: primaryStd.mandatory_order,
-      attributes: clarifications
-    },
-    standards: [
-      {
-        id: primaryStd.id,
-        is_number: primaryStd.is_number,
-        title: primaryStd.title,
-        status: primaryStd.status,
-        version: primaryStd.version,
-        scheme: primaryStd.scheme,
-        applicability_reason: `Product directly falls under the scope of ${primaryStd.is_number} as per Quality Control Orders.`,
-        evidence_ids: citations.map(c => c.evidence_id)
-      }
-    ],
-    requirements: primaryStd.requirements || [],
-    tests: primaryStd.tests || [],
-    laboratories: matchedLabs,
-    citations: citations,
-    official_actions: [
-      {
-        title: "Apply for Scheme I ISI Mark Licence",
-        portal: "Manakonline (e-BIS)",
-        url: "https://www.manakonline.in/",
-        action_type: "online_application"
-      },
-      {
-        title: "Verify Test Scopes in BIS LIMS",
-        portal: "BIS LIMS",
-        url: "https://www.lims.bis.gov.in/",
-        action_type: "lab_search"
-      },
-      {
-        title: "Download Full Standard & SIT",
-        portal: "Know Your Standard (KYS)",
-        url: primaryStd.source_url,
-        action_type: "document_download"
-      }
-    ],
-    limitations: [
-      "Guidance provided is for advisory and technical preparation only.",
-      "Final certification is granted solely by authorized BIS officers following factory audit and sample testing."
-    ]
+// 1.3. POST /api/v1/chat/sessions/new (Create new conversation)
+app.post('/api/v1/chat/sessions/new', (req, res) => {
+  const newId = `conv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  const newSession = {
+    id: newId,
+    title: 'New Conversation',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    messages: []
   };
+  bisDb.saveConversation(newId, newSession);
+  res.json(newSession);
+});
 
-  res.json(responsePayload);
+// 1.4. DELETE /api/v1/chat/sessions/:id (Delete conversation)
+app.delete('/api/v1/chat/sessions/:id', (req, res) => {
+  const deleted = bisDb.deleteConversation(req.params.id);
+  res.json({ success: deleted });
 });
 
 // 2. POST /api/v1/products/analyze
@@ -205,9 +156,52 @@ app.post('/api/v1/products/analyze', (req, res) => {
     return res.status(400).json({ error: 'Product description is required' });
   }
 
-  const matched = findMatchingStandards(description + ' ' + (category || ''));
-  const std = matched[0] || standardsData[0];
-  const labs = findMatchingLabs(std.is_number.split(':')[0]);
+  const query = (description + ' ' + (category || '')).toLowerCase();
+  const matched = findMatchingStandards(query);
+
+  let std = null;
+  let labs = [];
+
+  if (matched.length > 0) {
+    std = matched[0];
+    labs = findMatchingLabs(std.is_number.split(':')[0]);
+  } else {
+    // Check extended standards repository
+    const extStd = knowledgeEngine.findExtendedStandard(query);
+    if (extStd) {
+      std = {
+        id: `ext_${Date.now()}`,
+        is_number: extStd.is_number,
+        title: extStd.title,
+        category: extStd.category,
+        scheme: extStd.scheme,
+        mandatory_order: extStd.mandatory_order,
+        requirements: extStd.key_requirements.map((r, i) => ({ name: r, category: "Quality & Safety", mandatory: true, clause: `Clause ${i+1}` })),
+        tests: extStd.key_tests.map(t => ({ name: t, standard_ref: extStd.is_number, frequency: "Routine / Batch" }))
+      };
+      labs = findMatchingLabs(extStd.is_number.split(' ')[1] || '');
+    } else {
+      // General product fallback
+      std = {
+        id: `gen_${Date.now()}`,
+        is_number: "Quality Control Order (QCO) Assessment",
+        title: `${description} - BIS Conformity Assessment`,
+        category: category || "General Industrial / Consumer Goods",
+        scheme: "Scheme I (ISI Mark) / Scheme II (CRS)",
+        mandatory_order: "Applicable Sectoral Quality Control Order",
+        requirements: [
+          { name: "Raw material conformity to relevant IS specifications", category: "Raw Materials", mandatory: true, clause: "Section 1" },
+          { name: "In-house Scheme of Testing and Inspection (SIT) equipment setup", category: "Infrastructure", mandatory: true, clause: "Section 2" },
+          { name: "Product performance & safety limit adherence", category: "Performance", mandatory: true, clause: "Section 3" }
+        ],
+        tests: [
+          { name: "Routine Quality & Verification Test", standard_ref: "Relevant IS Code", frequency: "Every Production Batch" },
+          { name: "Type / Qualification Safety Test", standard_ref: "National Testing Protocol", frequency: "Initial / Annual" }
+        ]
+      };
+      labs = laboratoriesData.slice(0, 2);
+    }
+  }
 
   res.json({
     product_profile: {
@@ -216,18 +210,18 @@ app.post('/api/v1/products/analyze', (req, res) => {
       applicable_is: std.is_number,
       scheme: std.scheme,
       mandatory_order: std.mandatory_order,
-      readiness_score: 85
+      readiness_score: 75
     },
     standard: std,
-    requirements: std.requirements,
-    test_plan: std.tests,
+    requirements: std.requirements || [],
+    test_plan: std.tests || [],
     laboratories: labs,
     checklist: [
-      { id: "chk_1", task: "Establish in-house testing equipment required by Scheme of Testing & Inspection (SIT)", status: "pending", category: "Infrastructure" },
-      { id: "chk_2", task: `Ensure raw material compliance and food-grade / electrical safety certifications`, status: "pending", category: "Raw Materials" },
-      { id: "chk_3", task: "Prepare Quality Manual and calibrate all measuring instruments with NABL traceablity", status: "pending", category: "Quality" },
+      { id: "chk_1", task: "Procure standard specifications and Scheme of Testing & Inspection (SIT) from KYS portal", status: "pending", category: "Infrastructure" },
+      { id: "chk_2", task: "Establish in-house testing equipment with NABL-traceable calibration certificates", status: "pending", category: "Quality" },
+      { id: "chk_3", task: "Ensure raw material compliance and supplier test certificates", status: "pending", category: "Raw Materials" },
       { id: "chk_4", task: "Submit Form-V application on Manakonline portal with statutory fees", status: "pending", category: "Application" },
-      { id: "chk_5", task: "Undergo BIS Preliminary Factory Inspection and draw factory samples for independent testing", status: "pending", category: "Audit" }
+      { id: "chk_5", task: "Undergo BIS Preliminary Factory Inspection and draw samples for independent lab testing", status: "pending", category: "Audit" }
     ]
   });
 });
@@ -388,7 +382,27 @@ app.get('/api/v1/services', (req, res) => {
   });
 });
 
-// 9. POST /api/v1/feedback
+// 9. GET /api/v1/faqs
+app.get('/api/v1/faqs', (req, res) => {
+  const { query = '' } = req.query;
+  const results = bisDb.searchFAQs(query);
+  res.json({
+    total: results.length,
+    faqs: results
+  });
+});
+
+// 10. GET /api/v1/qco
+app.get('/api/v1/qco', (req, res) => {
+  const { query = '' } = req.query;
+  const results = bisDb.searchQCO(query);
+  res.json({
+    total: results.length,
+    qco_orders: results
+  });
+});
+
+// 11. POST /api/v1/feedback
 app.post('/api/v1/feedback', (req, res) => {
   const { conversation_id, rating, comment, issue_type } = req.body;
   const feedbackItem = {
@@ -403,17 +417,20 @@ app.post('/api/v1/feedback', (req, res) => {
   res.json({ success: true, message: 'Feedback recorded successfully', feedback: feedbackItem });
 });
 
-// 10. GET /api/v1/health
+// 12. GET /api/v1/health
 app.get('/api/v1/health', (req, res) => {
+  const stats = bisDb.getStats();
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
     version: '2.0.0-JS',
-    engine: 'Node.js Express BIS RAG Orchestrator',
+    engine: 'Node.js Express BIS RAG & Database Orchestrator',
     indexed_data: {
-      standards: standardsData.length,
-      laboratories: laboratoriesData.length,
-      services: servicesData.length,
+      standards: stats.standards_count,
+      laboratories: stats.laboratories_count,
+      services: stats.services_count,
+      faqs: stats.faqs_count,
+      qco_orders: stats.qco_orders_count,
       feedback_count: feedbackStore.length
     }
   });

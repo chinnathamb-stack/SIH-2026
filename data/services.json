@@ -1,56 +1,92 @@
 [
   {
     "id": "srv_001",
-    "name": "BIS CARE Portal & Mobile App",
-    "category": "Consumer & Verification Services",
-    "description": "Verify ISI Mark Licences, CRS Registration R-Numbers, 6-digit Gold Hallmarking HUID, and file consumer complaints online.",
-    "official_url": "https://www.bis.gov.in/bis-care-app/",
-    "badge": "Official Consumer App",
-    "features": ["Verify ISI Licence (CM/L)", "Check HUID Purity", "Verify CRS R-Number", "Lodge Grievance"]
-  },
-  {
-    "id": "srv_002",
-    "name": "Manakonline (e-BIS Portal)",
-    "category": "Manufacturer & Certification Application",
-    "description": "Unified digital portal for applying for new BIS Product Certification (Scheme I), CRS Registration (Scheme II), and Hallmarking registration.",
-    "official_url": "https://www.manakonline.in/",
-    "badge": "Certification Application",
-    "features": ["New License Application", "Renewal of Licence", "Inclusion of New Models", "Surveillance Reports"]
-  },
-  {
-    "id": "srv_003",
     "name": "Know Your Standard (KYS)",
     "category": "Standards Discovery & Evidence",
     "description": "Search, preview, and download authoritative Indian Standards, amendments, Scheme of Inspection & Testing (SIT), and technical committees.",
-    "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+    "official_url": "https://www.bis.gov.in/know-your-standard/?lang=en",
     "badge": "Authoritative Standards",
     "features": ["IS Number Search", "Download Gazette QCOs", "View Clause Revisions", "SIT Download"]
   },
   {
-    "id": "srv_004",
-    "name": "BIS LIMS (Laboratory Information Management System)",
+    "id": "srv_002",
+    "name": "Products Under Compulsory Certification",
+    "category": "Mandatory Regulatory Orders",
+    "description": "Official catalog of all industrial and consumer products requiring mandatory BIS certification under Central Ministry Quality Control Orders (QCOs).",
+    "official_url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/?lang=en",
+    "badge": "Mandatory QCO Catalog",
+    "features": ["QCO Notifications", "Covered IS Numbers", "Ministry Directives", "Effective Implementation Dates"]
+  },
+  {
+    "id": "srv_003",
+    "name": "BIS LIMS & Lab Scope Search",
     "category": "Laboratory & Testing Services",
-    "description": "Comprehensive portal to search BIS-recognized and NABL accredited laboratories, evaluate test scope, and track sample testing status.",
-    "official_url": "https://www.lims.bis.gov.in/",
+    "description": "Comprehensive portal to search BIS-recognized and NABL accredited laboratories, evaluate test scopes, and track sample testing status.",
+    "official_url": "https://lims.bis.gov.in/home/search_labs/",
     "badge": "Lab Testing & Scopes",
-    "features": ["Lab Scope Finder", "Track Sample Testing", "Find NABL Accredited Labs", "Turnaround Times"]
+    "features": ["Search Labs by IS Number", "NABL Accredited Scopes", "Sample Turnaround Times", "Laboratory Locations"]
+  },
+  {
+    "id": "srv_004",
+    "name": "Manakonline (e-BIS Portal)",
+    "category": "Manufacturer & Certification Application",
+    "description": "Unified digital portal for applying for new BIS Product Certification (Scheme I), CRS Registration (Scheme II), renewals, and audit scheduling.",
+    "official_url": "https://www.manakonline.in/",
+    "badge": "Certification Application",
+    "features": ["Form-V Application", "Renewal of Licence", "Inclusion of New Models", "Surveillance Returns"]
   },
   {
     "id": "srv_005",
-    "name": "Compulsory Registration Scheme (CRS) Portal",
-    "category": "IT & Electronics Self-Declaration",
-    "description": "Dedicated portal for Electronics, IT Goods, Solar PV, and Lithium Batteries under MeitY and MNRE mandatory orders.",
-    "official_url": "https://www.crsbis.in/BIS/",
-    "badge": "CRS Electronics",
-    "features": ["CRS Registration Guide", "Recognized CRS Labs", "Labeling Guidelines", "Brand Inclusion"]
+    "name": "Apply for BIS License Guide",
+    "category": "Licensing Roadmap",
+    "description": "Official step-by-step guidance on domestic (Scheme I), simplified procedure, and Tatkal licensing for Indian manufacturers.",
+    "official_url": "https://www.bis.gov.in/apply-for-a-license/?lang=en",
+    "badge": "Licensing Process",
+    "features": ["Simplified Procedure", "Normal Workflow", "Factory Audit Prep", "Fee Concessions"]
   },
   {
     "id": "srv_006",
-    "name": "Hallmarking & Assaying Portal",
-    "category": "Jewellery & Precious Metals",
-    "description": "Manage jeweller registration, locate Assaying and Hallmarking Centres (AHC), and verify hallmarked jewellery tracking.",
-    "official_url": "https://www.manakonline.in/MANAK/JewellersLandingPage",
-    "badge": "Gold Hallmarking",
-    "features": ["Jeweller Registration", "Find Nearest AHC", "HUID Generation Rules", "Caratage Guide"]
+    "name": "Product Certification Overview",
+    "category": "Certification Schemes",
+    "description": "Comprehensive guide to BIS conformity assessment schemes (Scheme I ISI, Scheme II CRS, Scheme IV CoC, and Scheme X FMCS).",
+    "official_url": "https://www.bis.gov.in/product-certification/product-certification-overview/?lang=en",
+    "badge": "Schemes Guide",
+    "features": ["Scheme I ISI Mark", "Scheme II CRS", "FMCS Foreign Scheme", "ECO Mark"]
+  },
+  {
+    "id": "srv_007",
+    "name": "Product Certification FAQs",
+    "category": "Official FAQs & Regulations",
+    "description": "Authoritative answers to frequently asked questions on certification procedures, testing, factory audits, MSME concessions, and renewals.",
+    "official_url": "https://www.bis.gov.in/product-certification/product-certification-faq/?lang=en",
+    "badge": "Official FAQs",
+    "features": ["Certification Queries", "Audit Guidelines", "Fee Schedules", "MSME 50% Concessions"]
+  },
+  {
+    "id": "srv_008",
+    "name": "BIS Recognized Laboratories (LIMS)",
+    "category": "Laboratory Directory",
+    "description": "Directory of all BIS Central Laboratories, Regional Laboratories, Branch testing units, and approved third-party testing partners across India.",
+    "official_url": "https://lims.bis.gov.in/home/labs/",
+    "badge": "Recognized Labs",
+    "features": ["BIS Central Lab Sahibabad", "Regional Labs (Chennai, Mumbai, Kolkata, Chandigarh)", "NABL Testing Partners", "Contact Directory"]
+  },
+  {
+    "id": "srv_009",
+    "name": "BIS Main Official Portal",
+    "category": "National Standards Body HQ",
+    "description": "Official web portal of the Bureau of Indian Standards (Govt of India), including acts, rules, notifications, standard drafts, and directory.",
+    "official_url": "https://www.bis.gov.in/?lang=en",
+    "badge": "Official Headquarters",
+    "features": ["BIS Act 2016", "Gazette Notifications", "Standardization Councils", "Manak Bhavan Directory"]
+  },
+  {
+    "id": "srv_010",
+    "name": "BIS CARE Mobile App & Portal",
+    "category": "Consumer & Verification Services",
+    "description": "Verify ISI Mark Licences (CM/L), CRS Registration R-Numbers, 6-digit Gold Hallmarking HUID, and file consumer complaints online.",
+    "official_url": "https://www.bis.gov.in/bis-care-app/",
+    "badge": "Consumer App",
+    "features": ["Verify ISI Licence (CM/L)", "Check HUID Purity", "Verify CRS R-Number", "Lodge Grievance"]
   }
 ]

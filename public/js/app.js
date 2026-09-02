@@ -8,6 +8,7 @@ class Application {
     this.currentView = 'chatView';
     this.theme = localStorage.getItem('bis_theme') || 'dark';
     this.sessions = JSON.parse(localStorage.getItem('bis_sessions') || '[]');
+    this.activeSessionId = null;
   }
 
   async init() {
@@ -17,7 +18,6 @@ class Application {
     this.setupNavigation();
     this.setupThemeToggle();
     this.setupEvidenceDrawer();
-    this.renderSessions();
 
     // Initialize sub-modules
     window.chatController.init();
@@ -26,6 +26,9 @@ class Application {
     await window.laboratoryFinder.init();
     await this.loadServicesHub();
     await this.loadHealthMetrics();
+
+    // Load sessions from server & local storage
+    await this.syncSessions();
   }
 
   setupNavigation() {
@@ -48,7 +51,9 @@ class Application {
     // New Chat buttons
     const handleNewChat = () => {
       this.switchView('chatView');
+      this.activeSessionId = null;
       window.chatController.resetChat();
+      this.renderSessions();
       this.showToast('Started a new conversation session.', 'info');
       document.getElementById('sidebar')?.classList.remove('open');
     };
@@ -85,10 +90,23 @@ class Application {
   }
 
   setupThemeToggle() {
-    const btn = document.getElementById('themeToggleBtn');
-    btn?.addEventListener('click', () => {
+    // Two Theme Options segmented buttons
+    document.querySelectorAll('.theme-option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selectedTheme = btn.getAttribute('data-theme-val');
+        if (selectedTheme && selectedTheme !== this.theme) {
+          this.applyTheme(selectedTheme);
+          this.showToast(`Switched to ${selectedTheme === 'dark' ? 'Dark' : 'Light'} Theme`, 'info');
+        }
+      });
+    });
+
+    // Mobile / Quick toggle button
+    const toggleBtn = document.getElementById('themeToggleBtn');
+    toggleBtn?.addEventListener('click', () => {
       const nextTheme = this.theme === 'dark' ? 'light' : 'dark';
       this.applyTheme(nextTheme);
+      this.showToast(`Switched to ${nextTheme === 'dark' ? 'Dark' : 'Light'} Theme`, 'info');
     });
   }
 
@@ -96,6 +114,15 @@ class Application {
     this.theme = theme;
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('bis_theme', theme);
+
+    // Update Two-Option Switcher buttons
+    document.querySelectorAll('.theme-option-btn').forEach(btn => {
+      if (btn.getAttribute('data-theme-val') === theme) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
   }
 
   setupEvidenceDrawer() {
@@ -219,13 +246,85 @@ class Application {
     }
   }
 
-  saveSession(convId, snippet) {
-    if (!this.sessions.some(s => s.id === convId)) {
-      this.sessions.unshift({ id: convId, title: snippet, date: new Date().toLocaleDateString() });
-      if (this.sessions.length > 10) this.sessions.pop();
-      localStorage.setItem('bis_sessions', JSON.stringify(this.sessions));
-      this.renderSessions();
+  async syncSessions() {
+    try {
+      const res = await window.apiClient.getSessions();
+      if (res && res.sessions && res.sessions.length > 0) {
+        // Merge server sessions with local storage
+        this.sessions = res.sessions;
+        localStorage.setItem('bis_sessions', JSON.stringify(this.sessions));
+      }
+    } catch (e) {
+      // Fallback to local storage if offline
+      this.sessions = JSON.parse(localStorage.getItem('bis_sessions') || '[]');
     }
+    this.renderSessions();
+  }
+
+  saveSession(convId, snippet, messages = []) {
+    this.activeSessionId = convId;
+    const existingIdx = this.sessions.findIndex(s => s.id === convId);
+
+    const sessionObj = {
+      id: convId,
+      title: snippet || 'Conversation',
+      updated_at: new Date().toISOString(),
+      messages: messages
+    };
+
+    if (existingIdx !== -1) {
+      this.sessions[existingIdx] = { ...this.sessions[existingIdx], ...sessionObj };
+    } else {
+      this.sessions.unshift(sessionObj);
+      if (this.sessions.length > 25) this.sessions.pop();
+    }
+
+    localStorage.setItem('bis_sessions', JSON.stringify(this.sessions));
+    this.renderSessions();
+  }
+
+  async selectSession(convId) {
+    this.switchView('chatView');
+    this.activeSessionId = convId;
+    this.renderSessions();
+
+    try {
+      // Try fetching full conversation from server
+      const session = await window.apiClient.getSession(convId);
+      if (session) {
+        window.chatController.loadSession(session);
+        this.showToast(`Loaded: ${session.title}`, 'info');
+        return;
+      }
+    } catch (e) {
+      // Fallback to local session if server request fails
+      const local = this.sessions.find(s => s.id === convId);
+      if (local) {
+        window.chatController.loadSession(local);
+        this.showToast(`Loaded: ${local.title}`, 'info');
+      }
+    }
+  }
+
+  async deleteSession(convId, e) {
+    if (e) e.stopPropagation();
+
+    try {
+      await window.apiClient.deleteSession(convId);
+    } catch (err) {
+      console.warn('Could not delete session from server:', err);
+    }
+
+    this.sessions = this.sessions.filter(s => s.id !== convId);
+    localStorage.setItem('bis_sessions', JSON.stringify(this.sessions));
+
+    if (this.activeSessionId === convId) {
+      this.activeSessionId = null;
+      window.chatController.resetChat();
+    }
+
+    this.renderSessions();
+    this.showToast('Conversation deleted.', 'info');
   }
 
   renderSessions() {
@@ -234,20 +333,32 @@ class Application {
     listEl.innerHTML = '';
 
     if (this.sessions.length === 0) {
-      listEl.innerHTML = `<span style="font-size: 12px; color: var(--text-muted); padding: 6px 10px;">No saved sessions yet</span>`;
+      listEl.innerHTML = `<span style="font-size: 12px; color: var(--text-muted); padding: 8px 10px; display: block;">No saved conversations yet</span>`;
       return;
     }
 
     this.sessions.forEach(sess => {
       const item = document.createElement('div');
-      item.className = 'history-item';
+      item.className = `history-item ${this.activeSessionId === sess.id ? 'active' : ''}`;
+      
       item.innerHTML = `
-        <span style="overflow: hidden; text-overflow: ellipsis;">💬 ${sess.title}</span>
+        <div class="history-item-content" title="${sess.title}">
+          <span class="history-icon">💬</span>
+          <span class="history-title">${sess.title}</span>
+        </div>
+        <button class="btn-delete-session" title="Delete conversation" aria-label="Delete conversation">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
       `;
+
       item.addEventListener('click', () => {
-        this.switchView('chatView');
-        this.showToast(`Active Session: ${sess.title}`, 'info');
+        this.selectSession(sess.id);
+        document.getElementById('sidebar')?.classList.remove('open');
       });
+
+      const delBtn = item.querySelector('.btn-delete-session');
+      delBtn.addEventListener('click', (e) => this.deleteSession(sess.id, e));
+
       listEl.appendChild(item);
     });
   }

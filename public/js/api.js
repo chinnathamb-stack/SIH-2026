@@ -17,6 +17,39 @@ const apiClient = {
     return await res.json();
   },
 
+  // Get all conversation sessions
+  async getSessions() {
+    const res = await fetch(`${API_BASE}/chat/sessions`);
+    if (!res.ok) throw new Error(`Get sessions API error: ${res.statusText}`);
+    return await res.json();
+  },
+
+  // Get specific session with full message history
+  async getSession(id) {
+    const res = await fetch(`${API_BASE}/chat/sessions/${encodeURIComponent(id)}`);
+    if (!res.ok) throw new Error(`Get session API error: ${res.statusText}`);
+    return await res.json();
+  },
+
+  // Create new session
+  async createSession() {
+    const res = await fetch(`${API_BASE}/chat/sessions/new`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if (!res.ok) throw new Error(`Create session API error: ${res.statusText}`);
+    return await res.json();
+  },
+
+  // Delete session
+  async deleteSession(id) {
+    const res = await fetch(`${API_BASE}/chat/sessions/${encodeURIComponent(id)}`, {
+      method: 'DELETE'
+    });
+    if (!res.ok) throw new Error(`Delete session API error: ${res.statusText}`);
+    return await res.json();
+  },
+
   // Analyze product specification
   async analyzeProduct(payload) {
     const res = await fetch(`${API_BASE}/products/analyze`, {

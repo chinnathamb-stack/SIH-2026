@@ -1,0 +1,74 @@
+[
+  {
+    "id": "qco_001",
+    "order_name": "Steel and Steel Products (Quality Control) Order",
+    "ministry": "Ministry of Steel",
+    "status": "Mandatory Under Law",
+    "covered_products": ["TMT Rebars (IS 1786)", "Structural Steel (IS 2062)", "Carbon Steel Billets (IS 2830)", "Galvanized Steel Sheets (IS 277)"],
+    "scheme": "Scheme I (ISI Mark)",
+    "official_url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/?lang=en"
+  },
+  {
+    "id": "qco_002",
+    "order_name": "Cement (Quality Control) Order",
+    "ministry": "Department for Promotion of Industry and Internal Trade (DPIIT)",
+    "status": "Mandatory Under Law",
+    "covered_products": ["Ordinary Portland Cement (IS 269)", "Portland Pozzolana Cement (IS 1489 Part 1 & 2)", "Portland Slag Cement (IS 455)"],
+    "scheme": "Scheme I (ISI Mark)",
+    "official_url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/?lang=en"
+  },
+  {
+    "id": "qco_003",
+    "order_name": "Footwear Made from Leather and Other Materials (Quality Control) Order",
+    "ministry": "Department for Promotion of Industry and Internal Trade (DPIIT)",
+    "status": "Mandatory Under Law",
+    "covered_products": ["Safety Footwear (IS 15298 Part 2)", "Canvas / Casual Shoes (IS 6721)", "Hawai Chappals (IS 10702)", "PVC Sandals (IS 6721)"],
+    "scheme": "Scheme I (ISI Mark)",
+    "official_url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/?lang=en"
+  },
+  {
+    "id": "qco_004",
+    "order_name": "Safety of Toys (Quality Control) Order",
+    "ministry": "Department for Promotion of Industry and Internal Trade (DPIIT)",
+    "status": "Mandatory Under Law",
+    "covered_products": ["Non-Electric Toys (IS 9873 Parts 1 to 9)", "Electric Toys (IS 15644)"],
+    "scheme": "Scheme I (ISI Mark)",
+    "official_url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/?lang=en"
+  },
+  {
+    "id": "qco_005",
+    "order_name": "Electronics & Information Technology Goods (Requirement for Compulsory Registration) Order",
+    "ministry": "Ministry of Electronics and Information Technology (MeitY)",
+    "status": "Mandatory Under Law",
+    "covered_products": ["Smartphones & Laptops (IS 13252)", "Lithium-ion Batteries (IS 16046)", "Power Banks (IS 13252)", "LED Lamps (IS 16102)", "Smartwatches (IS 13252)"],
+    "scheme": "Scheme II (CRS Registration)",
+    "official_url": "https://www.crsbis.in/BIS/"
+  },
+  {
+    "id": "qco_006",
+    "order_name": "Solar Photovoltaic, Systems, Devices and Components Goods (Requirements for Compulsory Registration) Order",
+    "ministry": "Ministry of New and Renewable Energy (MNRE)",
+    "status": "Mandatory Under Law",
+    "covered_products": ["Crystalline Silicon Terrestrial PV Modules (IS 14286)", "Thin-Film PV Modules (IS 16077)", "Solar Inverters (IS 16221)"],
+    "scheme": "Scheme II (CRS) & ALMM Listing",
+    "official_url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/?lang=en"
+  },
+  {
+    "id": "qco_007",
+    "order_name": "Household Electrical Appliances (Quality Control) Order",
+    "ministry": "Department for Promotion of Industry and Internal Trade (DPIIT)",
+    "status": "Mandatory Under Law",
+    "covered_products": ["Electric Kettles & Water Heaters (IS 302-2-15)", "Electric Irons (IS 302-2-3)", "Immersion Water Heaters (IS 302-2-201)", "Electric Stoves (IS 302-2-6)"],
+    "scheme": "Scheme I (ISI Mark)",
+    "official_url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/?lang=en"
+  },
+  {
+    "id": "qco_008",
+    "order_name": "Domestic Pressure Cookers (Quality Control) Order",
+    "ministry": "Department of Consumer Affairs (DoCA)",
+    "status": "Mandatory Under Law",
+    "covered_products": ["Domestic Pressure Cookers - Aluminium & Stainless Steel (IS 2347)"],
+    "scheme": "Scheme I (ISI Mark)",
+    "official_url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/?lang=en"
+  }
+]
