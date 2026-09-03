@@ -43,11 +43,17 @@
 
       <!-- Navigation Menu -->
       <nav class="sidebar-nav">
-        <div class="nav-section-title" data-i18n="workspace">WORKSPACE</div>
-        <button class="nav-item active" data-view="chatView">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <span data-i18n="nav_assistant">AI Assistant</span>
+        <div class="nav-section-title">AI CHAT MODES</div>
+        <button class="nav-item active" data-view="chatView" data-chat-mode="chatgpt" id="navChatGptBtn">
+          <span class="nav-mode-icon">🌐</span>
+          <span style="font-weight: 600;">ChatGPT Universal AI</span>
         </button>
+        <button class="nav-item" data-view="chatView" data-chat-mode="bis" id="navBisBtn">
+          <span class="nav-mode-icon">🏛️</span>
+          <span style="font-weight: 600;">BIS Specialist AI</span>
+        </button>
+
+        <div class="nav-section-title" data-i18n="workspace" style="margin-top: 14px;">STANDARDS WORKSPACE</div>
         <button class="nav-item" data-view="analyzerView">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           <span data-i18n="nav_analyzer">Product Analyzer</span>
@@ -99,10 +105,27 @@
           <button class="btn-icon mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
-          <div class="current-view-title" id="viewTitle">BIS AI Intelligent Assistant</div>
+          
+          <!-- Prominent 2-Chat Mode Segmented Switcher in Topbar -->
+          <div class="chat-mode-segmented-control" id="chatModeSegmentedControl">
+            <button type="button" class="mode-tab-btn active" data-mode="chatgpt" id="tabModeChatGpt">
+              <span class="mode-tab-emoji">🌐</span>
+              <span class="mode-tab-title">ChatGPT (Universal AI)</span>
+            </button>
+            <button type="button" class="mode-tab-btn" data-mode="bis" id="tabModeBis">
+              <span class="mode-tab-emoji">🏛️</span>
+              <span class="mode-tab-title">BIS Standards Specialist</span>
+            </button>
+          </div>
         </div>
 
         <div class="topbar-right">
+
+          <!-- AI Engine / API Settings Button -->
+          <button type="button" class="btn-icon btn-ai-settings" id="aiSettingsBtn" title="AI Model & API Key Settings" aria-label="AI Model & API Key Settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+
           <!-- Language Selector (7 Supported Indian & Global Languages) -->
           <div class="lang-selector-wrapper" title="Select Output Language">
             <svg class="lang-globe-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -153,21 +176,42 @@
             <!-- Hero Welcome Card (Shown when chat is empty) -->
             <div class="chat-welcome" id="chatWelcome">
               <div class="welcome-badge">
-                <span class="badge-icon">🇮🇳</span>
-                <span>SIH Problem Statement 26107 Solution</span>
+                <span class="badge-icon">🤖</span>
+                <span>ChatGPT-Powered AI Assistant & BIS Standards Specialist</span>
               </div>
-              <h1 class="welcome-heading" data-i18n="welcome_title">How can I assist your BIS compliance today?</h1>
+              <h1 class="welcome-heading" data-i18n="welcome_title">How can I help you today?</h1>
               <p class="welcome-desc" data-i18n="welcome_sub">
-                Ask about Indian Standards (IS), mandatory Quality Control Orders (QCOs), testing protocols, Scheme I (ISI Mark), Scheme II (CRS), or laboratory matching across India.
+                Ask me anything! Code generation, mathematical problem-solving, science concepts, essay drafting, general knowledge, or official Bureau of Indian Standards (BIS) product compliance.
               </p>
 
               <!-- Example Prompt Chips -->
               <div class="prompt-chips">
-                <button class="chip" data-prompt="I want to manufacture an electric kettle. What BIS requirements must my product satisfy, which standard applies, what tests are required, and which laboratory can test it?">
+                <button class="chip" data-prompt="Write a Python script to scrape news headlines from a website with proper error handling and JSON export.">
+                  <span class="chip-icon">💻</span>
+                  <div>
+                    <strong>Python Web Scraper</strong>
+                    <span>BeautifulSoup, Requests, JSON Export</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="Explain Quantum Computing, Superposition, and Qubits in simple terms with real-world examples.">
+                  <span class="chip-icon">⚛️</span>
+                  <div>
+                    <strong>Quantum Computing</strong>
+                    <span>Superposition, Entanglement, Real-world Uses</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="Draft a formal email to my manager requesting 2 days of sick leave due to fever.">
+                  <span class="chip-icon">✍️</span>
+                  <div>
+                    <strong>Leave Application Email</strong>
+                    <span>Professional Format, Task Handover</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="I want to manufacture an electric kettle. What BIS requirements must my product satisfy under IS 302-2-15, what tests are required, and which laboratory can test it?">
                   <span class="chip-icon">⚡</span>
                   <div>
-                    <strong>Electric Kettle Compliance</strong>
-                    <span>IS 302-2-15, Safety Tests, BIS Scheme I</span>
+                    <strong>Electric Kettle (IS 302-2-15)</strong>
+                    <span>Safety Tests, BIS Scheme I, Lab Directory</span>
                   </div>
                 </button>
                 <button class="chip" data-prompt="What are the mandatory testing and licensing steps to setup a Packaged Drinking Water bottling plant under IS 14543?">
@@ -182,27 +226,6 @@
                   <div>
                     <strong>Lithium-ion Battery (CRS)</strong>
                     <span>IS 16046 Part 2, MeitY Order, R-Number</span>
-                  </div>
-                </button>
-                <button class="chip" data-prompt="What are the maximum weight and impact absorption requirements for two-wheeler protective helmets under IS 4151?">
-                  <span class="chip-icon">🪖</span>
-                  <div>
-                    <strong>Two-Wheeler Helmets</strong>
-                    <span>IS 4151:2020, 1.2kg Max Weight, 300g Impact</span>
-                  </div>
-                </button>
-                <button class="chip" data-prompt="How do I verify 6-digit Gold Hallmarking HUID and what are the recognized fineness grades under IS 1417?">
-                  <span class="chip-icon">✨</span>
-                  <div>
-                    <strong>Gold Hallmarking & HUID</strong>
-                    <span>IS 1417, 22K916 / 18K750, BIS CARE App</span>
-                  </div>
-                </button>
-                <button class="chip" data-prompt="What safety regulations apply to children toys under IS 9873 and the Toy Quality Control Order?">
-                  <span class="chip-icon">🧸</span>
-                  <div>
-                    <strong>Toy Safety & Flammability</strong>
-                    <span>IS 9873 Parts 1-9, DPIIT QCO, Heavy Metals</span>
                   </div>
                 </button>
               </div>
@@ -485,6 +508,58 @@
       </div>
     </div>
     <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- AI Engine & API Key Settings Modal -->
+    <div class="modal-overlay" id="aiSettingsModalOverlay">
+      <div class="modal-card" id="aiSettingsModal">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="modal-badge">AI Configuration</span>
+            <h3>AI Engine & Model Settings</h3>
+          </div>
+          <button class="btn-icon" id="closeAiSettingsBtn" aria-label="Close Settings">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-desc">
+            Choose your preferred AI Intelligence Provider. You can use the high-performance <strong>Built-in Universal Brain</strong> (free & offline-capable) or connect your own API Key for Google Gemini, OpenAI, or Groq.
+          </p>
+
+          <div class="form-group">
+            <label for="aiProviderSelect" class="form-label">Active AI Provider</label>
+            <select id="aiProviderSelect" class="form-select">
+              <option value="builtin">⚡ Built-in Universal Intelligence Brain (Free, No Key Required)</option>
+              <option value="gemini">🌟 Google Gemini (Gemini 1.5 Flash / 2.0 Flash)</option>
+              <option value="openai">🧠 OpenAI (GPT-4o / GPT-4o-mini)</option>
+              <option value="groq">⚡ Groq Cloud (LLaMA 3.3 70B Ultra-Fast)</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="apiKeyFormGroup" style="display: none;">
+            <label for="customApiKeyInput" class="form-label">Custom API Key</label>
+            <div class="api-key-input-wrapper">
+              <input type="password" id="customApiKeyInput" class="form-input" placeholder="Enter your API Key (e.g. AIzaSy... or sk-...)">
+              <button type="button" class="btn-icon" id="toggleApiKeyVisibility" title="Toggle Key Visibility">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="form-help-text" id="apiKeyHelpText">API keys are stored securely in your local browser storage.</div>
+          </div>
+
+          <div class="modal-actions-row">
+            <button type="button" class="btn-secondary" id="testAiKeyBtn" style="display: none;">
+              <span>Test Connection</span>
+            </button>
+            <div id="testKeyStatus" class="test-key-status"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancelAiSettingsBtn">Cancel</button>
+          <button type="button" class="btn-primary" id="saveAiSettingsBtn">Save & Apply</button>
+        </div>
+      </div>
+    </div>
 
     <!-- Global Toast Container -->
     <div class="toast-container" id="toastContainer"></div>

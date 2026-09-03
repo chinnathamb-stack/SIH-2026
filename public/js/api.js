@@ -130,14 +130,20 @@ const apiClient = {
     return await res.json();
   },
 
-  // Dynamic Translation Service (7 Languages)
-  async translate(payload) {
-    const res = await fetch(`${API_BASE}/translate`, {
+  // Get available AI model providers & status
+  async getAIModels() {
+    const res = await fetch(`${API_BASE}/ai/models`);
+    if (!res.ok) throw new Error(`AI Models API error: ${res.statusText}`);
+    return await res.json();
+  },
+
+  // Test custom API Key
+  async testAIKey(payload) {
+    const res = await fetch(`${API_BASE}/ai/test-key`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error(`Translate API error: ${res.statusText}`);
     return await res.json();
   }
 };

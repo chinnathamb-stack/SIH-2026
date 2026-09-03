@@ -21,10 +21,11 @@ const standardsData = bisDb.standards;
 const laboratoriesData = bisDb.laboratories;
 const servicesData = bisDb.services;
 const knowledgeBase = bisDb.knowledgeBase;
+const onlineInfo = bisDb.onlineInfo;
 
 // Initialize Intelligent Knowledge Engine
 const BISKnowledgeEngine = require('./knowledgeEngine');
-const knowledgeEngine = new BISKnowledgeEngine(standardsData, laboratoriesData, servicesData, knowledgeBase);
+const knowledgeEngine = new BISKnowledgeEngine(standardsData, laboratoriesData, servicesData, knowledgeBase, onlineInfo);
 
 // In-memory feedback store
 const feedbackStore = [];
@@ -43,9 +44,18 @@ function findMatchingLabs(isNumberOrKeyword, state) {
 // API ENDPOINTS (Specification Conformance)
 // -------------------------------------------------------------
 
-// 1. POST /api/v1/chat (Dynamic Context-Aware Intelligence with Session History)
+// 1. POST /api/v1/chat (Universal ChatGPT + Standards Intelligence with Session History)
 app.post('/api/v1/chat', async (req, res) => {
-  const { message, conversation_id = `conv_${Date.now()}`, clarifications = {}, language = 'en' } = req.body;
+  const {
+    message,
+    conversation_id = `conv_${Date.now()}`,
+    clarifications = {},
+    language = 'en',
+    ai_mode = 'auto',
+    ai_model = 'gemini-1.5-flash',
+    custom_api_key = null,
+    custom_provider = null
+  } = req.body;
 
   if (!message || typeof message !== 'string' || !message.trim()) {
     return res.status(400).json({ error: 'Message is required' });
@@ -70,7 +80,11 @@ app.post('/api/v1/chat', async (req, res) => {
       conversation_id,
       clarifications,
       language,
-      history
+      history,
+      ai_mode,
+      ai_model,
+      custom_api_key,
+      custom_provider
     });
 
     // Record user message
@@ -105,6 +119,52 @@ app.post('/api/v1/chat', async (req, res) => {
   } catch (err) {
     console.error('Error processing chat query:', err);
     res.status(500).json({ error: 'Failed to process inquiry', details: err.message });
+  }
+});
+
+// 1.0. GET /api/v1/ai/models (List available AI engines & status)
+app.get('/api/v1/ai/models', (req, res) => {
+  const hasGeminiEnv = !!process.env.GEMINI_API_KEY;
+  const hasOpenAIEnv = !!process.env.OPENAI_API_KEY;
+  const hasGroqEnv = !!process.env.GROQ_API_KEY;
+
+  res.json({
+    active_engine: "Universal ChatGPT & BIS Standards Engine",
+    providers: [
+      { id: "builtin", name: "Built-in Universal Brain (Always Online, Fast)", configured: true, default: true },
+      { id: "gemini", name: "Google Gemini (Gemini 1.5 Flash / Pro, 2.0)", configured: hasGeminiEnv },
+      { id: "openai", name: "OpenAI (GPT-4o, GPT-4o-mini)", configured: hasOpenAIEnv },
+      { id: "groq", name: "Groq Cloud (LLaMA 3.3 70B, Ultra-Fast)", configured: hasGroqEnv }
+    ]
+  });
+});
+
+// 1.0.1. POST /api/v1/ai/test-key (Verify user custom API key)
+app.post('/api/v1/ai/test-key', async (req, res) => {
+  const { provider, api_key } = req.body;
+
+  if (provider === 'builtin') {
+    return res.json({ success: true, message: 'Built-in Universal Brain is active and fully functional!' });
+  }
+
+  if (!provider || !api_key) {
+    return res.status(400).json({ success: false, error: 'Provider and api_key are required' });
+  }
+
+  try {
+    const testResult = await knowledgeEngine.processQuery({
+      message: 'Hello, testing connection! Reply with OK.',
+      custom_api_key: api_key,
+      custom_provider: provider
+    });
+
+    if (testResult && testResult.answer) {
+      res.json({ success: true, message: `Successfully connected to ${provider.toUpperCase()} API!` });
+    } else {
+      res.status(400).json({ success: false, error: `Failed to authenticate with ${provider.toUpperCase()}` });
+    }
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
   }
 });
 
@@ -418,7 +478,19 @@ app.post('/api/v1/feedback', (req, res) => {
   res.json({ success: true, message: 'Feedback recorded successfully', feedback: feedbackItem });
 });
 
-// 12. GET /api/v1/health
+// 12. GET /api/v1/online-information
+app.get('/api/v1/online-information', (req, res) => {
+  res.json({
+    success: true,
+    online_information: bisDb.onlineInfo || {
+      source_url: "https://www.bis.gov.in/product-certification/online-information/?lang=en",
+      title: "BIS Product Certification - Online Information",
+      schemes: []
+    }
+  });
+});
+
+// 13. GET /api/v1/health
 app.get('/api/v1/health', (req, res) => {
   const stats = bisDb.getStats();
   res.json({
@@ -432,6 +504,7 @@ app.get('/api/v1/health', (req, res) => {
       services: stats.services_count,
       faqs: stats.faqs_count,
       qco_orders: stats.qco_orders_count,
+      online_information: stats.online_info_loaded,
       feedback_count: feedbackStore.length
     }
   });

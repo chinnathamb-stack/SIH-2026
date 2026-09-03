@@ -18,6 +18,7 @@ class Application {
     this.setupNavigation();
     this.setupThemeToggle();
     this.setupEvidenceDrawer();
+    this.setupAISettings();
 
     // Initialize sub-modules
     window.chatController.init();
@@ -29,6 +30,125 @@ class Application {
 
     // Load sessions from server & local storage
     await this.syncSessions();
+  }
+
+  setupAISettings() {
+    const aiModeSelector = document.getElementById('aiModeSelector');
+    const aiSettingsBtn = document.getElementById('aiSettingsBtn');
+    const modalOverlay = document.getElementById('aiSettingsModalOverlay');
+    const closeBtn = document.getElementById('closeAiSettingsBtn');
+    const cancelBtn = document.getElementById('cancelAiSettingsBtn');
+    const saveBtn = document.getElementById('saveAiSettingsBtn');
+    const providerSelect = document.getElementById('aiProviderSelect');
+    const apiKeyGroup = document.getElementById('apiKeyFormGroup');
+    const apiKeyInput = document.getElementById('customApiKeyInput');
+    const toggleKeyBtn = document.getElementById('toggleApiKeyVisibility');
+    const testKeyBtn = document.getElementById('testAiKeyBtn');
+    const testStatus = document.getElementById('testKeyStatus');
+
+    // 1. Initialize AI Mode Selector
+    const savedMode = localStorage.getItem('bis_ai_mode') || 'auto';
+    if (aiModeSelector) {
+      aiModeSelector.value = savedMode;
+      aiModeSelector.addEventListener('change', () => {
+        localStorage.setItem('bis_ai_mode', aiModeSelector.value);
+        const modeLabels = {
+          auto: 'Auto-Detect (Smart Intent)',
+          chatgpt: 'ChatGPT Mode (All Questions Enabled)',
+          bis: 'BIS Standards Specialist Mode'
+        };
+        this.showToast(`Switched to ${modeLabels[aiModeSelector.value] || 'Auto Mode'}`, 'info');
+      });
+    }
+
+    // 2. Open / Close AI Settings Modal
+    const openModal = () => {
+      const savedProvider = localStorage.getItem('bis_ai_provider') || 'builtin';
+      const savedKey = localStorage.getItem('bis_custom_api_key') || '';
+      if (providerSelect) providerSelect.value = savedProvider;
+      if (apiKeyInput) apiKeyInput.value = savedKey;
+      if (testStatus) testStatus.innerHTML = '';
+      updateProviderUI();
+
+      modalOverlay?.classList.add('open');
+    };
+
+    const closeModal = () => {
+      modalOverlay?.classList.remove('open');
+    };
+
+    aiSettingsBtn?.addEventListener('click', openModal);
+    closeBtn?.addEventListener('click', closeModal);
+    cancelBtn?.addEventListener('click', closeModal);
+    modalOverlay?.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // 3. Provider Selector Change UI update
+    const updateProviderUI = () => {
+      const prov = providerSelect?.value || 'builtin';
+      if (prov === 'builtin') {
+        if (apiKeyGroup) apiKeyGroup.style.display = 'none';
+        if (testKeyBtn) testKeyBtn.style.display = 'none';
+      } else {
+        if (apiKeyGroup) apiKeyGroup.style.display = 'block';
+        if (testKeyBtn) testKeyBtn.style.display = 'inline-flex';
+        
+        const placeholders = {
+          gemini: 'Enter Gemini API Key (AIzaSy...)',
+          openai: 'Enter OpenAI API Key (sk-...)',
+          groq: 'Enter Groq API Key (gsk_...)'
+        };
+        if (apiKeyInput) apiKeyInput.placeholder = placeholders[prov] || 'Enter API Key';
+      }
+    };
+
+    providerSelect?.addEventListener('change', updateProviderUI);
+
+    // 4. Toggle Key Visibility
+    toggleKeyBtn?.addEventListener('click', () => {
+      if (apiKeyInput) {
+        apiKeyInput.type = apiKeyInput.type === 'password' ? 'text' : 'password';
+      }
+    });
+
+    // 5. Test API Connection
+    testKeyBtn?.addEventListener('click', async () => {
+      const prov = providerSelect?.value;
+      const key = apiKeyInput?.value.trim();
+      if (!key) {
+        if (testStatus) testStatus.innerHTML = `<span style="color: #f43f5e;">⚠️ Please enter an API key to test</span>`;
+        return;
+      }
+
+      if (testStatus) testStatus.innerHTML = `<span>⏳ Testing connection...</span>`;
+      testKeyBtn.disabled = true;
+
+      try {
+        const res = await window.apiClient.testAIKey({ provider: prov, api_key: key });
+        if (res.success) {
+          testStatus.innerHTML = `<span style="color: #10b981;">✅ Connected successfully to ${prov.toUpperCase()}!</span>`;
+        } else {
+          testStatus.innerHTML = `<span style="color: #f43f5e;">❌ ${res.error || 'Connection failed'}</span>`;
+        }
+      } catch (err) {
+        testStatus.innerHTML = `<span style="color: #f43f5e;">❌ Error: ${err.message}</span>`;
+      } finally {
+        testKeyBtn.disabled = false;
+      }
+    });
+
+    // 6. Save Settings
+    saveBtn?.addEventListener('click', () => {
+      const prov = providerSelect?.value || 'builtin';
+      const key = apiKeyInput?.value.trim() || '';
+
+      localStorage.setItem('bis_ai_provider', prov);
+      localStorage.setItem('bis_custom_api_key', key);
+
+      closeModal();
+      this.showToast(`AI Engine settings applied (${prov.toUpperCase()})`, 'success');
+    });
   }
 
   setupNavigation() {

@@ -22,6 +22,7 @@ class BISDatabase {
     this.services = [];
     this.faqs = [];
     this.qcoOrders = [];
+    this.onlineInfo = null;
     this.conversationsFile = path.join(this.dataDir, 'conversations.json');
     this.conversations = new Map();
     
@@ -48,6 +49,10 @@ class BISDatabase {
     try {
       this.qcoOrders = JSON.parse(fs.readFileSync(path.join(this.dataDir, 'qco_orders.json'), 'utf8'));
     } catch (e) { this.qcoOrders = []; }
+
+    try {
+      this.onlineInfo = JSON.parse(fs.readFileSync(path.join(this.dataDir, 'bis_online_information.json'), 'utf8'));
+    } catch (e) { this.onlineInfo = null; }
 
     try {
       this.knowledgeBase = JSON.parse(fs.readFileSync(path.join(this.dataDir, 'knowledge_base.json'), 'utf8'));
@@ -186,7 +191,8 @@ class BISDatabase {
       laboratories_count: this.laboratories.length,
       services_count: this.services.length,
       faqs_count: this.faqs.length,
-      qco_orders_count: this.qcoOrders.length
+      qco_orders_count: this.qcoOrders.length,
+      online_info_loaded: Boolean(this.onlineInfo)
     };
   }
 }

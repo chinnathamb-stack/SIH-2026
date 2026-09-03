@@ -54,5 +54,19 @@
     "question": "What is the validity period of a BIS licence and how is it renewed?",
     "answer": "Initial licences under Scheme I and Scheme II are granted for 1 to 2 years. Licences can be renewed for up to 5 years via Manakonline by submitting production returns, paying the marking fee, and ensuring satisfactory factory surveillance reports at least 30 days prior to expiry.",
     "source_url": "https://www.manakonline.in/"
+  },
+  {
+    "id": "faq_009",
+    "category": "Online Information & Portals",
+    "question": "Where can domestic manufacturers apply online and check BIS product certification information?",
+    "answer": "Domestic Indian manufacturers can access the official BIS Online Information portal at https://www.bis.gov.in/product-certification/online-information/?lang=en and apply directly on the Manakonline Conformity Assessment portal (https://www.manakonline.in/MANAK/ConformityAssessment). This allows submitting Form-V applications, tracking audit milestones, uploading test reports under Simplified Procedure, and checking compliance requirements.",
+    "source_url": "https://www.bis.gov.in/product-certification/online-information/?lang=en"
+  },
+  {
+    "id": "faq_010",
+    "category": "Online Reports & Verification",
+    "question": "How do I check online reports for Hallmarking licences, registered jewellers, and AHC centres?",
+    "answer": "Public online reports can be generated directly via Manakonline at https://www.manakonline.in/MANAK/ApplicationHMLicenceRelatedrpt and https://www.manakonline.in/MANAK/ApplicationLicenceRelatedrpt. You can search certified jewellers, verify authorized Assaying & Hallmarking Centres (AHC), check gold refinery licences, and view lists of suspended or cancelled centres.",
+    "source_url": "https://www.manakonline.in/MANAK/ApplicationHMLicenceRelatedrpt"
   }
 ]

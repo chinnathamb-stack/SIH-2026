@@ -1,0 +1,108 @@
+{
+  "source_url": "https://www.bis.gov.in/product-certification/online-information/?lang=en",
+  "title": "BIS Product Certification - Online Information & Digital Portals",
+  "last_updated": "2025-12-23",
+  "portal_overview": "Official digital access point for Bureau of Indian Standards (BIS) Product Certification (Domestic Manufacturer Scheme), Hallmarking System Reports, Conformity Assessment, and Licencing Information.",
+  "schemes": [
+    {
+      "id": "scheme_domestic_manufacturer",
+      "name": "Product Certification Scheme (Domestic Manufacturer)",
+      "badge": "Scheme I (ISI Mark)",
+      "portal_name": "Manakonline Conformity Assessment Portal",
+      "portal_url": "https://www.manakonline.in/MANAK/ConformityAssessment",
+      "description": "Unified digital interface for domestic Indian manufacturers to apply for Scheme I (ISI Mark) licences, submit Form-V, track application audits, submit surveillance returns, and apply for model/brand inclusions.",
+      "key_functions": [
+        "Online submission of Form-V for new Grant of Licence (GoL)",
+        "Simplified Procedure fast-track application with NABL test reports",
+        "Normal Procedure application with factory audit scheduling",
+        "Licence renewal (1 to 5 years validity)",
+        "Inclusion of new varieties, sizes, or brand names to existing CM/L",
+        "Payment of application fees, inspection charges, and minimum marking fees (MMF)",
+        "50% MSME/Startup fee concession verification via Udyam Registration"
+      ]
+    },
+    {
+      "id": "scheme_hallmarking_reports",
+      "name": "Hallmarking Scheme & Online Licence Reports",
+      "badge": "Gold & Silver Hallmarking",
+      "portal_name": "Manakonline Hallmarking & Application Reports",
+      "portal_urls": [
+        {
+          "title": "Hallmarking Licence Related Reports",
+          "url": "https://www.manakonline.in/MANAK/ApplicationHMLicenceRelatedrpt"
+        },
+        {
+          "title": "Application & Licence Related Reports (Public Directory)",
+          "url": "https://www.manakonline.in/MANAK/ApplicationLicenceRelatedrpt"
+        },
+        {
+          "title": "Assaying & Hallmarking Centres (AHC) Directory",
+          "url": "https://huid.manakonline.in/MANAK/AHCListForWebsite"
+        },
+        {
+          "title": "Suspended/Cancelled Hallmarking Centres",
+          "url": "https://huid.manakonline.in/MANAK/AHCSuspendCancelledAppsForWebsite"
+        }
+      ],
+      "description": "Public reporting and search portal for checking hallmarked jewellers, active AHC centres, certified gold refineries, and verifying 6-digit HUID authenticity.",
+      "key_functions": [
+        "Search licensed jewellers by State, District, and PIN Code",
+        "Search recognized Assaying and Hallmarking Centres (AHCs)",
+        "View status of cancelled, expired, or suspended hallmarking licences",
+        "Verify 6-digit alphanumeric HUID (Hallmark Unique Identification) numbers",
+        "Access licensed gold refineries and mints under IS 1417 / IS 1418"
+      ]
+    }
+  ],
+  "associated_online_services": [
+    {
+      "service_name": "Know Your Standard (KYS)",
+      "url": "https://standards.bis.gov.in/website/know-your-standards",
+      "description": "One-stop portal to search Indian Standards by IS Number or product keyword, download standard PDFs, Scheme of Inspection and Testing (SIT), Gazette QCOs, and product manuals."
+    },
+    {
+      "service_name": "Products Under Compulsory Certification",
+      "url": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/?lang=en",
+      "description": "Exhaustive directory of all 650+ industrial and consumer goods under mandatory Quality Control Orders (QCOs) issued by Central Ministries."
+    },
+    {
+      "service_name": "Products Under Simplified Procedure",
+      "url": "https://www.bis.gov.in/wp-content/uploads/2021/04/List-of-Products-Under-Simplified-Procedure.pdf",
+      "description": "List of products eligible for expedited Grant of Licence within 30 days based on prior testing at NABL accredited labs before factory audit."
+    },
+    {
+      "service_name": "BIS LIMS - IS-Wise Testing Facilities",
+      "url": "https://lims.bis.gov.in/home/search_is_number/",
+      "description": "Laboratory Information Management System (LIMS) for searching testing capabilities across BIS Central, Regional, and NABL accredited partner labs."
+    },
+    {
+      "service_name": "Fee Structure for Product Certification",
+      "url": "https://www.bis.gov.in/product-certification/product-certification-fee/?lang=en",
+      "description": "Official schedule of application fees (₹1,000), inspection charges (₹7,000/day), testing costs, and Minimum Marking Fees (MMF) with 50% MSME discounts."
+    },
+    {
+      "service_name": "Compulsory Registration Scheme (CRS) for Electronics",
+      "url": "https://www.crsbis.in/BIS/",
+      "description": "Self-declaration of conformity portal for IT, electronics, LED, and solar PV products under MeitY and MNRE mandates."
+    },
+    {
+      "service_name": "Foreign Manufacturers Certification Scheme (FMCS)",
+      "url": "https://www.bis.gov.in/fmcs/fmcs-overview/?lang=en",
+      "description": "Scheme X certification enabling overseas manufacturers to obtain ISI mark licences for export to India."
+    },
+    {
+      "service_name": "BIS CARE Mobile App",
+      "url": "https://www.bis.gov.in/bis-care-app/",
+      "description": "Mobile application for citizens to verify ISI Mark licences (CM/L), CRS registration R-numbers, Hallmarking HUID, and lodge quality complaints directly."
+    }
+  ],
+  "application_workflow_summary": {
+    "step_1": "Standard Identification: Check relevant IS Number and SIT on Know Your Standard (KYS).",
+    "step_2": "In-House Lab Setup: Install mandatory test equipment as specified in the Scheme of Inspection and Testing (SIT).",
+    "step_3": "Online Application: Register and submit Form-V on Manakonline (e-BIS) with manufacturing and testing machinery details.",
+    "step_4": "Procedure Selection: Choose Normal Procedure (audit first) or Simplified Procedure (NABL lab test report submitted upfront).",
+    "step_5": "Factory Verification Audit: BIS inspecting officers verify manufacturing facilities, quality controls, and draw independent counter-samples.",
+    "step_6": "Independent Lab Testing: Samples undergo complete parameter testing at BIS or NABL empanelled laboratories.",
+    "step_7": "Grant of Licence (GoL): BIS issues official CM/L number permitting the manufacturer to apply the standard ISI Mark on products."
+  }
+}

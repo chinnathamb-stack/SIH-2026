@@ -88,5 +88,23 @@
     "official_url": "https://www.bis.gov.in/bis-care-app/",
     "badge": "Consumer App",
     "features": ["Verify ISI Licence (CM/L)", "Check HUID Purity", "Verify CRS R-Number", "Lodge Grievance"]
+  },
+  {
+    "id": "srv_011",
+    "name": "Product Certification Scheme (Domestic Manufacturer Portal)",
+    "category": "Online Certification & Form-V Submission",
+    "description": "Official e-BIS portal for Indian domestic manufacturers to apply for Scheme I (ISI Mark), submit Form-V, calculate fees, track application audits, and manage licence renewals.",
+    "official_url": "https://www.manakonline.in/MANAK/ConformityAssessment",
+    "badge": "Domestic Manufacturer Portal",
+    "features": ["Apply for Scheme I (ISI Mark)", "Submit Form-V Application", "Simplified Procedure Fast-Track", "MSME 50% Concession Verification"]
+  },
+  {
+    "id": "srv_012",
+    "name": "Hallmarking Scheme & Licence Reports Directory",
+    "category": "Hallmarking & Jeweller Directory",
+    "description": "Public verification system to view active licensed jewellers, authorized Assaying and Hallmarking Centres (AHC), certified gold refineries, and licence statuses.",
+    "official_url": "https://www.manakonline.in/MANAK/ApplicationHMLicenceRelatedrpt",
+    "badge": "Hallmarking Reports",
+    "features": ["Search Licensed Jewellers", "Assaying & Hallmarking Centres (AHC) List", "Suspended/Cancelled Centres", "Application Status Reports"]
   }
 ]
