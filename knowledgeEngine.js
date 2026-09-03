@@ -345,7 +345,10 @@ class BISKnowledgeEngine {
   }
 
   /**
-   * Process any user quer  async processQuery({ message, conversation_id, clarifications = {}, language = 'en', history = [] }) {
+   * Process any user query dynamically and return a warm, context-aware,
+   * logically reasoned response.
+   */
+  async processQuery({ message, conversation_id, clarifications = {}, language = 'en', history = [] }) {
     const q = message.toLowerCase().trim();
     let cleanQ = q.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, ' ').replace(/\s+/g, ' ').trim();
 
@@ -633,28 +636,6 @@ Always include IS numbers, safety clauses, and regulatory context where known. L
         "ISI માર્ક અને CRS નોંધણી વચ્ચે શું તફાવત છે?",
         "Manakonline પોર્ટલ પર લાયસન્સ માટે કેવી રીતે અરજી કરવી?",
         "સોનાના હોલમાર્કિંગ HUID ની ચકાસણી કેવી રીતે કરવી?"
-      ];
-    } else {
-      answer = `Hey there! 😊 Great to connect with you! I'm your friendly **BIS AI Intelligent Assistant** — think of me as your dedicated guide for everything related to Indian Standards, quality certifications, and testing in India. 🇮🇳\n\n` +
-        `### How I can help you today:\n` +
-        `- 🔍 **Find Applicable Indian Standards (IS):** Inquire about compliance for any product (Electric Kettles, Packaged Water, Helmets, Lithium-ion Batteries, Cement, Steel, Toys, Footwear, Cables, Solar).\n` +
-        `- 📜 **Certification Roadmaps:** Step-by-step navigation for **Scheme I (ISI Mark)**, **Scheme II (CRS)**, and **FMCS (Foreign Manufacturers)**.\n` +
-        `- 🧪 **Testing Protocols & SIT:** Mandatory quality and safety limits, in-house laboratory setup, and test frequencies.\n` +
-        `- 🔬 **Find Recognized Labs (LIMS):** Match testing centers across India for your specific product.\n` +
-        `- 💰 **Fees & Concessions:** Accurate fee breakdown with **50% MSME/Startup discounts**.\n` +
-        `- 🏷️ **Gold Hallmarking & HUID:** Consumer and jeweller verification guidelines.\n\n` +
-        `What product or project are you working on today? Feel free to ask anything, or click one of the quick topics below! 👇`;
-      followups = [
-        "I want to manufacture an Electric Kettle (IS 302-2-15)",
-        "Packaged Drinking Water plant setup under IS 14543",
-        "Lithium-ion Battery testing under CRS (IS 16046)",
-        "Two-Wheeler Helmet safety requirements (IS 4151)",
-        "What are the BIS license fees & MSME 50% discount?",
-        "What is the difference between ISI Mark and CRS Registration?"
-      ];
-    }�्क और CRS रजिस्ट्रेशन में क्या अंतर है?",
-        "मानकऑनलाइन (Manakonline) पर आवेदन कैसे करें?",
-        "सोने के हॉलमार्किंग HUID की जांच कैसे करें?"
       ];
     } else {
       answer = `Hey there! 😊 Great to connect with you! I'm your friendly **BIS AI Intelligent Assistant** — think of me as your dedicated guide for everything related to Indian Standards, quality certifications, and testing in India. 🇮🇳\n\n` +
