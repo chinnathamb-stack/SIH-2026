@@ -665,6 +665,7 @@ class BISKnowledgeEngine {
     this.onlineInfo = onlineInfo;
   }
 
+<<<<<<< HEAD
   isBISQuery(raw, clean) {
     if (/\bis[\s:\-]*\d{2,6}\b/i.test(raw)) return true;
 
@@ -702,6 +703,15 @@ class BISKnowledgeEngine {
     const rawMsg = message.trim();
     const q = rawMsg.toLowerCase();
     let cleanQ = q.replace(/[^a-zA-Z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+=======
+  /**
+   * Process any user query dynamically and return a warm, context-aware,
+   * logically reasoned response.
+   */
+  async processQuery({ message, conversation_id, clarifications = {}, language = 'en', history = [] }) {
+    const q = message.toLowerCase().trim();
+    let cleanQ = q.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, ' ').replace(/\s+/g, ' ').trim();
+>>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
 
     // 1. Contextual Query Resolution (Multi-Turn History)
     cleanQ = this.extractContextualQuery(cleanQ, history);
@@ -1319,6 +1329,651 @@ Let me know if you want another joke or need help with a project!`,
       req.on('timeout', () => { req.destroy(); resolve(text); });
     });
   }
+<<<<<<< HEAD
+=======
+
+  /**
+   * Localize payload answer & followups if non-English
+   */
+  async localizeResponse(payload, language) {
+    if (!payload || !payload.answer || language === 'en') return payload;
+
+    // If greeting, already localized
+    if (payload.intent === 'greeting') return payload;
+
+    // If already localized in handleIndexedStandard for ta or hi
+    if ((language === 'ta' || language === 'hi') && payload.intent === 'product_compliance' && payload.answer.includes(language === 'ta' ? 'பொருந்தக்கூடிய' : 'लागू भारतीय मानक')) {
+      return payload;
+    }
+
+    try {
+      const translatedAnswer = await this.translateText(payload.answer, language, 'en');
+      if (translatedAnswer && translatedAnswer.trim()) {
+        payload.answer = translatedAnswer;
+      }
+
+      if (payload.suggested_followups && payload.suggested_followups.length > 0) {
+        const translatedFollowups = await Promise.all(
+          payload.suggested_followups.map(f => this.translateText(f, language, 'en'))
+        );
+        payload.suggested_followups = translatedFollowups;
+      }
+    } catch (e) {
+      console.warn('Localization fallback:', e.message);
+    }
+
+    return payload;
+  }
+
+  /**
+   * Extract context from multi-turn chat history if user asks a follow-up
+   */
+  extractContextualQuery(cleanQ, history = []) {
+    if (!history || history.length === 0) return cleanQ;
+
+    const isFollowup = cleanQ.includes('it') || cleanQ.includes('this') || cleanQ.includes('test') || 
+      cleanQ.includes('fee') || cleanQ.includes('lab') || cleanQ.includes('cost') || 
+      cleanQ.includes('step') || cleanQ.includes('apply') || cleanQ.includes('procedure') ||
+      cleanQ.includes('where') || cleanQ.includes('document') || cleanQ.includes('clause');
+
+    if (isFollowup) {
+      // Look back through history for the last mentioned standard or product
+      for (let i = history.length - 1; i >= 0; i--) {
+        const item = history[i];
+        const pastText = (item.content || item.text || '').toLowerCase();
+        
+        for (const std of this.standardsData) {
+          if (std.product_names) {
+            for (const p of std.product_names) {
+              if (pastText.includes(p.toLowerCase())) {
+                return `${cleanQ} ${p}`;
+              }
+            }
+          }
+          const isClean = std.is_number.toLowerCase().replace(/[^a-z0-9]/g, '');
+          if (pastText.includes(isClean)) {
+            return `${cleanQ} ${std.is_number}`;
+          }
+        }
+
+        // Check extended standards
+        for (const key of Object.keys(EXTENDED_STANDARDS)) {
+          if (pastText.includes(key)) {
+            return `${cleanQ} ${key}`;
+          }
+        }
+      }
+    }
+
+    return cleanQ;
+  }
+
+  /**
+   * Pure Greeting Handler (Warm, Enthusiastic, ChatGPT-like)
+   */
+  isPureGreeting(clean) {
+    const pureGreetings = [
+      'hi', 'hii', 'hiii', 'hello', 'helloo', 'hey', 'heyy', 'namaste', 'vanakkam', 
+      'good morning', 'good afternoon', 'good evening', 'who are you', 'what can you do', 
+      'how are you', 'what is your name', 'can you help me', 'help me', 
+      'வணக்கம்', 'नमस्ते', 'నమస్కారం', 'নমস্কার', 'नमस्कार', 'નમસ્તે',
+      'kem cho', 'bagunnara', 'kemon acho'
+    ];
+    return pureGreetings.includes(clean) || clean.startsWith('hi ') || clean.startsWith('hello ') || clean.startsWith('hey ');
+  }
+
+  handleGreeting(conversation_id, language) {
+    let answer = '';
+    let followups = [];
+
+    if (language === 'ta') {
+      answer = `வணக்கம்! 😊 நான் உங்கள் **BIS AI அறிவார்ந்த வழிகாட்டி (BIS AI Intelligent Assistant)**.\n\n` +
+        `இந்திய தரநிலைகள் பணியகம் (BIS) தொடர்பான தகவல்களை எளிதாக தெரிந்துகொள்ள நான் உதவுகிறேன்! தயாரிப்பு சான்றிதழ் (ISI மார்க்), கட்டாயப் பதிவுத் திட்டம் (CRS), கட்டாயப் பரிசோதனை முறைகள் மற்றும் ஆய்வகங்கள் பற்றி என்னிடம் கேளுங்கள்.\n\n` +
+        `நீங்கள் இன்று எந்த தயாரிப்பு அல்லது திட்டம் குறித்து அறிய விரும்புகிறீர்கள்? நீங்கள் தொடங்குவதற்கு கீழே உள்ள விருப்பங்களில் ஒன்றைத் தேர்வுசெய்யலாம்:`;
+      followups = [
+        "மின்சார கெண்டி (Electric Kettle) IS 302-2-15 சோதனை முறைகள் என்ன?",
+        "பாட்டிலில் அடைக்கப்பட்ட குடிநீர் (IS 14543) உரிமம் பெறுவது எப்படி?",
+        "ISI முத்திரைக்கும் CRS பதிவிற்கும் உள்ள வேறுபாடு என்ன?",
+        "Manakonline-ல் உரிமத்திற்கு எவ்வாறு விண்ணப்பிப்பது?",
+        "தங்க நகை ஹால்மார்க்கிங் (HUID) சரிபார்ப்பது எப்படி?"
+      ];
+    } else if (language === 'hi') {
+      answer = `नमस्ते! 😊 मैं आपका **बीआईएस एआई सहायक (BIS AI Intelligent Assistant)** हूँ।\n\n` +
+        `भारतीय मानक ब्यूरो (BIS) से संबंधित सभी नियमों, ISI मार्क, अनिवार्य QCO आदेशों, परीक्षण प्रयोगशालाओं और लाइसेंस आवेदन प्रक्रिया को समझना अब बहुत आसान है।\n\n` +
+        `आज आप किस उत्पाद या मानक के बारे में जानकारी प्राप्त करना चाहते हैं? आप नीचे दिए गए सुझावों में से किसी एक पर क्लिक कर सकते हैं:`;
+      followups = [
+        "इलेक्ट्रिक केतली (IS 302-2-15) के लिए आवश्यक परीक्षण क्या हैं?",
+        "पैकेज्ड पेयजल (IS 14543) प्लांट के लिए लाइसेंस कैसे लें?",
+        "ISI मार्क और CRS रजिस्ट्रेशन में क्या अंतर है?",
+        "मानकऑनलाइन (Manakonline) पर आवेदन कैसे करें?",
+        "सोने के हॉलमार्किंग HUID की जांच कैसे करें?"
+      ];
+    } else if (language === 'te') {
+      answer = `నమస్కారం! 😊 నేను మీ **BIS AI ఇంటెలిజెంట్ అసిస్టెంట్‌ని (BIS AI Intelligent Assistant)**.\n\n` +
+        `బ్యూరో ఆఫ్ ఇండియన్ స్టాండర్డ్స్ (BIS), ISI మార్క్, తప్పనిసరి QCO ఆర్డర్లు, టెస్టింగ్ ప్రయోగశాలలు మరియు లైసెన్సింగ్ విధానాల గురించి పూర్తి వివరాలను ఇక్కడ సులభంగా తెలుసుకోవచ్చు.\n\n` +
+        `ఈరోజు మీరు ఏ ఉత్పత్తి లేదా ప్రమాణం గురించి తెలుసుకోవాలనుకుంటున్నారు? ప్రారంభించడానికి క్రింది అంశాలలో ఒకదాన్ని ఎంచుకోండి:`;
+      followups = [
+        "ఎలక్ట్రిక్ కేటిల్ (IS 302-2-15) కోసం అవసరమైన పరీక్షలు ఏమిటి?",
+        "ప్యాకేజ్డ్ తాగునీటి (IS 14543) ప్లాంట్ కోసం లైసెన్స్ ఎలా పొందాలి?",
+        "ISI మార్క్ మరియు CRS రిజిస్ట్రేషన్ మధ్య తేడా ఏమిటి?",
+        "Manakonline పోర్టల్‌లో లైసెన్స్ కోసం ఎలా దరఖాస్తు చేయాలి?",
+        "బంగారు ఆభరణాల హాల్‌మార్కింగ్ HUID ఎలా తనిఖీ చేయాలి?"
+      ];
+    } else if (language === 'bn') {
+      answer = `নমস্কার! 😊 আমি আপনার **BIS AI ইন্টেলিজেন্ট অ্যাসিস্ট্যান্ট (BIS AI Intelligent Assistant)**।\n\n` +
+        `ব্যুরো অফ ইন্ডিয়ান স্ট্যান্ডার্ডস (BIS), ISI মার্ক, বাধ্যতামূলক QCO নির্দেশিকা, ল্যাবরেটরি টেস্ট এবং লাইসেন্সিং প্রক্রিয়ার সমস্ত তথ্য জানতে আমি আপনাকে সাহায্য করতে প্রস্তুত।\n\n` +
+        `আজ আপনি কোন পণ্য বা স্ট্যান্ডার্ড সম্পর্কে জানতে চান? নিচে দেওয়া অপশনগুলি থেকে বেছে নিতে পারেন:`;
+      followups = [
+        "ইলেকট্রিক কেটলি (IS 302-2-15)-র জন্য কী কী পরীক্ষা প্রয়োজন?",
+        "প্যাকেজড পানীয় জলের (IS 14543) প্ল্যান্টের লাইসেন্স কীভাবে পাবেন?",
+        "ISI মার্ক এবং CRS রেজিস্ট্রেশনের মধ্যে পার্থক্য কী?",
+        "Manakonline পোর্টালে কীভাবে আবেদন করবেন?",
+        "সোনার হলমার্কিং HUID কীভাবে যাচাই করবেন?"
+      ];
+    } else if (language === 'mr') {
+      answer = `नमस्कार! 😊 मी तुमचा **BIS AI इंटेलिजंट असिस्टंट (BIS AI Intelligent Assistant)** आहे.\n\n` +
+        `भारतीय मानक ब्युरो (BIS), ISI मार्क, अनिवार्य QCO नियम, चाचणी प्रयोगशाळा आणि परवाना अर्ज प्रक्रियेबद्दल अधिकृत माहिती मिळवणे आता अत्यंत सोपे आहे.\n\n` +
+        `आज आपण कोणत्या उत्पादनाबद्दल किंवा मानकाबद्दल माहिती जाणून घेऊ इच्छिता? सुरुवात करण्यासाठी खालीलपैकी एका पर्यायावर क्लिक करा:`;
+      followups = [
+        "इलेक्ट्रिक किटली (IS 302-2-15) साठी आवश्यक चाचण्या कोणत्या आहेत?",
+        "पॅकेज्ड पिण्याच्या पाण्याचा (IS 14543) प्लांट सुरू करण्यासाठी परवाना कसा मिळवावा?",
+        "ISI मार्क आणि CRS नोंदणीमध्ये काय फरक आहे?",
+        "Manakonline वर परवान्यासाठी अर्ज कसा करावा?",
+        "सोन्याचे हॉलमार्किंग HUID कसे तपासायचे?"
+      ];
+    } else if (language === 'gu') {
+      answer = `નમસ્તે! 😊 હું તમારો **BIS AI ઇન્ટેલિજન્ટ આસિસ્ટન્ટ (BIS AI Intelligent Assistant)** છું.\n\n` +
+        `બ્યુરો ઓફ ઇન્ડિયન સ્ટાન્ડર્ડ્સ (BIS), ISI માર્ક, ફરજિયાત QCO ઓર્ડર, ટેસ્ટિંગ લેબોરેટરીઝ અને લાયસન્સ અરજી પ્રક્રિયા વિશેની અધિકૃત માહિતી અહીં સરળતાથી મેળવો.\n\n` +
+        `આજે તમે કયા ઉત્પાદન અથવા ધોરણ વિશે માહિતી મેળવવા માંગો છો? શરૂ કરવા માટે નીચેના વિકલ્પોમાંથી એક પસંદ કરો:`;
+      followups = [
+        "ઇલેક્ટ્રિક કેટલ (IS 302-2-15) માટે કયા પરીક્ષણો જરૂરી છે?",
+        "પેકેજ્ડ પીવાના પાણી (IS 14543) પ્લાન્ટ માટે લાયસન્સ કેવી રીતે મેળવવું?",
+        "ISI માર્ક અને CRS નોંધણી વચ્ચે શું તફાવત છે?",
+        "Manakonline પોર્ટલ પર લાયસન્સ માટે કેવી રીતે અરજી કરવી?",
+        "સોનાના હોલમાર્કિંગ HUID ની ચકાસણી કેવી રીતે કરવી?"
+      ];
+    } else {
+      answer = `Hey there! 😊 Great to connect with you! I'm your friendly **BIS AI Intelligent Assistant** — think of me as your dedicated guide for everything related to Indian Standards, quality certifications, and testing in India. 🇮🇳\n\n` +
+        `### How I can help you today:\n` +
+        `- 🔍 **Find Applicable Indian Standards (IS):** Inquire about compliance for any product (Electric Kettles, Packaged Water, Helmets, Lithium-ion Batteries, Cement, Steel, Toys, Footwear, Cables, Solar).\n` +
+        `- 📜 **Certification Roadmaps:** Step-by-step navigation for **Scheme I (ISI Mark)**, **Scheme II (CRS)**, and **FMCS (Foreign Manufacturers)**.\n` +
+        `- 🧪 **Testing Protocols & SIT:** Mandatory quality and safety limits, in-house laboratory setup, and test frequencies.\n` +
+        `- 🔬 **Find Recognized Labs (LIMS):** Match testing centers across India for your specific product.\n` +
+        `- 💰 **Fees & Concessions:** Accurate fee breakdown with **50% MSME/Startup discounts**.\n` +
+        `- 🏷️ **Gold Hallmarking & HUID:** Consumer and jeweller verification guidelines.\n\n` +
+        `What product or project are you working on today? Feel free to ask anything, or click one of the quick topics below! 👇`;
+      followups = [
+        "I want to manufacture an Electric Kettle (IS 302-2-15)",
+        "Packaged Drinking Water plant setup under IS 14543",
+        "Lithium-ion Battery testing under CRS (IS 16046)",
+        "Two-Wheeler Helmet safety requirements (IS 4151)",
+        "What are the BIS license fees & MSME 50% discount?",
+        "What is the difference between ISI Mark and CRS Registration?"
+      ];
+    }
+
+    return {
+      conversation_id,
+      intent: "greeting",
+      needs_clarification: false,
+      clarification_questions: [],
+      answer,
+      suggested_followups: followups,
+      product: null,
+      standards: [],
+      requirements: [],
+      tests: [],
+      laboratories: [],
+      citations: [],
+      official_actions: [
+        { title: "Manakonline (e-BIS Portal)", portal: "e-BIS", url: "https://www.manakonline.in/", action_type: "online_application" },
+        { title: "Know Your Standard (KYS)", portal: "BIS KYS", url: "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails", action_type: "document_download" }
+      ],
+      limitations: []
+    };
+  }
+
+  /**
+   * Casual Conversation & Empathetic Chat (ChatGPT-style)
+   */
+  handleCasualChat(clean, conversation_id, language) {
+    if (clean.includes('thank') || clean.includes('thanks') || clean.includes('nandri') || clean.includes('dhanyawad') || clean.includes('நன்றி') || clean.includes('धन्यवाद')) {
+      return {
+        conversation_id,
+        intent: "casual_chat",
+        needs_clarification: false,
+        clarification_questions: [],
+        answer: `You're very welcome! 😊 I'm always delighted to help you navigate Indian Standards and product compliance. Is there any specific test, laboratory, or licensing step you'd like to explore next?`,
+        suggested_followups: [
+          "What is the difference between ISI and CRS?",
+          "How do I apply for an ISI mark on Manakonline?",
+          "Where are BIS testing laboratories located?",
+          "What are the statutory fees with MSME discount?"
+        ],
+        product: null,
+        standards: [],
+        requirements: [],
+        tests: [],
+        laboratories: [],
+        citations: [],
+        official_actions: [],
+        limitations: []
+      };
+    }
+
+    if (clean.includes('how are you') || clean.includes('how r u') || clean.includes('how do you do')) {
+      return {
+        conversation_id,
+        intent: "casual_chat",
+        needs_clarification: false,
+        clarification_questions: [],
+        answer: `I'm doing great, thank you for asking! 😊 I'm ready to help you with anything related to Indian Standards, quality certifications, testing protocols, or laboratory matching across India. What product or standard can we look into together?`,
+        suggested_followups: [
+          "Tell me about Electric Kettle compliance",
+          "What are the requirements for Packaged Drinking Water?",
+          "How do I apply for a license on Manakonline?"
+        ],
+        product: null,
+        standards: [],
+        requirements: [],
+        tests: [],
+        laboratories: [],
+        citations: [],
+        official_actions: [],
+        limitations: []
+      };
+    }
+
+    if (clean.includes('good') || clean.includes('great') || clean.includes('awesome') || clean.includes('nice') || clean.includes('cool')) {
+      return {
+        conversation_id,
+        intent: "casual_chat",
+        needs_clarification: false,
+        clarification_questions: [],
+        answer: `Glad you found that helpful! 😊 I'm here whenever you need detailed standards analysis, in-house lab checklists, or licensing roadmaps. What topic should we dive into next?`,
+        suggested_followups: [
+          "Tell me about cement quality standards",
+          "What are the helmet safety requirements?",
+          "How to verify gold HUID hallmarking?",
+          "What are the penalties for non-compliance?"
+        ],
+        product: null,
+        standards: [],
+        requirements: [],
+        tests: [],
+        laboratories: [],
+        citations: [],
+        official_actions: [],
+        limitations: []
+      };
+    }
+
+    return null;
+  }
+
+  /**
+   * Laboratory Search Handler
+   */
+  isLabSearchQuery(clean) {
+    const isLabWord = clean.includes('lab') || clean.includes('laboratory') || clean.includes('testing center') || 
+      clean.includes('where to test') || clean.includes('where can i test') || clean.includes('lims') || 
+      clean.includes('ஆய்வகம்') || clean.includes('प्रयोगशाला');
+    const isTestQuestion = clean.includes('what tests are required') || clean.includes('what are the tests') || clean.includes('testing parameters');
+    return isLabWord && !isTestQuestion;
+  }
+
+  handleLabSearch(clean, conversation_id, language) {
+    let matchedLabs = this.laboratoriesData;
+
+    if (clean.includes('chennai') || clean.includes('tamil nadu') || clean.includes('south')) {
+      matchedLabs = this.laboratoriesData.filter(l => l.state.toLowerCase().includes('tamil nadu') || l.district.toLowerCase().includes('chennai'));
+    } else if (clean.includes('mumbai') || clean.includes('maharashtra') || clean.includes('west')) {
+      matchedLabs = this.laboratoriesData.filter(l => l.state.toLowerCase().includes('maharashtra') || l.district.toLowerCase().includes('mumbai'));
+    } else if (clean.includes('sahibabad') || clean.includes('delhi') || clean.includes('uttar pradesh') || clean.includes('ghaziabad') || clean.includes('noida')) {
+      matchedLabs = this.laboratoriesData.filter(l => l.state.toLowerCase().includes('uttar pradesh') || l.id === 'lab_001');
+    } else if (clean.includes('kolkata') || clean.includes('bengal') || clean.includes('east')) {
+      matchedLabs = this.laboratoriesData.filter(l => l.state.toLowerCase().includes('west bengal'));
+    } else if (clean.includes('bangalore') || clean.includes('bengaluru') || clean.includes('karnataka')) {
+      matchedLabs = this.laboratoriesData.filter(l => l.state.toLowerCase().includes('karnataka'));
+    } else if (clean.includes('chandigarh') || clean.includes('punjab') || clean.includes('haryana') || clean.includes('north')) {
+      matchedLabs = this.laboratoriesData.filter(l => l.state.toLowerCase().includes('punjab') || l.district.toLowerCase().includes('chandigarh'));
+    }
+
+    const answer = `Here are the official **BIS-Recognized & Regional Testing Laboratories (BIS LIMS)** matching your location/scope:\n\n` +
+      matchedLabs.map(l => (
+        `### 🔬 ${l.name} (${l.category})\n` +
+        `- **Location:** ${l.address}, ${l.district}, ${l.state} - ${l.pincode}\n` +
+        `- **Accreditation:** ${l.status} (Valid up to ${l.validity})\n` +
+        `- **Contact:** 📞 ${l.contact.phone} | ✉️ ${l.contact.email}\n` +
+        `- **Recognized Testing Scopes:**\n` +
+        l.scopes.map(s => `  - \`${s}\``).join('\n')
+      )).join('\n\n') +
+      `\n\n💡 **Sample Submission Tip:** You can generate an electronic test request and track sample progress online via the **[BIS LIMS Portal](https://www.lims.bis.gov.in/)**.\n\n` +
+      `Would you like to know the specific testing fees for any of these standards or see how to prepare test samples?`;
+
+    return {
+      conversation_id,
+      intent: "laboratory_search",
+      needs_clarification: false,
+      clarification_questions: [],
+      answer,
+      suggested_followups: [
+        "How do I submit test samples to BIS LIMS?",
+        "What are the testing charges for my product?",
+        "How do I apply for an ISI mark on Manakonline?",
+        "What in-house testing equipment is required at my factory?"
+      ],
+      product: null,
+      standards: [],
+      requirements: [],
+      tests: [],
+      laboratories: matchedLabs,
+      citations: [],
+      official_actions: [
+        { title: "BIS LIMS Portal", portal: "LIMS", url: "https://www.lims.bis.gov.in/", action_type: "lab_search" },
+        { title: "Manakonline e-BIS", portal: "e-BIS", url: "https://www.manakonline.in/", action_type: "online_application" }
+      ],
+      limitations: []
+    };
+  }
+
+  /**
+   * Indexed Standards Matcher
+   */
+  findIndexedStandards(clean) {
+    for (const std of this.standardsData) {
+      // Check IS number
+      const isNumClean = std.is_number.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const qNumClean = clean.replace(/[^a-z0-9]/g, '');
+      if (qNumClean.length >= 4 && isNumClean.includes(qNumClean)) return std;
+
+      // Check product names
+      if (std.product_names) {
+        for (const p of std.product_names) {
+          const pClean = p.toLowerCase();
+          if (clean.includes(pClean)) return std;
+        }
+      }
+    }
+    return null;
+  }
+
+  handleIndexedStandard(std, clean, clarifications, conversation_id, language) {
+    const isKettleQuery = clean.includes('kettle') || std.id === 'std_001';
+    const hasProvidedClarification = Object.keys(clarifications).length > 0;
+
+    let needsClarification = false;
+    let clarificationQuestions = [];
+
+    if (isKettleQuery && !hasProvidedClarification && !clean.includes('stainless') && !clean.includes('cordless') && !clean.includes('plastic')) {
+      needsClarification = true;
+      clarificationQuestions = this.knowledgeBase.clarification_templates?.electric_kettle?.questions || [];
+    }
+
+    const matchedLabs = this.laboratoriesData.filter(lab => 
+      lab.scopes.some(s => s.toLowerCase().includes(std.is_number.split(':')[0].toLowerCase()))
+    );
+
+    const citations = (std.clauses || []).slice(0, 3).map((cl, idx) => ({
+      evidence_id: `ev_${std.id}_${idx + 1}`,
+      document: `${std.title} (${std.is_number})`,
+      is_number: std.is_number,
+      clause: cl.clause_no,
+      heading: cl.heading,
+      page: cl.page,
+      text: cl.text,
+      test_method: cl.test_method,
+      official_url: std.source_url
+    }));
+
+    let answerText = '';
+    const prodTitle = std.product_names ? std.product_names[0] : std.title;
+
+    if (language === 'ta') {
+      answerText = `மகிழ்ச்சி! **${prodTitle}** தயாரிப்புக்கான முழுமையான BIS தரநிலைகள் மற்றும் வழிகாட்டுதல் இதோ:\n\n` +
+        `### 1. பொருந்தக்கூடிய இந்திய தரநிலை (IS Code)\n` +
+        `- **தரநிலை எண்:** \`${std.is_number}\`\n` +
+        `- **தலைப்பு:** ${std.title}\n` +
+        `- **சான்றிதழ் திட்டம்:** **${std.scheme}** (${std.mandatory_order})\n\n` +
+        `### 2. முக்கிய தொழில்நுட்ப மற்றும் பாதுகாப்பு தேவைகள்\n` +
+        std.requirements.map(r => `- **${r.name}** (${r.category}) — *பிரிவு ${r.clause}*`).join('\n') + '\n\n' +
+        `### 3. கட்டாய ஆய்வக சோதனைகள் (SIT)\n` +
+        std.tests.map(t => `- **${t.name}**: குறிப்பு *${t.standard_ref}* (${t.frequency})`).join('\n') + '\n\n' +
+        `### 4. அங்கீகரிக்கப்பட்ட BIS ஆய்வகங்கள்\n` +
+        (matchedLabs.length > 0 ? matchedLabs.slice(0, 3).map(l => `- **${l.name}** (${l.district}, ${l.state})`).join('\n') : '- BIS மத்திய மற்றும் பிராந்திய ஆய்வகங்கள்.') + '\n\n' +
+        `### 5. அடுத்த கட்ட நடவடிக்கை\n` +
+        `தொழிற்சாலை ஆய்வு மற்றும் உரிமம் (Grant of Licence) பெற **[Manakonline Portal](https://www.manakonline.in/)**-ல் Form-V விண்ணப்பத்தை சமர்ப்பிக்கவும்.`;
+    } else if (language === 'hi') {
+      answerText = `शानदार! **${prodTitle}** के लिए भारतीय मानक ब्यूरो (BIS) के नियम और परीक्षण विवरण यहाँ दिए गए हैं:\n\n` +
+        `### 1. लागू भारतीय मानक (IS Code) और योजना\n` +
+        `- **मानक संख्या:** \`${std.is_number}\`\n` +
+        `- **शीर्षक:** ${std.title}\n` +
+        `- **अनिवार्य आदेश:** **${std.scheme}** (${std.mandatory_order})\n\n` +
+        `### 2. मुख्य गुणवत्ता और सुरक्षा आवश्यकताएं\n` +
+        std.requirements.map(r => `- **${r.name}** (${r.category}) — *क्लॉज ${r.clause}*`).join('\n') + '\n\n' +
+        `### 3. अनिवार्य प्रयोगशाला परीक्षण (SIT)\n` +
+        std.tests.map(t => `- **${t.name}**: मानक संदर्भ *${t.standard_ref}* (${t.frequency})`).join('\n') + '\n\n' +
+        `### 4. मान्यता प्राप्त BIS परीक्षण प्रयोगशालाएं\n` +
+        (matchedLabs.length > 0 ? matchedLabs.slice(0, 3).map(l => `- **${l.name}** (${l.district}, ${l.state})`).join('\n') : '- BIS केंद्रीय और क्षेत्रीय प्रयोगशालाएं.') + '\n\n' +
+        `### 5. लाइसेंस आवेदन प्रक्रिया\n` +
+        `फैक्ट्री निरीक्षण और ISI मार्क के लिए आधिकारिक **[Manakonline Portal](https://www.manakonline.in/)** पर Form-V जमा करें।`;
+    } else {
+      answerText = `Awesome! Here is the complete, authoritative compliance and testing roadmap for **${prodTitle.toUpperCase()}**:\n\n` +
+        `### 1. Applicable Indian Standard & Regulatory Mandate 📌\n` +
+        `- **Standard Code:** \`${std.is_number}\`\n` +
+        `- **Full Title:** ${std.title}\n` +
+        `- **Certification Scheme:** **${std.scheme}**\n` +
+        `- **Mandatory Regulatory Order:** ${std.mandatory_order}\n\n` +
+        `### 2. Crucial Safety & Quality Parameters 🛡️\n` +
+        std.requirements.map(r => `- **${r.name}** (${r.category}) — *Refer ${r.clause}*`).join('\n') + '\n\n' +
+        `### 3. Prescribed Testing Matrix (Scheme of Testing & Inspection) 🧪\n` +
+        `| Test Parameter | Standard Reference | Test Frequency |\n` +
+        `| :--- | :--- | :--- |\n` +
+        std.tests.map(t => `| **${t.name}** | ${t.standard_ref} | ${t.frequency} |`).join('\n') + '\n\n' +
+        `### 4. Recognized Testing Laboratories (BIS LIMS) 🔬\n` +
+        (matchedLabs.length > 0 
+          ? matchedLabs.slice(0, 3).map(l => `- **${l.name}** (${l.district}, ${l.state}) — *Valid up to ${l.validity}*`).join('\n')
+          : `- **BIS Central Laboratory** (Sahibabad, UP) and **BIS Southern Regional Laboratory** (Chennai, TN)`) + '\n\n' +
+        `### 5. Next Steps for Grant of Licence (GoL) 🚀\n` +
+        `1. Download the complete *Scheme of Inspection and Testing (SIT)* from **[Know Your Standard (KYS)](https://www.services.bis.gov.in/)**.\n` +
+        `2. Ensure in-house calibrated test equipment is installed at your factory.\n` +
+        `3. Submit your **Form-V Application** online at **[Manakonline](https://www.manakonline.in/)** for factory audit and licence grant.\n\n` +
+        `*Would you like me to detail the factory testing equipment checklist, calculate statutory fees with 50% MSME concession, or find laboratories in your specific state?*`;
+    }
+
+    return {
+      conversation_id,
+      intent: "product_compliance",
+      needs_clarification: needsClarification,
+      clarification_questions: clarificationQuestions,
+      answer: answerText,
+      suggested_followups: [
+        `What are the in-house testing equipment required for ${prodTitle}?`,
+        `How much does the BIS licence fee cost with MSME discount?`,
+        `Which testing laboratories are located in my region?`,
+        `What are the step-by-step documents required on Manakonline?`
+      ],
+      product: {
+        name: prodTitle,
+        is_number: std.is_number,
+        title: std.title,
+        scheme: std.scheme
+      },
+      standards: [std],
+      requirements: std.requirements,
+      tests: std.tests,
+      laboratories: matchedLabs,
+      citations: citations,
+      official_actions: [
+        { title: "Apply on Manakonline", portal: "e-BIS", url: "https://www.manakonline.in/", action_type: "online_application" },
+        { title: "View Standard in KYS", portal: "BIS KYS", url: std.source_url, action_type: "document_download" },
+        { title: "Track in BIS LIMS", portal: "BIS LIMS", url: "https://www.lims.bis.gov.in/", action_type: "lab_search" }
+      ],
+      limitations: [
+        "Guidance based on Bureau of Indian Standards Act 2016 and published Indian Standards."
+      ]
+    };
+  }
+
+  /**
+   * Extended Standards Matcher (Cement, Steel, Cables, Toys, Footwear, Solar, Helmets, Gold)
+   */
+  findExtendedStandard(clean) {
+    for (const [key, data] of Object.entries(EXTENDED_STANDARDS)) {
+      if (clean.includes(key)) return { key, ...data };
+      const isNumClean = data.is_number.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const qNumClean = clean.replace(/[^a-z0-9]/g, '');
+      if (qNumClean.length >= 4 && isNumClean.includes(qNumClean)) return { key, ...data };
+    }
+    return null;
+  }
+
+  handleExtendedStandard(std, conversation_id, language) {
+    const matchedLabs = this.laboratoriesData.slice(0, 3);
+    const prodName = std.key.charAt(0).toUpperCase() + std.key.slice(1);
+
+    const answer = `Great question! Here is the comprehensive BIS regulatory breakdown for **${prodName.toUpperCase()}** (${std.title}):\n\n` +
+      `### 1. Applicable Indian Standard & Mandate 📌\n` +
+      `- **Standard:** \`${std.is_number}\`\n` +
+      `- **Certification Scheme:** **${std.scheme}**\n` +
+      `- **Mandatory Quality Control Order (QCO):** ${std.mandatory_order}\n\n` +
+      `### 2. Core Quality & Safety Specifications 🛡️\n` +
+      std.key_requirements.map(r => `- ${r}`).join('\n') + '\n\n' +
+      `### 3. Prescribed Testing Matrix (SIT Protocol) 🧪\n` +
+      `| Mandatory Test | Clause Reference | Frequency |\n` +
+      `| :--- | :--- | :--- |\n` +
+      std.key_tests.map(t => `| **${t.name}** | ${t.clause} | ${t.frequency} |`).join('\n') + '\n\n' +
+      `### 4. In-House Factory Laboratory Setup (SIT)\n` +
+      `${std.sit_summary}\n\n` +
+      `### 5. Fee & Concession Overview 💰\n` +
+      `${std.fee_overview}\n\n` +
+      `### 6. Official Application Steps 🚀\n` +
+      `Submit your Form-V on **[Manakonline Portal](https://www.manakonline.in/)** with factory layout, machinery list, and in-house calibration records.\n\n` +
+      `*Would you like to explore laboratory test charges, download the SIT guidelines, or calculate the exact fee for your production capacity?*`;
+
+    return {
+      conversation_id,
+      intent: "product_compliance",
+      needs_clarification: false,
+      clarification_questions: [],
+      answer,
+      suggested_followups: [
+        `What are the in-house testing equipment for ${prodName}?`,
+        `How to apply for an ISI mark for ${prodName} on Manakonline?`,
+        `What are the penalties for non-compliance under BIS Act 2016?`,
+        `Find BIS-recognized testing laboratories near me`
+      ],
+      product: {
+        name: prodName,
+        is_number: std.is_number,
+        title: std.title,
+        scheme: std.scheme
+      },
+      standards: [{
+        id: `ext_${std.key}`,
+        is_number: std.is_number,
+        title: std.title,
+        category: std.category,
+        scheme: std.scheme,
+        status: "Active / Mandatory QCO",
+        source_url: "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+      }],
+      requirements: std.key_requirements.map((r, i) => ({ name: r, category: "Quality Specification", mandatory: true, clause: `Clause ${i + 1}` })),
+      tests: std.key_tests.map(t => ({ name: t.name, standard_ref: t.clause, frequency: t.frequency })),
+      laboratories: matchedLabs,
+      citations: [],
+      official_actions: [
+        { title: "Manakonline Application", portal: "e-BIS", url: "https://www.manakonline.in/", action_type: "online_application" },
+        { title: "Know Your Standard (KYS)", portal: "BIS KYS", url: "https://www.services.bis.gov.in/", action_type: "document_download" }
+      ],
+      limitations: []
+    };
+  }
+
+  /**
+   * Procedural Topics Matcher
+   */
+  matchDetailedTopic(clean) {
+    for (const [key, topic] of Object.entries(REGULATORY_TOPICS)) {
+      for (const kw of topic.keywords) {
+        if (clean.includes(kw)) return key;
+      }
+    }
+    return null;
+  }
+
+  handleDetailedTopicResponse(topicKey, conversation_id, language) {
+    const topic = REGULATORY_TOPICS[topicKey];
+
+    return {
+      conversation_id,
+      intent: "regulatory_procedure",
+      needs_clarification: false,
+      clarification_questions: [],
+      answer: topic.content,
+      suggested_followups: [
+        "What are the testing requirements for electric kettles?",
+        "How do I apply for a license on Manakonline?",
+        "What is the difference between Scheme I and Scheme II?",
+        "Where can I find recognized laboratories in Chennai?"
+      ],
+      product: null,
+      standards: [],
+      requirements: [],
+      tests: [],
+      laboratories: [],
+      citations: [],
+      official_actions: [
+        { title: "Manakonline (e-BIS Portal)", portal: "e-BIS", url: "https://www.manakonline.in/", action_type: "online_application" },
+        { title: "Know Your Standard (KYS)", portal: "BIS KYS", url: "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails", action_type: "document_download" }
+      ],
+      limitations: []
+    };
+  }
+
+  /**
+   * Dynamic Intelligent Reasoning Fallback
+   */
+  handleDynamicReasoning(userMessage, clean, conversation_id, language) {
+    let answer = `Thank you for your question! 😊\n\n` +
+      `Under the **Bureau of Indian Standards Act, 2016**, product certification and standards compliance in India are governed through structured Quality Control Orders (QCOs) and published Indian Standards (IS).\n\n` +
+      `### General Compliance Procedure in India:\n` +
+      `1. **Standard Identification:** Check if your product falls under **Scheme I (ISI Mark)** or **Scheme II (Compulsory Registration Scheme - CRS)**.\n` +
+      `2. **In-House Testing Setup:** Procure the specific *Scheme of Inspection and Testing (SIT)* from the [Know Your Standard (KYS)](https://www.services.bis.gov.in/) portal and install calibrated equipment.\n` +
+      `3. **Online Application:** Submit Form-V on **[Manakonline](https://www.manakonline.in/)** with factory incorporation and machinery details.\n` +
+      `4. **Factory Audit & Sample Testing:** BIS officers inspect premises and draw independent samples for BIS-recognized laboratory testing.\n` +
+      `5. **Grant of Licence (GoL):** Upon passing tests, BIS issues your CM/L number permitting official ISI marking.\n\n` +
+      `💡 **Tip:** Mention the specific product name (e.g. *Electric Kettle, Packaged Water, Cement, Steel, Battery, Helmet, Toys, Footwear, Cables*) and I will give you the exact standard code, testing parameter matrix, fees, and matched laboratories!`;
+
+    return {
+      conversation_id,
+      intent: "dynamic_regulatory_reasoning",
+      needs_clarification: false,
+      clarification_questions: [],
+      answer,
+      suggested_followups: [
+        "Tell me about Electric Kettle (IS 302-2-15)",
+        "Tell me about Packaged Drinking Water (IS 14543)",
+        "Tell me about Lithium-ion Batteries (IS 16046)",
+        "What are the fees with MSME 50% discount?",
+        "How do I apply for an ISI mark on Manakonline?"
+      ],
+      product: null,
+      standards: [],
+      requirements: [],
+      tests: [],
+      laboratories: [],
+      citations: [],
+      official_actions: [
+        { title: "Know Your Standard (KYS)", portal: "BIS KYS", url: "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails", action_type: "document_download" },
+        { title: "Manakonline Application", portal: "e-BIS Portal", url: "https://www.manakonline.in/", action_type: "online_application" }
+      ],
+      limitations: [
+        "Advisory guidance based on Bureau of Indian Standards Act 2016 and published Quality Control Orders."
+      ]
+    };
+  }
+>>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
 }
 
 module.exports = BISKnowledgeEngine;

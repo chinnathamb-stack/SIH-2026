@@ -474,6 +474,7 @@
     "updated_at": "2026-09-02T07:13:46.725Z"
   },
   {
+<<<<<<< HEAD
     "id": "conv_1788405449131",
     "title": "What is machine learning?",
     "created_at": "2026-09-03T03:17:29.131Z",
@@ -597,6 +598,68 @@
             "scheme": "Scheme I (ISI Mark Certification)",
             "mandatory_order": "Quality Control Order (QCO) for Electrical Appliances",
             "readiness_score": 85
+=======
+    "id": "test_conv_verify",
+    "title": "electric kettle Compliance",
+    "created_at": "2026-09-03T03:53:24.089Z",
+    "messages": [
+      {
+        "id": "msg_user_1788407604092",
+        "role": "user",
+        "text": "What are the safety standards for Electric Kettle?",
+        "timestamp": "2026-09-03T03:53:24.092Z"
+      },
+      {
+        "id": "msg_asst_1788407604092",
+        "role": "assistant",
+        "text": "Awesome! Here is the complete, authoritative compliance and testing roadmap for **ELECTRIC KETTLE**:\n\n### 1. Applicable Indian Standard & Regulatory Mandate 📌\n- **Standard Code:** `IS 302-2-15: 2009`\n- **Full Title:** Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)\n- **Certification Scheme:** **Scheme I (ISI Mark Certification)**\n- **Mandatory Regulatory Order:** Quality Control Order (QCO) for Electrical Appliances\n\n### 2. Crucial Safety & Quality Parameters 🛡️\n- **Boil-dry thermal safety cutout** (Safety) — *Refer Clause 19*\n- **Dielectric insulation strength (1000V)** (Electrical) — *Refer Clause 13*\n- **Food-grade internal contact material (SS 304 / BPA-free plastic)** (Material) — *Refer Clause 22*\n- **Earthing continuity and ground resistance < 0.1 ohm** (Safety) — *Refer Clause 27*\n- **ISI Mark, Rated Voltage, Power, and Manufacturer Marking** (Marking) — *Refer Clause 7*\n\n### 3. Prescribed Testing Matrix (Scheme of Testing & Inspection) 🧪\n| Test Parameter | Standard Reference | Test Frequency |\n| :--- | :--- | :--- |\n| **Electric Strength & Insulation Resistance Test** | IS 302-2-15 Cl. 13 | 100% Routine Test |\n| **Earth Continuity Test** | IS 302-1 Cl. 27 | 100% Routine Test |\n| **Boil-Dry Abnormal Operation Test** | IS 302-2-15 Cl. 19 | Type Test |\n| **Cordless Base Contact Cycling Test (10,000 cycles)** | IS 302-2-15 Cl. 22 | Type Test |\n| **Temperature Rise Test** | IS 302-1 Cl. 11 | Type Test |\n\n### 4. Recognized Testing Laboratories (BIS LIMS) 🔬\n- **BIS Central Laboratory (CL)** (Ghaziabad, Uttar Pradesh) — *Valid up to 2028-12-31*\n- **BIS Southern Regional Laboratory (SRL)** (Chennai, Tamil Nadu) — *Valid up to 2027-10-31*\n- **BIS Western Regional Laboratory (WRL)** (Mumbai Suburban, Maharashtra) — *Valid up to 2028-06-30*\n\n### 5. Next Steps for Grant of Licence (GoL) 🚀\n1. Download the complete *Scheme of Inspection and Testing (SIT)* from **[Know Your Standard (KYS)](https://www.services.bis.gov.in/)**.\n2. Ensure in-house calibrated test equipment is installed at your factory.\n3. Submit your **Form-V Application** online at **[Manakonline](https://www.manakonline.in/)** for factory audit and licence grant.\n\n*Would you like me to detail the factory testing equipment checklist, calculate statutory fees with 50% MSME concession, or find laboratories in your specific state?*",
+        "payload": {
+          "conversation_id": "test_conv_verify",
+          "intent": "product_compliance",
+          "needs_clarification": true,
+          "clarification_questions": [
+            {
+              "id": "q1",
+              "field": "body_material",
+              "text": "What is the primary material of the kettle body?",
+              "options": [
+                "Stainless Steel (SS 304)",
+                "Food-Grade Plastic / Polypropylene",
+                "Borosilicate Glass"
+              ]
+            },
+            {
+              "id": "q2",
+              "field": "cordless_base",
+              "text": "Is this a cordless kettle with a separate 360° rotational power base?",
+              "options": [
+                "Yes, Cordless with 360° base",
+                "No, Cord-attached unit"
+              ]
+            },
+            {
+              "id": "q3",
+              "field": "rated_voltage",
+              "text": "What is the rated voltage and power rating?",
+              "options": [
+                "230V AC Single Phase (~1500W - 2200W)",
+                "110V / 12V DC (Travel/Vehicle)"
+              ]
+            }
+          ],
+          "answer": "Awesome! Here is the complete, authoritative compliance and testing roadmap for **ELECTRIC KETTLE**:\n\n### 1. Applicable Indian Standard & Regulatory Mandate 📌\n- **Standard Code:** `IS 302-2-15: 2009`\n- **Full Title:** Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)\n- **Certification Scheme:** **Scheme I (ISI Mark Certification)**\n- **Mandatory Regulatory Order:** Quality Control Order (QCO) for Electrical Appliances\n\n### 2. Crucial Safety & Quality Parameters 🛡️\n- **Boil-dry thermal safety cutout** (Safety) — *Refer Clause 19*\n- **Dielectric insulation strength (1000V)** (Electrical) — *Refer Clause 13*\n- **Food-grade internal contact material (SS 304 / BPA-free plastic)** (Material) — *Refer Clause 22*\n- **Earthing continuity and ground resistance < 0.1 ohm** (Safety) — *Refer Clause 27*\n- **ISI Mark, Rated Voltage, Power, and Manufacturer Marking** (Marking) — *Refer Clause 7*\n\n### 3. Prescribed Testing Matrix (Scheme of Testing & Inspection) 🧪\n| Test Parameter | Standard Reference | Test Frequency |\n| :--- | :--- | :--- |\n| **Electric Strength & Insulation Resistance Test** | IS 302-2-15 Cl. 13 | 100% Routine Test |\n| **Earth Continuity Test** | IS 302-1 Cl. 27 | 100% Routine Test |\n| **Boil-Dry Abnormal Operation Test** | IS 302-2-15 Cl. 19 | Type Test |\n| **Cordless Base Contact Cycling Test (10,000 cycles)** | IS 302-2-15 Cl. 22 | Type Test |\n| **Temperature Rise Test** | IS 302-1 Cl. 11 | Type Test |\n\n### 4. Recognized Testing Laboratories (BIS LIMS) 🔬\n- **BIS Central Laboratory (CL)** (Ghaziabad, Uttar Pradesh) — *Valid up to 2028-12-31*\n- **BIS Southern Regional Laboratory (SRL)** (Chennai, Tamil Nadu) — *Valid up to 2027-10-31*\n- **BIS Western Regional Laboratory (WRL)** (Mumbai Suburban, Maharashtra) — *Valid up to 2028-06-30*\n\n### 5. Next Steps for Grant of Licence (GoL) 🚀\n1. Download the complete *Scheme of Inspection and Testing (SIT)* from **[Know Your Standard (KYS)](https://www.services.bis.gov.in/)**.\n2. Ensure in-house calibrated test equipment is installed at your factory.\n3. Submit your **Form-V Application** online at **[Manakonline](https://www.manakonline.in/)** for factory audit and licence grant.\n\n*Would you like me to detail the factory testing equipment checklist, calculate statutory fees with 50% MSME concession, or find laboratories in your specific state?*",
+          "suggested_followups": [
+            "What are the in-house testing equipment required for electric kettle?",
+            "How much does the BIS licence fee cost with MSME discount?",
+            "Which testing laboratories are located in my region?",
+            "What are the step-by-step documents required on Manakonline?"
+          ],
+          "product": {
+            "name": "electric kettle",
+            "is_number": "IS 302-2-15: 2009",
+            "title": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)",
+            "scheme": "Scheme I (ISI Mark Certification)"
+>>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
           },
           "standards": [
             {
@@ -900,6 +963,7 @@
           ],
           "citations": [
             {
+<<<<<<< HEAD
               "standard": "IS 302-2-15: 2009",
               "clause": "General Specification",
               "text": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)",
@@ -1421,10 +1485,44 @@
               "clause": "General Specification",
               "text": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)",
               "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+=======
+              "evidence_id": "ev_std_001_1",
+              "document": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers) (IS 302-2-15: 2009)",
+              "is_number": "IS 302-2-15: 2009",
+              "clause": "Clause 8",
+              "heading": "Protection against access to live parts",
+              "page": 7,
+              "text": "Appliances shall be constructed and enclosed so that there is adequate protection against accidental contact with live parts during normal use and cleaning.",
+              "test_method": "Standard test finger B of IS 1401 applied with a force of 50 N.",
+              "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+            },
+            {
+              "evidence_id": "ev_std_001_2",
+              "document": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers) (IS 302-2-15: 2009)",
+              "is_number": "IS 302-2-15: 2009",
+              "clause": "Clause 10",
+              "heading": "Power input and current verification",
+              "page": 9,
+              "text": "The power input at normal operating temperature shall not deviate from the rated power input by more than +5% or -10% for rated inputs > 200W.",
+              "test_method": "Wattmeter measurement at 1.06 times rated voltage under boiling conditions.",
+              "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+            },
+            {
+              "evidence_id": "ev_std_001_3",
+              "document": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers) (IS 302-2-15: 2009)",
+              "is_number": "IS 302-2-15: 2009",
+              "clause": "Clause 13",
+              "heading": "Leakage current and electric strength at operating temperature",
+              "page": 12,
+              "text": "Leakage current shall not exceed 0.75 mA for Class I portable appliances. Electric strength test voltage of 1000 V AC applied for 1 min between live parts and accessible metal parts.",
+              "test_method": "High voltage breakdown tester applying 1000V/1500V 50Hz for 60s.",
+              "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+>>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
             }
           ],
           "official_actions": [
             {
+<<<<<<< HEAD
               "title": "Download SIT & Standard Spec",
               "portal": "Know Your Standard (KYS)",
               "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
@@ -2111,10 +2209,21 @@
             {
               "title": "Download SIT & Standard Spec",
               "portal": "Know Your Standard (KYS)",
+=======
+              "title": "Apply on Manakonline",
+              "portal": "e-BIS",
+              "url": "https://www.manakonline.in/",
+              "action_type": "online_application"
+            },
+            {
+              "title": "View Standard in KYS",
+              "portal": "BIS KYS",
+>>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
               "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
               "action_type": "document_download"
             },
             {
+<<<<<<< HEAD
               "title": "Apply for License on Manakonline",
               "portal": "e-BIS Portal",
               "url": "https://www.manakonline.in/",
@@ -2164,6 +2273,166 @@
             "scheme": "Scheme I (Mandatory ISI Mark Certification - FSSAI & BIS Joint Regulatory Mandate)",
             "mandatory_order": "Food Safety and Standards (Packaging and Labelling) Regulations / BIS Act",
             "readiness_score": 85
+=======
+              "title": "Track in BIS LIMS",
+              "portal": "BIS LIMS",
+              "url": "https://www.lims.bis.gov.in/",
+              "action_type": "lab_search"
+            }
+          ],
+          "limitations": [
+            "Guidance based on Bureau of Indian Standards Act 2016 and published Indian Standards."
+          ]
+        },
+        "timestamp": "2026-09-03T03:53:24.092Z"
+      }
+    ],
+    "updated_at": "2026-09-03T03:53:24.092Z"
+  },
+  {
+    "id": "test_conv_hello",
+    "title": "Hello",
+    "created_at": "2026-09-03T03:53:38.006Z",
+    "messages": [
+      {
+        "id": "msg_user_1788407618007",
+        "role": "user",
+        "text": "Hello",
+        "timestamp": "2026-09-03T03:53:38.007Z"
+      },
+      {
+        "id": "msg_asst_1788407618007",
+        "role": "assistant",
+        "text": "Hey there! 😊 Great to connect with you! I'm your friendly **BIS AI Intelligent Assistant** — think of me as your dedicated guide for everything related to Indian Standards, quality certifications, and testing in India. 🇮🇳\n\n### How I can help you today:\n- 🔍 **Find Applicable Indian Standards (IS):** Inquire about compliance for any product (Electric Kettles, Packaged Water, Helmets, Lithium-ion Batteries, Cement, Steel, Toys, Footwear, Cables, Solar).\n- 📜 **Certification Roadmaps:** Step-by-step navigation for **Scheme I (ISI Mark)**, **Scheme II (CRS)**, and **FMCS (Foreign Manufacturers)**.\n- 🧪 **Testing Protocols & SIT:** Mandatory quality and safety limits, in-house laboratory setup, and test frequencies.\n- 🔬 **Find Recognized Labs (LIMS):** Match testing centers across India for your specific product.\n- 💰 **Fees & Concessions:** Accurate fee breakdown with **50% MSME/Startup discounts**.\n- 🏷️ **Gold Hallmarking & HUID:** Consumer and jeweller verification guidelines.\n\nWhat product or project are you working on today? Feel free to ask anything, or click one of the quick topics below! 👇",
+        "payload": {
+          "conversation_id": "test_conv_hello",
+          "intent": "greeting",
+          "needs_clarification": false,
+          "clarification_questions": [],
+          "answer": "Hey there! 😊 Great to connect with you! I'm your friendly **BIS AI Intelligent Assistant** — think of me as your dedicated guide for everything related to Indian Standards, quality certifications, and testing in India. 🇮🇳\n\n### How I can help you today:\n- 🔍 **Find Applicable Indian Standards (IS):** Inquire about compliance for any product (Electric Kettles, Packaged Water, Helmets, Lithium-ion Batteries, Cement, Steel, Toys, Footwear, Cables, Solar).\n- 📜 **Certification Roadmaps:** Step-by-step navigation for **Scheme I (ISI Mark)**, **Scheme II (CRS)**, and **FMCS (Foreign Manufacturers)**.\n- 🧪 **Testing Protocols & SIT:** Mandatory quality and safety limits, in-house laboratory setup, and test frequencies.\n- 🔬 **Find Recognized Labs (LIMS):** Match testing centers across India for your specific product.\n- 💰 **Fees & Concessions:** Accurate fee breakdown with **50% MSME/Startup discounts**.\n- 🏷️ **Gold Hallmarking & HUID:** Consumer and jeweller verification guidelines.\n\nWhat product or project are you working on today? Feel free to ask anything, or click one of the quick topics below! 👇",
+          "suggested_followups": [
+            "I want to manufacture an Electric Kettle (IS 302-2-15)",
+            "Packaged Drinking Water plant setup under IS 14543",
+            "Lithium-ion Battery testing under CRS (IS 16046)",
+            "Two-Wheeler Helmet safety requirements (IS 4151)",
+            "What are the BIS license fees & MSME 50% discount?",
+            "What is the difference between ISI Mark and CRS Registration?"
+          ],
+          "product": null,
+          "standards": [],
+          "requirements": [],
+          "tests": [],
+          "laboratories": [],
+          "citations": [],
+          "official_actions": [
+            {
+              "title": "Manakonline (e-BIS Portal)",
+              "portal": "e-BIS",
+              "url": "https://www.manakonline.in/",
+              "action_type": "online_application"
+            },
+            {
+              "title": "Know Your Standard (KYS)",
+              "portal": "BIS KYS",
+              "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+              "action_type": "document_download"
+            }
+          ],
+          "limitations": []
+        },
+        "timestamp": "2026-09-03T03:53:38.007Z"
+      }
+    ],
+    "updated_at": "2026-09-03T03:53:38.007Z"
+  },
+  {
+    "id": "test_conv_hi",
+    "title": "नमस्ते",
+    "created_at": "2026-09-03T03:53:45.821Z",
+    "messages": [
+      {
+        "id": "msg_user_1788407625821",
+        "role": "user",
+        "text": "नमस्ते",
+        "timestamp": "2026-09-03T03:53:45.821Z"
+      },
+      {
+        "id": "msg_asst_1788407625821",
+        "role": "assistant",
+        "text": "नमस्ते! 😊 मैं आपका **बीआईएस एआई सहायक (BIS AI Intelligent Assistant)** हूँ।\n\nभारतीय मानक ब्यूरो (BIS) से संबंधित सभी नियमों, ISI मार्क, अनिवार्य QCO आदेशों, परीक्षण प्रयोगशालाओं और लाइसेंस आवेदन प्रक्रिया को समझना अब बहुत आसान है।\n\nआज आप किस उत्पाद या मानक के बारे में जानकारी प्राप्त करना चाहते हैं? आप नीचे दिए गए सुझावों में से किसी एक पर क्लिक कर सकते हैं:",
+        "payload": {
+          "conversation_id": "test_conv_hi",
+          "intent": "greeting",
+          "needs_clarification": false,
+          "clarification_questions": [],
+          "answer": "नमस्ते! 😊 मैं आपका **बीआईएस एआई सहायक (BIS AI Intelligent Assistant)** हूँ।\n\nभारतीय मानक ब्यूरो (BIS) से संबंधित सभी नियमों, ISI मार्क, अनिवार्य QCO आदेशों, परीक्षण प्रयोगशालाओं और लाइसेंस आवेदन प्रक्रिया को समझना अब बहुत आसान है।\n\nआज आप किस उत्पाद या मानक के बारे में जानकारी प्राप्त करना चाहते हैं? आप नीचे दिए गए सुझावों में से किसी एक पर क्लिक कर सकते हैं:",
+          "suggested_followups": [
+            "इलेक्ट्रिक केतली (IS 302-2-15) के लिए आवश्यक परीक्षण क्या हैं?",
+            "पैकेज्ड पेयजल (IS 14543) प्लांट के लिए लाइसेंस कैसे लें?",
+            "ISI मार्क और CRS रजिस्ट्रेशन में क्या अंतर है?",
+            "मानकऑनलाइन (Manakonline) पर आवेदन कैसे करें?",
+            "सोने के हॉलमार्किंग HUID की जांच कैसे करें?"
+          ],
+          "product": null,
+          "standards": [],
+          "requirements": [],
+          "tests": [],
+          "laboratories": [],
+          "citations": [],
+          "official_actions": [
+            {
+              "title": "Manakonline (e-BIS Portal)",
+              "portal": "e-BIS",
+              "url": "https://www.manakonline.in/",
+              "action_type": "online_application"
+            },
+            {
+              "title": "Know Your Standard (KYS)",
+              "portal": "BIS KYS",
+              "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+              "action_type": "document_download"
+            }
+          ],
+          "limitations": []
+        },
+        "timestamp": "2026-09-03T03:53:45.821Z"
+      }
+    ],
+    "updated_at": "2026-09-03T03:53:45.821Z"
+  },
+  {
+    "id": "conv_1788407708379",
+    "title": "packaged drinking water Compliance",
+    "created_at": "2026-09-03T03:55:08.379Z",
+    "messages": [
+      {
+        "id": "msg_user_1788407708379",
+        "role": "user",
+        "text": "Tell me about Packaged Drinking Water IS 14543",
+        "timestamp": "2026-09-03T03:55:08.379Z"
+      },
+      {
+        "id": "msg_asst_1788407708379",
+        "role": "assistant",
+        "text": "Awesome! Here is the complete, authoritative compliance and testing roadmap for **PACKAGED DRINKING WATER**:\n\n### 1. Applicable Indian Standard & Regulatory Mandate 📌\n- **Standard Code:** `IS 14543: 2024`\n- **Full Title:** Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification\n- **Certification Scheme:** **Scheme I (Mandatory ISI Mark Certification - FSSAI & BIS Joint Regulatory Mandate)**\n- **Mandatory Regulatory Order:** Food Safety and Standards (Packaging and Labelling) Regulations / BIS Act\n\n### 2. Crucial Safety & Quality Parameters 🛡️\n- **Total Dissolved Solids (TDS) between 75 and 500 mg/L** (Chemical) — *Refer Clause 4.1*\n- **Zero Microbiological Contamination in 250 mL sample** (Microbiological) — *Refer Clause 5*\n- **In-house Testing Laboratory with Microbiologist and Chemist** (Infrastructure) — *Refer Clause 7*\n- **Tamper-evident food grade PET/Glass packaging container complying with IS 15410** (Packaging) — *Refer Clause 6*\n\n### 3. Prescribed Testing Matrix (Scheme of Testing & Inspection) 🧪\n| Test Parameter | Standard Reference | Test Frequency |\n| :--- | :--- | :--- |\n| **Microbiological Testing (E. coli, Coliform, Pseudomonas)** | IS 14543 Cl. 5 | Every Batch |\n| **Physical and Chemical Parameters (pH, TDS, Hardness)** | IS 14543 Cl. 4.1 | Daily / Shift basis |\n| **Heavy Metals (Lead, Arsenic, Cadmium)** | IS 14543 Cl. 4.2 | Bi-annually by BIS lab |\n| **Pesticide Residue Analysis (GC-MS/MS)** | IS 14543 Annex D | Bi-annually |\n\n### 4. Recognized Testing Laboratories (BIS LIMS) 🔬\n- **BIS Central Laboratory (CL)** (Ghaziabad, Uttar Pradesh) — *Valid up to 2028-12-31*\n- **BIS Southern Regional Laboratory (SRL)** (Chennai, Tamil Nadu) — *Valid up to 2027-10-31*\n- **BIS Western Regional Laboratory (WRL)** (Mumbai Suburban, Maharashtra) — *Valid up to 2028-06-30*\n\n### 5. Next Steps for Grant of Licence (GoL) 🚀\n1. Download the complete *Scheme of Inspection and Testing (SIT)* from **[Know Your Standard (KYS)](https://www.services.bis.gov.in/)**.\n2. Ensure in-house calibrated test equipment is installed at your factory.\n3. Submit your **Form-V Application** online at **[Manakonline](https://www.manakonline.in/)** for factory audit and licence grant.\n\n*Would you like me to detail the factory testing equipment checklist, calculate statutory fees with 50% MSME concession, or find laboratories in your specific state?*",
+        "payload": {
+          "conversation_id": "conv_1788407708379",
+          "intent": "product_compliance",
+          "needs_clarification": false,
+          "clarification_questions": [],
+          "answer": "Awesome! Here is the complete, authoritative compliance and testing roadmap for **PACKAGED DRINKING WATER**:\n\n### 1. Applicable Indian Standard & Regulatory Mandate 📌\n- **Standard Code:** `IS 14543: 2024`\n- **Full Title:** Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification\n- **Certification Scheme:** **Scheme I (Mandatory ISI Mark Certification - FSSAI & BIS Joint Regulatory Mandate)**\n- **Mandatory Regulatory Order:** Food Safety and Standards (Packaging and Labelling) Regulations / BIS Act\n\n### 2. Crucial Safety & Quality Parameters 🛡️\n- **Total Dissolved Solids (TDS) between 75 and 500 mg/L** (Chemical) — *Refer Clause 4.1*\n- **Zero Microbiological Contamination in 250 mL sample** (Microbiological) — *Refer Clause 5*\n- **In-house Testing Laboratory with Microbiologist and Chemist** (Infrastructure) — *Refer Clause 7*\n- **Tamper-evident food grade PET/Glass packaging container complying with IS 15410** (Packaging) — *Refer Clause 6*\n\n### 3. Prescribed Testing Matrix (Scheme of Testing & Inspection) 🧪\n| Test Parameter | Standard Reference | Test Frequency |\n| :--- | :--- | :--- |\n| **Microbiological Testing (E. coli, Coliform, Pseudomonas)** | IS 14543 Cl. 5 | Every Batch |\n| **Physical and Chemical Parameters (pH, TDS, Hardness)** | IS 14543 Cl. 4.1 | Daily / Shift basis |\n| **Heavy Metals (Lead, Arsenic, Cadmium)** | IS 14543 Cl. 4.2 | Bi-annually by BIS lab |\n| **Pesticide Residue Analysis (GC-MS/MS)** | IS 14543 Annex D | Bi-annually |\n\n### 4. Recognized Testing Laboratories (BIS LIMS) 🔬\n- **BIS Central Laboratory (CL)** (Ghaziabad, Uttar Pradesh) — *Valid up to 2028-12-31*\n- **BIS Southern Regional Laboratory (SRL)** (Chennai, Tamil Nadu) — *Valid up to 2027-10-31*\n- **BIS Western Regional Laboratory (WRL)** (Mumbai Suburban, Maharashtra) — *Valid up to 2028-06-30*\n\n### 5. Next Steps for Grant of Licence (GoL) 🚀\n1. Download the complete *Scheme of Inspection and Testing (SIT)* from **[Know Your Standard (KYS)](https://www.services.bis.gov.in/)**.\n2. Ensure in-house calibrated test equipment is installed at your factory.\n3. Submit your **Form-V Application** online at **[Manakonline](https://www.manakonline.in/)** for factory audit and licence grant.\n\n*Would you like me to detail the factory testing equipment checklist, calculate statutory fees with 50% MSME concession, or find laboratories in your specific state?*",
+          "suggested_followups": [
+            "What are the in-house testing equipment required for packaged drinking water?",
+            "How much does the BIS licence fee cost with MSME discount?",
+            "Which testing laboratories are located in my region?",
+            "What are the step-by-step documents required on Manakonline?"
+          ],
+          "product": {
+            "name": "packaged drinking water",
+            "is_number": "IS 14543: 2024",
+            "title": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification",
+            "scheme": "Scheme I (Mandatory ISI Mark Certification - FSSAI & BIS Joint Regulatory Mandate)"
+>>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
           },
           "standards": [
             {
@@ -2432,20 +2701,66 @@
           ],
           "citations": [
             {
+<<<<<<< HEAD
               "standard": "IS 14543: 2024",
               "clause": "General Specification",
               "text": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification",
               "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+=======
+              "evidence_id": "ev_std_002_1",
+              "document": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification (IS 14543: 2024)",
+              "is_number": "IS 14543: 2024",
+              "clause": "Clause 3",
+              "heading": "Treatment and Processing Methods",
+              "page": 3,
+              "text": "Water shall be derived from any source and subjected to treatments like decantation, filtration, aeration, RO, demineralization, remineralization and disinfection (UV / Ozonation).",
+              "test_method": "Plant inspection and process flow audit.",
+              "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+            },
+            {
+              "evidence_id": "ev_std_002_2",
+              "document": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification (IS 14543: 2024)",
+              "is_number": "IS 14543: 2024",
+              "clause": "Clause 4.1",
+              "heading": "Organoleptic and Physical Parameters",
+              "page": 4,
+              "text": "Colour: Max 2 Hazen units; Turbidity: Max 2 NTU; Odour: Agreeable; Taste: Agreeable; TDS: 75 to 500 mg/L; pH: 6.5 to 8.5.",
+              "test_method": "Turbidimeter, Spectrophotometer, and pH meter testing.",
+              "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+            },
+            {
+              "evidence_id": "ev_std_002_3",
+              "document": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification (IS 14543: 2024)",
+              "is_number": "IS 14543: 2024",
+              "clause": "Clause 4.2",
+              "heading": "Chemical & Toxic Substance Limits",
+              "page": 6,
+              "text": "Lead (Pb) max 0.01 mg/L; Arsenic (As) max 0.01 mg/L; Mercury (Hg) max 0.001 mg/L; Nitrate max 45 mg/L; Fluoride max 1.0 mg/L; Pesticide residues below detectable limit (0.0001 mg/L).",
+              "test_method": "ICP-MS, AAS, and GC-MS/MS testing.",
+              "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+>>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
             }
           ],
           "official_actions": [
             {
+<<<<<<< HEAD
               "title": "Download SIT & Standard Spec",
               "portal": "Know Your Standard (KYS)",
+=======
+              "title": "Apply on Manakonline",
+              "portal": "e-BIS",
+              "url": "https://www.manakonline.in/",
+              "action_type": "online_application"
+            },
+            {
+              "title": "View Standard in KYS",
+              "portal": "BIS KYS",
+>>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
               "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
               "action_type": "document_download"
             },
             {
+<<<<<<< HEAD
               "title": "Apply for License on Manakonline",
               "portal": "e-BIS Portal",
               "url": "https://www.manakonline.in/",
@@ -3298,5 +3613,447 @@
       }
     ],
     "updated_at": "2026-09-03T04:50:02.975Z"
+=======
+              "title": "Track in BIS LIMS",
+              "portal": "BIS LIMS",
+              "url": "https://www.lims.bis.gov.in/",
+              "action_type": "lab_search"
+            }
+          ],
+          "limitations": [
+            "Guidance based on Bureau of Indian Standards Act 2016 and published Indian Standards."
+          ]
+        },
+        "timestamp": "2026-09-03T03:55:08.379Z"
+      }
+    ],
+    "updated_at": "2026-09-03T03:55:08.379Z"
+  },
+  {
+    "id": "conv_1788407788115",
+    "title": "electric kettle Compliance",
+    "created_at": "2026-09-03T03:56:30.734Z",
+    "messages": [
+      {
+        "id": "msg_user_1788407790735",
+        "role": "user",
+        "text": "I want to manufacture an electric kettle. What BIS requirements must my product satisfy, which standard applies, what tests are required, and which laboratory can test it?",
+        "timestamp": "2026-09-03T03:56:30.735Z"
+      },
+      {
+        "id": "msg_asst_1788407790735",
+        "role": "assistant",
+        "text": "Awesome! Here is the complete, authoritative compliance and testing roadmap for **ELECTRIC KETTLE**:\n\n### 1. Applicable Indian Standard & Regulatory Mandate 📌\n- **Standard Code:** `IS 302-2-15: 2009`\n- **Full Title:** Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)\n- **Certification Scheme:** **Scheme I (ISI Mark Certification)**\n- **Mandatory Regulatory Order:** Quality Control Order (QCO) for Electrical Appliances\n\n### 2. Crucial Safety & Quality Parameters 🛡️\n- **Boil-dry thermal safety cutout** (Safety) — *Refer Clause 19*\n- **Dielectric insulation strength (1000V)** (Electrical) — *Refer Clause 13*\n- **Food-grade internal contact material (SS 304 / BPA-free plastic)** (Material) — *Refer Clause 22*\n- **Earthing continuity and ground resistance < 0.1 ohm** (Safety) — *Refer Clause 27*\n- **ISI Mark, Rated Voltage, Power, and Manufacturer Marking** (Marking) — *Refer Clause 7*\n\n### 3. Prescribed Testing Matrix (Scheme of Testing & Inspection) 🧪\n| Test Parameter | Standard Reference | Test Frequency |\n| :--- | :--- | :--- |\n| **Electric Strength & Insulation Resistance Test** | IS 302-2-15 Cl. 13 | 100% Routine Test |\n| **Earth Continuity Test** | IS 302-1 Cl. 27 | 100% Routine Test |\n| **Boil-Dry Abnormal Operation Test** | IS 302-2-15 Cl. 19 | Type Test |\n| **Cordless Base Contact Cycling Test (10,000 cycles)** | IS 302-2-15 Cl. 22 | Type Test |\n| **Temperature Rise Test** | IS 302-1 Cl. 11 | Type Test |\n\n### 4. Recognized Testing Laboratories (BIS LIMS) 🔬\n- **BIS Central Laboratory (CL)** (Ghaziabad, Uttar Pradesh) — *Valid up to 2028-12-31*\n- **BIS Southern Regional Laboratory (SRL)** (Chennai, Tamil Nadu) — *Valid up to 2027-10-31*\n- **BIS Western Regional Laboratory (WRL)** (Mumbai Suburban, Maharashtra) — *Valid up to 2028-06-30*\n\n### 5. Next Steps for Grant of Licence (GoL) 🚀\n1. Download the complete *Scheme of Inspection and Testing (SIT)* from **[Know Your Standard (KYS)](https://www.services.bis.gov.in/)**.\n2. Ensure in-house calibrated test equipment is installed at your factory.\n3. Submit your **Form-V Application** online at **[Manakonline](https://www.manakonline.in/)** for factory audit and licence grant.\n\n*Would you like me to detail the factory testing equipment checklist, calculate statutory fees with 50% MSME concession, or find laboratories in your specific state?*",
+        "payload": {
+          "conversation_id": "conv_1788407788115",
+          "intent": "product_compliance",
+          "needs_clarification": true,
+          "clarification_questions": [
+            {
+              "id": "q1",
+              "field": "body_material",
+              "text": "What is the primary material of the kettle body?",
+              "options": [
+                "Stainless Steel (SS 304)",
+                "Food-Grade Plastic / Polypropylene",
+                "Borosilicate Glass"
+              ]
+            },
+            {
+              "id": "q2",
+              "field": "cordless_base",
+              "text": "Is this a cordless kettle with a separate 360° rotational power base?",
+              "options": [
+                "Yes, Cordless with 360° base",
+                "No, Cord-attached unit"
+              ]
+            },
+            {
+              "id": "q3",
+              "field": "rated_voltage",
+              "text": "What is the rated voltage and power rating?",
+              "options": [
+                "230V AC Single Phase (~1500W - 2200W)",
+                "110V / 12V DC (Travel/Vehicle)"
+              ]
+            }
+          ],
+          "answer": "Awesome! Here is the complete, authoritative compliance and testing roadmap for **ELECTRIC KETTLE**:\n\n### 1. Applicable Indian Standard & Regulatory Mandate 📌\n- **Standard Code:** `IS 302-2-15: 2009`\n- **Full Title:** Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)\n- **Certification Scheme:** **Scheme I (ISI Mark Certification)**\n- **Mandatory Regulatory Order:** Quality Control Order (QCO) for Electrical Appliances\n\n### 2. Crucial Safety & Quality Parameters 🛡️\n- **Boil-dry thermal safety cutout** (Safety) — *Refer Clause 19*\n- **Dielectric insulation strength (1000V)** (Electrical) — *Refer Clause 13*\n- **Food-grade internal contact material (SS 304 / BPA-free plastic)** (Material) — *Refer Clause 22*\n- **Earthing continuity and ground resistance < 0.1 ohm** (Safety) — *Refer Clause 27*\n- **ISI Mark, Rated Voltage, Power, and Manufacturer Marking** (Marking) — *Refer Clause 7*\n\n### 3. Prescribed Testing Matrix (Scheme of Testing & Inspection) 🧪\n| Test Parameter | Standard Reference | Test Frequency |\n| :--- | :--- | :--- |\n| **Electric Strength & Insulation Resistance Test** | IS 302-2-15 Cl. 13 | 100% Routine Test |\n| **Earth Continuity Test** | IS 302-1 Cl. 27 | 100% Routine Test |\n| **Boil-Dry Abnormal Operation Test** | IS 302-2-15 Cl. 19 | Type Test |\n| **Cordless Base Contact Cycling Test (10,000 cycles)** | IS 302-2-15 Cl. 22 | Type Test |\n| **Temperature Rise Test** | IS 302-1 Cl. 11 | Type Test |\n\n### 4. Recognized Testing Laboratories (BIS LIMS) 🔬\n- **BIS Central Laboratory (CL)** (Ghaziabad, Uttar Pradesh) — *Valid up to 2028-12-31*\n- **BIS Southern Regional Laboratory (SRL)** (Chennai, Tamil Nadu) — *Valid up to 2027-10-31*\n- **BIS Western Regional Laboratory (WRL)** (Mumbai Suburban, Maharashtra) — *Valid up to 2028-06-30*\n\n### 5. Next Steps for Grant of Licence (GoL) 🚀\n1. Download the complete *Scheme of Inspection and Testing (SIT)* from **[Know Your Standard (KYS)](https://www.services.bis.gov.in/)**.\n2. Ensure in-house calibrated test equipment is installed at your factory.\n3. Submit your **Form-V Application** online at **[Manakonline](https://www.manakonline.in/)** for factory audit and licence grant.\n\n*Would you like me to detail the factory testing equipment checklist, calculate statutory fees with 50% MSME concession, or find laboratories in your specific state?*",
+          "suggested_followups": [
+            "What are the in-house testing equipment required for electric kettle?",
+            "How much does the BIS licence fee cost with MSME discount?",
+            "Which testing laboratories are located in my region?",
+            "What are the step-by-step documents required on Manakonline?"
+          ],
+          "product": {
+            "name": "electric kettle",
+            "is_number": "IS 302-2-15: 2009",
+            "title": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)",
+            "scheme": "Scheme I (ISI Mark Certification)"
+          },
+          "standards": [
+            {
+              "id": "std_001",
+              "is_number": "IS 302-2-15: 2009",
+              "title": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)",
+              "version": "2009 (Reaffirmed 2019)",
+              "status": "Active / Mandatory",
+              "category": "Electrical & Electronics",
+              "product_names": [
+                "electric kettle",
+                "kettle",
+                "water heater",
+                "liquid heating appliance",
+                "tea maker",
+                "water boiler"
+              ],
+              "scheme": "Scheme I (ISI Mark Certification)",
+              "mandatory_order": "Quality Control Order (QCO) for Electrical Appliances",
+              "scope": "Covers safety of electric kettles, water boilers and appliances which heat liquids for household and similar use with rated voltage not exceeding 250 V.",
+              "source_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+              "clauses": [
+                {
+                  "clause_no": "Clause 8",
+                  "heading": "Protection against access to live parts",
+                  "page": 7,
+                  "text": "Appliances shall be constructed and enclosed so that there is adequate protection against accidental contact with live parts during normal use and cleaning.",
+                  "test_method": "Standard test finger B of IS 1401 applied with a force of 50 N."
+                },
+                {
+                  "clause_no": "Clause 10",
+                  "heading": "Power input and current verification",
+                  "page": 9,
+                  "text": "The power input at normal operating temperature shall not deviate from the rated power input by more than +5% or -10% for rated inputs > 200W.",
+                  "test_method": "Wattmeter measurement at 1.06 times rated voltage under boiling conditions."
+                },
+                {
+                  "clause_no": "Clause 13",
+                  "heading": "Leakage current and electric strength at operating temperature",
+                  "page": 12,
+                  "text": "Leakage current shall not exceed 0.75 mA for Class I portable appliances. Electric strength test voltage of 1000 V AC applied for 1 min between live parts and accessible metal parts.",
+                  "test_method": "High voltage breakdown tester applying 1000V/1500V 50Hz for 60s."
+                },
+                {
+                  "clause_no": "Clause 19",
+                  "heading": "Abnormal operation and boil-dry safety",
+                  "page": 18,
+                  "text": "Kettles must incorporate a thermal cutout to prevent hazardous temperatures and fire hazard if switched on without water or when boiling dry.",
+                  "test_method": "Boil-dry endurance test run for 100 cycles without liquid."
+                },
+                {
+                  "clause_no": "Clause 22",
+                  "heading": "Construction and Cordless Base Connection",
+                  "page": 24,
+                  "text": "For cordless kettles, contacts in the base must not become live when kettle is detached, and must withstand 10,000 insertions.",
+                  "test_method": "Mechanical endurance cycling test at 10 cycles/min."
+                },
+                {
+                  "clause_no": "Clause 29",
+                  "heading": "Clearances, creepage distances and solid insulation",
+                  "page": 31,
+                  "text": "Creepage distance across basic insulation shall be >= 3.0 mm for Pollution Degree 2.",
+                  "test_method": "Vernier caliper / micrometer optical measurement."
+                }
+              ],
+              "requirements": [
+                {
+                  "name": "Boil-dry thermal safety cutout",
+                  "category": "Safety",
+                  "mandatory": true,
+                  "clause": "Clause 19"
+                },
+                {
+                  "name": "Dielectric insulation strength (1000V)",
+                  "category": "Electrical",
+                  "mandatory": true,
+                  "clause": "Clause 13"
+                },
+                {
+                  "name": "Food-grade internal contact material (SS 304 / BPA-free plastic)",
+                  "category": "Material",
+                  "mandatory": true,
+                  "clause": "Clause 22"
+                },
+                {
+                  "name": "Earthing continuity and ground resistance < 0.1 ohm",
+                  "category": "Safety",
+                  "mandatory": true,
+                  "clause": "Clause 27"
+                },
+                {
+                  "name": "ISI Mark, Rated Voltage, Power, and Manufacturer Marking",
+                  "category": "Marking",
+                  "mandatory": true,
+                  "clause": "Clause 7"
+                }
+              ],
+              "tests": [
+                {
+                  "name": "Electric Strength & Insulation Resistance Test",
+                  "standard_ref": "IS 302-2-15 Cl. 13",
+                  "frequency": "100% Routine Test"
+                },
+                {
+                  "name": "Earth Continuity Test",
+                  "standard_ref": "IS 302-1 Cl. 27",
+                  "frequency": "100% Routine Test"
+                },
+                {
+                  "name": "Boil-Dry Abnormal Operation Test",
+                  "standard_ref": "IS 302-2-15 Cl. 19",
+                  "frequency": "Type Test"
+                },
+                {
+                  "name": "Cordless Base Contact Cycling Test (10,000 cycles)",
+                  "standard_ref": "IS 302-2-15 Cl. 22",
+                  "frequency": "Type Test"
+                },
+                {
+                  "name": "Temperature Rise Test",
+                  "standard_ref": "IS 302-1 Cl. 11",
+                  "frequency": "Type Test"
+                }
+              ]
+            }
+          ],
+          "requirements": [
+            {
+              "name": "Boil-dry thermal safety cutout",
+              "category": "Safety",
+              "mandatory": true,
+              "clause": "Clause 19"
+            },
+            {
+              "name": "Dielectric insulation strength (1000V)",
+              "category": "Electrical",
+              "mandatory": true,
+              "clause": "Clause 13"
+            },
+            {
+              "name": "Food-grade internal contact material (SS 304 / BPA-free plastic)",
+              "category": "Material",
+              "mandatory": true,
+              "clause": "Clause 22"
+            },
+            {
+              "name": "Earthing continuity and ground resistance < 0.1 ohm",
+              "category": "Safety",
+              "mandatory": true,
+              "clause": "Clause 27"
+            },
+            {
+              "name": "ISI Mark, Rated Voltage, Power, and Manufacturer Marking",
+              "category": "Marking",
+              "mandatory": true,
+              "clause": "Clause 7"
+            }
+          ],
+          "tests": [
+            {
+              "name": "Electric Strength & Insulation Resistance Test",
+              "standard_ref": "IS 302-2-15 Cl. 13",
+              "frequency": "100% Routine Test"
+            },
+            {
+              "name": "Earth Continuity Test",
+              "standard_ref": "IS 302-1 Cl. 27",
+              "frequency": "100% Routine Test"
+            },
+            {
+              "name": "Boil-Dry Abnormal Operation Test",
+              "standard_ref": "IS 302-2-15 Cl. 19",
+              "frequency": "Type Test"
+            },
+            {
+              "name": "Cordless Base Contact Cycling Test (10,000 cycles)",
+              "standard_ref": "IS 302-2-15 Cl. 22",
+              "frequency": "Type Test"
+            },
+            {
+              "name": "Temperature Rise Test",
+              "standard_ref": "IS 302-1 Cl. 11",
+              "frequency": "Type Test"
+            }
+          ],
+          "laboratories": [
+            {
+              "id": "lab_001",
+              "lab_code": "BIS-CL-SAHIBABAD",
+              "name": "BIS Central Laboratory (CL)",
+              "category": "Central Government BIS Laboratory",
+              "address": "Plot No. 20/9, Site IV, Sahibabad Industrial Area, Ghaziabad",
+              "state": "Uttar Pradesh",
+              "district": "Ghaziabad",
+              "pincode": "201010",
+              "status": "Recognized / NABL Accredited",
+              "validity": "2028-12-31",
+              "contact": {
+                "phone": "+91-120-4177100",
+                "email": "cl@bis.gov.in"
+              },
+              "scopes": [
+                "IS 302-2-15 (Electric Kettles & Liquid Heaters)",
+                "IS 302-1 (Household Electrical Appliances General Safety)",
+                "IS 14543 (Packaged Drinking Water Microbiological & Chemical)",
+                "IS 4151 (Protective Helmets Impact & Retention)",
+                "IS 2347 (Domestic Pressure Cookers Hydrostatic Proof Test)",
+                "IS 9873 (Toy Safety Mechanical, Chemical & Flammability)"
+              ]
+            },
+            {
+              "id": "lab_002",
+              "lab_code": "BIS-SRO-CHENNAI",
+              "name": "BIS Southern Regional Laboratory (SRL)",
+              "category": "Regional BIS Laboratory",
+              "address": "CIT Campus, IV Cross Road, Taramani, Chennai",
+              "state": "Tamil Nadu",
+              "district": "Chennai",
+              "pincode": "600113",
+              "status": "Recognized / NABL Accredited",
+              "validity": "2027-10-31",
+              "contact": {
+                "phone": "+91-44-22541216",
+                "email": "srl@bis.gov.in"
+              },
+              "scopes": [
+                "IS 302-2-15 (Electric Kettles & Kitchen Appliances)",
+                "IS 14543 (Packaged Drinking Water Complete Spectrum)",
+                "IS 16046 (Lithium-ion Cells & Battery Packs)",
+                "IS 14286 (Solar PV Modules Environmental & Electrical)",
+                "IS 4151 (Two-Wheeler Helmets)",
+                "IS 1418 (Gold Assaying & Fire Assay)"
+              ]
+            },
+            {
+              "id": "lab_003",
+              "lab_code": "BIS-WRO-MUMBAI",
+              "name": "BIS Western Regional Laboratory (WRL)",
+              "category": "Regional BIS Laboratory",
+              "address": "Manakalaya, E-9, MIDC, Andheri (East), Mumbai",
+              "state": "Maharashtra",
+              "district": "Mumbai Suburban",
+              "pincode": "400093",
+              "status": "Recognized / NABL Accredited",
+              "validity": "2028-06-30",
+              "contact": {
+                "phone": "+91-22-28329295",
+                "email": "wrl@bis.gov.in"
+              },
+              "scopes": [
+                "IS 302-2-15 (Electric Heating Appliances)",
+                "IS 14543 (Packaged Drinking Water Heavy Metals & Pesticides)",
+                "IS 9873 (Safety of Toys Part 1-9)",
+                "IS 2347 (Pressure Cookers)",
+                "IS 16046 (Lithium Batteries & Power Banks)"
+              ]
+            },
+            {
+              "id": "lab_005",
+              "lab_code": "BIS-NRO-CHANDIGARH",
+              "name": "BIS Northern Regional Laboratory (NRL)",
+              "category": "Regional BIS Laboratory",
+              "address": "Plot No. 4-A, Sector 27-B, Madhya Marg, Chandigarh",
+              "state": "Chandigarh / Punjab",
+              "district": "Chandigarh",
+              "pincode": "160019",
+              "status": "Recognized / NABL Accredited",
+              "validity": "2028-03-31",
+              "contact": {
+                "phone": "+91-172-2650206",
+                "email": "nrl@bis.gov.in"
+              },
+              "scopes": [
+                "IS 302-2-15 (Electric Kettles)",
+                "IS 14543 (Packaged Drinking Water)",
+                "IS 4151 (Helmets)",
+                "IS 9873 (Toys Safety)"
+              ]
+            },
+            {
+              "id": "lab_006",
+              "lab_code": "BIS-BLR-PV-LAB",
+              "name": "National Institute of Solar Energy (NISE) / CPRI Bangalore",
+              "category": "BIS-Recognized Third-Party National Laboratory",
+              "address": "Sir C.V. Raman Road, Sadashivanagar, Bangalore",
+              "state": "Karnataka",
+              "district": "Bengaluru Urban",
+              "pincode": "560080",
+              "status": "Recognized / NABL Accredited",
+              "validity": "2029-01-15",
+              "contact": {
+                "phone": "+91-80-22072210",
+                "email": "solar-testing@cpri.in"
+              },
+              "scopes": [
+                "IS 14286 (Solar Photovoltaic Modules Design Qualification)",
+                "IS 16046 (Lithium-ion Cells & Batteries)",
+                "IS 302-2-15 (Electrical Appliance Safety)"
+              ]
+            }
+          ],
+          "citations": [
+            {
+              "evidence_id": "ev_std_001_1",
+              "document": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers) (IS 302-2-15: 2009)",
+              "is_number": "IS 302-2-15: 2009",
+              "clause": "Clause 8",
+              "heading": "Protection against access to live parts",
+              "page": 7,
+              "text": "Appliances shall be constructed and enclosed so that there is adequate protection against accidental contact with live parts during normal use and cleaning.",
+              "test_method": "Standard test finger B of IS 1401 applied with a force of 50 N.",
+              "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+            },
+            {
+              "evidence_id": "ev_std_001_2",
+              "document": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers) (IS 302-2-15: 2009)",
+              "is_number": "IS 302-2-15: 2009",
+              "clause": "Clause 10",
+              "heading": "Power input and current verification",
+              "page": 9,
+              "text": "The power input at normal operating temperature shall not deviate from the rated power input by more than +5% or -10% for rated inputs > 200W.",
+              "test_method": "Wattmeter measurement at 1.06 times rated voltage under boiling conditions.",
+              "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+            },
+            {
+              "evidence_id": "ev_std_001_3",
+              "document": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers) (IS 302-2-15: 2009)",
+              "is_number": "IS 302-2-15: 2009",
+              "clause": "Clause 13",
+              "heading": "Leakage current and electric strength at operating temperature",
+              "page": 12,
+              "text": "Leakage current shall not exceed 0.75 mA for Class I portable appliances. Electric strength test voltage of 1000 V AC applied for 1 min between live parts and accessible metal parts.",
+              "test_method": "High voltage breakdown tester applying 1000V/1500V 50Hz for 60s.",
+              "official_url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails"
+            }
+          ],
+          "official_actions": [
+            {
+              "title": "Apply on Manakonline",
+              "portal": "e-BIS",
+              "url": "https://www.manakonline.in/",
+              "action_type": "online_application"
+            },
+            {
+              "title": "View Standard in KYS",
+              "portal": "BIS KYS",
+              "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+              "action_type": "document_download"
+            },
+            {
+              "title": "Track in BIS LIMS",
+              "portal": "BIS LIMS",
+              "url": "https://www.lims.bis.gov.in/",
+              "action_type": "lab_search"
+            }
+          ],
+          "limitations": [
+            "Guidance based on Bureau of Indian Standards Act 2016 and published Indian Standards."
+          ]
+        },
+        "timestamp": "2026-09-03T03:56:30.735Z"
+      }
+    ],
+    "updated_at": "2026-09-03T03:56:30.735Z"
+>>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
   }
 ]
