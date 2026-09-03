@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const https = require('https');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -434,6 +435,63 @@ app.get('/api/v1/health', (req, res) => {
       feedback_count: feedbackStore.length
     }
   });
+});
+
+// Helper for dynamic translation across 7 languages
+function translateText(text, targetLang = 'en', sourceLang = 'auto') {
+  if (!text || typeof text !== 'string' || !text.trim()) return Promise.resolve(text);
+  if (targetLang === 'en' && (sourceLang === 'en' || !sourceLang)) return Promise.resolve(text);
+
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(sourceLang)}&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(text.trim())}`;
+
+  return new Promise((resolve) => {
+    const req = https.get(url, { timeout: 6000 }, (res) => {
+      let raw = '';
+      res.on('data', chunk => raw += chunk);
+      res.on('end', () => {
+        try {
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed) && Array.isArray(parsed[0])) {
+              const fullTranslation = parsed[0].map(item => item[0]).filter(Boolean).join('');
+              if (fullTranslation && fullTranslation.trim()) {
+                return resolve(fullTranslation);
+              }
+            }
+          }
+          resolve(text);
+        } catch (err) {
+          resolve(text);
+        }
+      });
+    });
+
+    req.on('error', () => resolve(text));
+    req.on('timeout', () => {
+      req.destroy();
+      resolve(text);
+    });
+  });
+}
+
+// 13. POST /api/v1/translate (Dynamic Multi-Language Translation Service)
+app.post('/api/v1/translate', async (req, res) => {
+  const { text, target_language = 'en', source_language = 'auto' } = req.body;
+  if (!text || typeof text !== 'string') {
+    return res.status(400).json({ error: 'Text string is required for translation' });
+  }
+
+  try {
+    const translated = await translateText(text, target_language, source_language);
+    res.json({
+      original_text: text,
+      target_language,
+      translated_text: translated
+    });
+  } catch (err) {
+    console.error('Translation error:', err);
+    res.status(500).json({ error: 'Translation failed', details: err.message, translated_text: text });
+  }
 });
 
 // Fallback to index.html for SPA routing

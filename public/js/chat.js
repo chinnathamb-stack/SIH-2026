@@ -18,11 +18,20 @@ class ChatController {
     this.clarificationState = {};
     this.recognition = null;
     this.isListening = false;
+
+    // Advanced Text-to-Speech & Voice State
+    this.isSpeaking = false;
+    this.activeSpeakerBtn = null;
+    this.activeAudioBanner = null;
+    this.autoSpeak = localStorage.getItem('bis_auto_speak') === 'true';
+    this.voices = [];
   }
 
   init() {
     this.setupEventListeners();
     this.setupSpeechRecognition();
+    this.initVoices();
+    this.setupSpeakerToggle();
   }
 
   setupEventListeners() {
@@ -112,10 +121,16 @@ class ChatController {
     if (this.isListening) {
       this.recognition.stop();
     } else {
-      const lang = window.i18n.currentLang;
-      if (lang === 'ta') this.recognition.lang = 'ta-IN';
-      else if (lang === 'hi') this.recognition.lang = 'hi-IN';
-      else this.recognition.lang = 'en-IN';
+      const langMap = {
+        'en': 'en-IN',
+        'hi': 'hi-IN',
+        'ta': 'ta-IN',
+        'te': 'te-IN',
+        'bn': 'bn-IN',
+        'mr': 'mr-IN',
+        'gu': 'gu-IN'
+      };
+      this.recognition.lang = langMap[window.i18n.currentLang] || 'en-IN';
       this.recognition.start();
     }
   }
@@ -178,8 +193,16 @@ class ChatController {
         this.renderOfficialActions(assistantMsgObj.contentEl, res.official_actions);
       }
 
-      // Add message actions (Copy, Speak, Feedback)
-      this.renderMessageActions(assistantMsgObj.contentEl, res.answer, assistantMsgObj.id);
+      // Add message actions (Copy, Speak, Translate, Feedback)
+      this.renderMessageActions(assistantMsgObj.contentEl, res.answer, assistantMsgObj.id, assistantMsgObj.bubbleEl);
+
+      // Auto-speak if enabled
+      if (this.autoSpeak) {
+        setTimeout(() => {
+          const speakBtn = assistantMsgObj.contentEl.querySelector('.btn-speaker');
+          this.speakText(res.answer, speakBtn);
+        }, 400);
+      }
 
       // Save to local message array
       this.messages.push({
@@ -412,31 +435,104 @@ class ChatController {
     containerEl.appendChild(actContainer);
   }
 
-  renderMessageActions(containerEl, text, msgId) {
+  initVoices() {
+    if ('speechSynthesis' in window) {
+      this.voices = window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => {
+        this.voices = window.speechSynthesis.getVoices();
+      };
+    }
+
+    // Stop speaking when user changes language
+    window.addEventListener('languageChanged', (e) => {
+      const newLang = e.detail.lang;
+      if (this.isSpeaking) {
+        this.stopSpeaking();
+      }
+      if (this.recognition) {
+        const langMap = {
+          'en': 'en-IN',
+          'hi': 'hi-IN',
+          'ta': 'ta-IN',
+          'te': 'te-IN',
+          'bn': 'bn-IN',
+          'mr': 'mr-IN',
+          'gu': 'gu-IN'
+        };
+        this.recognition.lang = langMap[newLang] || 'en-IN';
+      }
+    });
+  }
+
+  setupSpeakerToggle() {
+    const toggleBtn = document.getElementById('speakerToggleBtn');
+    if (toggleBtn) {
+      if (this.autoSpeak) toggleBtn.classList.add('active');
+      toggleBtn.addEventListener('click', () => {
+        this.autoSpeak = !this.autoSpeak;
+        localStorage.setItem('bis_auto_speak', this.autoSpeak ? 'true' : 'false');
+        toggleBtn.classList.toggle('active', this.autoSpeak);
+        window.app.showToast(this.autoSpeak ? 'Auto-speak enabled for responses' : 'Auto-speak disabled', 'info');
+      });
+    }
+  }
+
+  renderMessageActions(containerEl, text, msgId, bubbleEl = null) {
     const actBar = document.createElement('div');
     actBar.className = 'message-actions';
+
+    // Interactive Speaker (TTS) Button
+    const speakBtn = document.createElement('button');
+    speakBtn.className = 'btn-msg-action btn-speaker';
+    speakBtn.setAttribute('title', window.i18n.t('speaker_tooltip'));
+    speakBtn.innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      <span>${window.i18n.t('btn_listen')}</span>
+    `;
+    speakBtn.onclick = () => {
+      this.speakText(text, speakBtn);
+    };
+
+    // Translate to Active Language Button
+    const transBtn = document.createElement('button');
+    transBtn.className = 'btn-msg-action btn-translate-action';
+    transBtn.setAttribute('title', 'Translate response to currently selected language');
+    transBtn.innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span>${window.i18n.t('btn_translate')}</span>
+    `;
+    transBtn.onclick = async () => {
+      if (!bubbleEl) return;
+      const origText = transBtn.innerHTML;
+      transBtn.innerHTML = `<span>Translating...</span>`;
+      transBtn.disabled = true;
+      try {
+        const targetLang = window.i18n.currentLang;
+        const res = await window.apiClient.translate({ text, target_language: targetLang });
+        if (res && res.translated_text) {
+          bubbleEl.innerHTML = this.formatMarkdown(res.translated_text);
+          text = res.translated_text; // update reference for speaking
+          window.app.showToast(`Translated to ${window.i18n.t('lang_name') || targetLang}`, 'success');
+        }
+      } catch (e) {
+        console.error('Translation failed:', e);
+        window.app.showToast('Translation service unavailable', 'warning');
+      } finally {
+        transBtn.innerHTML = origText;
+        transBtn.disabled = false;
+      }
+    };
 
     // Copy text button
     const copyBtn = document.createElement('button');
     copyBtn.className = 'btn-msg-action';
     copyBtn.innerHTML = `
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      <span>Copy</span>
+      <span>${window.i18n.t('btn_copy')}</span>
     `;
     copyBtn.onclick = () => {
       navigator.clipboard.writeText(text);
       window.app.showToast('Copied to clipboard!', 'success');
-    };
-
-    // Text to speech button
-    const speakBtn = document.createElement('button');
-    speakBtn.className = 'btn-msg-action';
-    speakBtn.innerHTML = `
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-      <span>Speak</span>
-    `;
-    speakBtn.onclick = () => {
-      this.speakText(text);
     };
 
     // Feedback thumbs
@@ -458,27 +554,182 @@ class ChatController {
       downBtn.disabled = true;
     };
 
-    actBar.appendChild(copyBtn);
     actBar.appendChild(speakBtn);
+    actBar.appendChild(transBtn);
+    actBar.appendChild(copyBtn);
     actBar.appendChild(upBtn);
     actBar.appendChild(downBtn);
 
     containerEl.appendChild(actBar);
   }
 
-  speakText(text) {
+  prepareTextForSpeech(text) {
+    if (!text) return '';
+    return text
+      .replace(/```[\s\S]*?```/g, '') // remove code blocks
+      .replace(/\|.*\|/g, '') // remove markdown table lines
+      .replace(/https?:\/\/\S+/g, '') // remove URLs
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // [text](url) -> text
+      .replace(/[#*_~`><]/g, '') // strip markdown symbols
+      .replace(/[-•]/g, ' ') // bullets
+      .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '') // emojis
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  getBestVoiceForLang(langCode) {
+    const langTagMap = {
+      'en': 'en-IN',
+      'hi': 'hi-IN',
+      'ta': 'ta-IN',
+      'te': 'te-IN',
+      'bn': 'bn-IN',
+      'mr': 'mr-IN',
+      'gu': 'gu-IN'
+    };
+    const tag = langTagMap[langCode] || 'en-IN';
+    const prefix = tag.split('-')[0];
+
+    // 1. Exact match (e.g. hi-IN)
+    let voice = this.voices.find(v => v.lang.toLowerCase() === tag.toLowerCase());
+    // 2. Prefix match (e.g. hi)
+    if (!voice) {
+      voice = this.voices.find(v => v.lang.toLowerCase().startsWith(prefix));
+    }
+    // 3. Fallback for Indian English
+    if (!voice && prefix === 'en') {
+      voice = this.voices.find(v => v.lang.toLowerCase().includes('en'));
+    }
+    return { voice, tag };
+  }
+
+  speakText(text, btnElement = null) {
     if (!('speechSynthesis' in window)) {
       window.app.showToast('Text-to-speech not supported in this browser.', 'warning');
       return;
     }
-    window.speechSynthesis.cancel();
-    const cleanText = text.replace(/[*#`_\[\]]/g, '');
-    const utterance = new SpeechSynthesisUtterance(cleanText);
+
+    // Toggle off if already speaking this element
+    if (this.isSpeaking && this.activeSpeakerBtn === btnElement) {
+      this.stopSpeaking();
+      return;
+    }
+
+    // Stop active speech
+    this.stopSpeaking();
+
+    const cleanText = this.prepareTextForSpeech(text);
+    if (!cleanText) return;
+
     const lang = window.i18n.currentLang;
-    if (lang === 'ta') utterance.lang = 'ta-IN';
-    else if (lang === 'hi') utterance.lang = 'hi-IN';
-    else utterance.lang = 'en-IN';
-    window.speechSynthesis.speak(utterance);
+    const { voice, tag } = this.getBestVoiceForLang(lang);
+
+    // Sentence chunking prevents Chrome 15s freeze
+    const sentences = cleanText.match(/[^.!?\n]+[.!?\n]+/g) || [cleanText];
+    let currentIdx = 0;
+    this.isSpeaking = true;
+    this.activeSpeakerBtn = btnElement;
+
+    if (btnElement) {
+      btnElement.classList.add('speaking');
+      btnElement.innerHTML = `
+        <span class="eq-bars">
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+        </span>
+        <span>${window.i18n.t('btn_stop')}</span>
+      `;
+    }
+
+    this.showFloatingAudioBanner(lang);
+
+    const speakNextChunk = () => {
+      if (!this.isSpeaking || currentIdx >= sentences.length) {
+        this.stopSpeaking();
+        return;
+      }
+
+      const chunk = sentences[currentIdx].trim();
+      currentIdx++;
+      if (!chunk) {
+        speakNextChunk();
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(chunk);
+      utterance.lang = tag;
+      if (voice) utterance.voice = voice;
+      utterance.rate = 0.95;
+
+      utterance.onend = () => {
+        speakNextChunk();
+      };
+
+      utterance.onerror = (e) => {
+        console.warn('SpeechSynthesis error:', e);
+        this.stopSpeaking();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    };
+
+    speakNextChunk();
+  }
+
+  stopSpeaking() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    this.isSpeaking = false;
+    if (this.activeSpeakerBtn) {
+      this.activeSpeakerBtn.classList.remove('speaking');
+      this.activeSpeakerBtn.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <span>${window.i18n.t('btn_listen')}</span>
+      `;
+      this.activeSpeakerBtn = null;
+    }
+    this.removeFloatingAudioBanner();
+  }
+
+  showFloatingAudioBanner(langCode) {
+    this.removeFloatingAudioBanner();
+    const banner = document.createElement('div');
+    banner.className = 'floating-audio-banner';
+    banner.id = 'floatingAudioBanner';
+    const langName = window.i18n.t('lang_name') || langCode.toUpperCase();
+
+    banner.innerHTML = `
+      <span class="eq-bars">
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+      </span>
+      <span>Reading output aloud</span>
+      <span class="banner-lang-tag">${langName}</span>
+      <button type="button" class="btn-stop-audio">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+        <span>Stop</span>
+      </button>
+    `;
+
+    banner.querySelector('.btn-stop-audio').addEventListener('click', () => {
+      this.stopSpeaking();
+    });
+
+    this.streamEl.prepend(banner);
+    this.activeAudioBanner = banner;
+  }
+
+  removeFloatingAudioBanner() {
+    if (this.activeAudioBanner) {
+      this.activeAudioBanner.remove();
+      this.activeAudioBanner = null;
+    }
+    const existing = document.getElementById('floatingAudioBanner');
+    if (existing) existing.remove();
   }
 
   /**
@@ -527,7 +778,7 @@ class ChatController {
           this.renderOfficialActions(msgObj.contentEl, payload.official_actions);
         }
 
-        this.renderMessageActions(msgObj.contentEl, msg.text || msg.content, msgObj.id);
+        this.renderMessageActions(msgObj.contentEl, msg.text || msg.content, msgObj.id, msgObj.bubbleEl);
       }
     });
 
@@ -535,6 +786,7 @@ class ChatController {
   }
 
   resetChat() {
+    this.stopSpeaking();
     this.conversationId = `conv_${Date.now()}`;
     this.messages = [];
     this.streamEl.innerHTML = '';

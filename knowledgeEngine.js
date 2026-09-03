@@ -345,86 +345,166 @@ class BISKnowledgeEngine {
   }
 
   /**
-   * Process any user query dynamically and return a warm, context-aware,
-   * logically reasoned response.
-   */
-  async processQuery({ message, conversation_id, clarifications = {}, language = 'en', history = [] }) {
+   * Process any user quer  async processQuery({ message, conversation_id, clarifications = {}, language = 'en', history = [] }) {
     const q = message.toLowerCase().trim();
     let cleanQ = q.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, ' ').replace(/\s+/g, ' ').trim();
 
     // 1. Contextual Query Resolution (Multi-Turn History)
     cleanQ = this.extractContextualQuery(cleanQ, history);
 
+    let result = null;
+
     // 2. Pure Greetings & Friendly Interaction (ChatGPT style)
     if (this.isPureGreeting(cleanQ)) {
-      return this.handleGreeting(conversation_id, language);
+      result = this.handleGreeting(conversation_id, language);
+      return result; // Already natively localized
     }
 
     // 3. Casual Chit-Chat, Appreciation & Empathetic Dialogue
-    const casualResponse = this.handleCasualChat(cleanQ, conversation_id, language);
-    if (casualResponse) {
-      return casualResponse;
+    if (!result) {
+      result = this.handleCasualChat(cleanQ, conversation_id, language);
     }
 
     // 4. Check for Lab Search Intent (e.g. "where to test in Chennai", "BIS labs in Mumbai")
-    if (this.isLabSearchQuery(cleanQ)) {
-      return this.handleLabSearch(cleanQ, conversation_id, language);
+    if (!result && this.isLabSearchQuery(cleanQ)) {
+      result = this.handleLabSearch(cleanQ, conversation_id, language);
     }
 
     // 5. Match Specific Product in Indexed Local standards.json
-    const matchedIndexed = this.findIndexedStandards(cleanQ);
-    if (matchedIndexed) {
-      return this.handleIndexedStandard(matchedIndexed, cleanQ, clarifications, conversation_id, language);
+    if (!result) {
+      const matchedIndexed = this.findIndexedStandards(cleanQ);
+      if (matchedIndexed) {
+        result = this.handleIndexedStandard(matchedIndexed, cleanQ, clarifications, conversation_id, language);
+      }
     }
 
     // 6. Match Specific Product in Extended Standards Database (Cement, Steel, Cables, etc.)
-    const matchedExtended = this.findExtendedStandard(cleanQ);
-    if (matchedExtended) {
-      return this.handleExtendedStandard(matchedExtended, conversation_id, language);
+    if (!result) {
+      const matchedExtended = this.findExtendedStandard(cleanQ);
+      if (matchedExtended) {
+        result = this.handleExtendedStandard(matchedExtended, conversation_id, language);
+      }
     }
 
     // 7. Match Procedural & Conceptual Topics (Fees, Timelines, Validity, Penalties, Schemes, HUID, etc.)
-    const topicKey = this.matchDetailedTopic(cleanQ);
-    if (topicKey) {
-      return this.handleDetailedTopicResponse(topicKey, conversation_id, language);
+    if (!result) {
+      const topicKey = this.matchDetailedTopic(cleanQ);
+      if (topicKey) {
+        result = this.handleDetailedTopicResponse(topicKey, conversation_id, language);
+      }
     }
 
     // 8. Try Gemini Generative AI if API key is provided
-    const geminiSystemPrompt = `You are the Official BIS AI Assistant for the Bureau of Indian Standards (Govt of India, SIH Problem 26107). 
+    if (!result) {
+      const geminiSystemPrompt = `You are the Official BIS AI Assistant for the Bureau of Indian Standards (Govt of India, SIH Problem 26107). 
 Talk in a warm, friendly, conversational, enthusiastic, and helpful manner like a friendly expert pair programmer or ChatGPT.
 Provide authoritative, accurate, and structured advice grounded in Indian Standards (IS), Scheme I (ISI Mark), Scheme II (CRS), Hallmarking, Quality Control Orders (QCOs), Manakonline, and BIS LIMS. 
 Always include IS numbers, safety clauses, and regulatory context where known. Language: ${language}.`;
-    
-    const geminiAnswer = await callGeminiGenerativeAI(message, geminiSystemPrompt);
-    if (geminiAnswer) {
-      return {
-        conversation_id,
-        intent: "general_advisory",
-        needs_clarification: false,
-        clarification_questions: [],
-        answer: geminiAnswer,
-        suggested_followups: [
-          "How do I apply for this licence on Manakonline?",
-          "What testing laboratories are recognized for this?",
-          "What are the application fees with MSME discount?",
-          "Can you detail the in-house testing equipment requirements?"
-        ],
-        product: null,
-        standards: [],
-        requirements: [],
-        tests: [],
-        laboratories: [],
-        citations: [],
-        official_actions: [
-          { title: "Manakonline (e-BIS Portal)", portal: "e-BIS", url: "https://www.manakonline.in/", action_type: "online_application" },
-          { title: "Know Your Standard (KYS)", portal: "BIS KYS", url: "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails", action_type: "document_download" }
-        ],
-        limitations: ["Guidance based on standard specifications and regulatory orders."]
-      };
+      
+      const geminiAnswer = await callGeminiGenerativeAI(message, geminiSystemPrompt);
+      if (geminiAnswer) {
+        result = {
+          conversation_id,
+          intent: "general_advisory",
+          needs_clarification: false,
+          clarification_questions: [],
+          answer: geminiAnswer,
+          suggested_followups: [
+            "How do I apply for this licence on Manakonline?",
+            "What testing laboratories are recognized for this?",
+            "What are the application fees with MSME discount?",
+            "Can you detail the in-house testing equipment requirements?"
+          ],
+          product: null,
+          standards: [],
+          requirements: [],
+          tests: [],
+          laboratories: [],
+          citations: [],
+          official_actions: [
+            { title: "Manakonline (e-BIS Portal)", portal: "e-BIS", url: "https://www.manakonline.in/", action_type: "online_application" },
+            { title: "Know Your Standard (KYS)", portal: "BIS KYS", url: "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails", action_type: "document_download" }
+          ],
+          limitations: ["Guidance based on standard specifications and regulatory orders."]
+        };
+      }
     }
 
     // 9. Intelligent Fallback Reasoning
-    return this.handleDynamicReasoning(message, cleanQ, conversation_id, language);
+    if (!result) {
+      result = this.handleDynamicReasoning(message, cleanQ, conversation_id, language);
+    }
+
+    // 10. Localize response dynamically for the selected language (7 Languages)
+    return await this.localizeResponse(result, language);
+  }
+
+  /**
+   * Translate text dynamically into target language
+   */
+  async translateText(text, targetLang = 'en', sourceLang = 'en') {
+    if (!text || typeof text !== 'string' || !text.trim() || targetLang === sourceLang || targetLang === 'en') return text;
+
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(sourceLang)}&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(text.trim())}`;
+
+    return new Promise((resolve) => {
+      const req = https.get(url, { timeout: 6000 }, (res) => {
+        let raw = '';
+        res.on('data', chunk => raw += chunk);
+        res.on('end', () => {
+          try {
+            if (res.statusCode >= 200 && res.statusCode < 300) {
+              const parsed = JSON.parse(raw);
+              if (Array.isArray(parsed) && Array.isArray(parsed[0])) {
+                const translated = parsed[0].map(item => item[0]).filter(Boolean).join('');
+                if (translated && translated.trim()) return resolve(translated);
+              }
+            }
+            resolve(text);
+          } catch (e) {
+            resolve(text);
+          }
+        });
+      });
+      req.on('error', () => resolve(text));
+      req.on('timeout', () => {
+        req.destroy();
+        resolve(text);
+      });
+    });
+  }
+
+  /**
+   * Localize payload answer & followups if non-English
+   */
+  async localizeResponse(payload, language) {
+    if (!payload || !payload.answer || language === 'en') return payload;
+
+    // If greeting, already localized
+    if (payload.intent === 'greeting') return payload;
+
+    // If already localized in handleIndexedStandard for ta or hi
+    if ((language === 'ta' || language === 'hi') && payload.intent === 'product_compliance' && payload.answer.includes(language === 'ta' ? 'பொருந்தக்கூடிய' : 'लागू भारतीय मानक')) {
+      return payload;
+    }
+
+    try {
+      const translatedAnswer = await this.translateText(payload.answer, language, 'en');
+      if (translatedAnswer && translatedAnswer.trim()) {
+        payload.answer = translatedAnswer;
+      }
+
+      if (payload.suggested_followups && payload.suggested_followups.length > 0) {
+        const translatedFollowups = await Promise.all(
+          payload.suggested_followups.map(f => this.translateText(f, language, 'en'))
+        );
+        payload.suggested_followups = translatedFollowups;
+      }
+    } catch (e) {
+      console.warn('Localization fallback:', e.message);
+    }
+
+    return payload;
   }
 
   /**
@@ -477,7 +557,9 @@ Always include IS numbers, safety clauses, and regulatory context where known. L
     const pureGreetings = [
       'hi', 'hii', 'hiii', 'hello', 'helloo', 'hey', 'heyy', 'namaste', 'vanakkam', 
       'good morning', 'good afternoon', 'good evening', 'who are you', 'what can you do', 
-      'how are you', 'what is your name', 'can you help me', 'help me', 'வணக்கம்', 'नमस्ते'
+      'how are you', 'what is your name', 'can you help me', 'help me', 
+      'வணக்கம்', 'नमस्ते', 'నమస్కారం', 'নমস্কার', 'नमस्कार', 'નમસ્તે',
+      'kem cho', 'bagunnara', 'kemon acho'
     ];
     return pureGreetings.includes(clean) || clean.startsWith('hi ') || clean.startsWith('hello ') || clean.startsWith('hey ');
   }
@@ -505,6 +587,72 @@ Always include IS numbers, safety clauses, and regulatory context where known. L
         "इलेक्ट्रिक केतली (IS 302-2-15) के लिए आवश्यक परीक्षण क्या हैं?",
         "पैकेज्ड पेयजल (IS 14543) प्लांट के लिए लाइसेंस कैसे लें?",
         "ISI मार्क और CRS रजिस्ट्रेशन में क्या अंतर है?",
+        "मानकऑनलाइन (Manakonline) पर आवेदन कैसे करें?",
+        "सोने के हॉलमार्किंग HUID की जांच कैसे करें?"
+      ];
+    } else if (language === 'te') {
+      answer = `నమస్కారం! 😊 నేను మీ **BIS AI ఇంటెలిజెంట్ అసిస్టెంట్‌ని (BIS AI Intelligent Assistant)**.\n\n` +
+        `బ్యూరో ఆఫ్ ఇండియన్ స్టాండర్డ్స్ (BIS), ISI మార్క్, తప్పనిసరి QCO ఆర్డర్లు, టెస్టింగ్ ప్రయోగశాలలు మరియు లైసెన్సింగ్ విధానాల గురించి పూర్తి వివరాలను ఇక్కడ సులభంగా తెలుసుకోవచ్చు.\n\n` +
+        `ఈరోజు మీరు ఏ ఉత్పత్తి లేదా ప్రమాణం గురించి తెలుసుకోవాలనుకుంటున్నారు? ప్రారంభించడానికి క్రింది అంశాలలో ఒకదాన్ని ఎంచుకోండి:`;
+      followups = [
+        "ఎలక్ట్రిక్ కేటిల్ (IS 302-2-15) కోసం అవసరమైన పరీక్షలు ఏమిటి?",
+        "ప్యాకేజ్డ్ తాగునీటి (IS 14543) ప్లాంట్ కోసం లైసెన్స్ ఎలా పొందాలి?",
+        "ISI మార్క్ మరియు CRS రిజిస్ట్రేషన్ మధ్య తేడా ఏమిటి?",
+        "Manakonline పోర్టల్‌లో లైసెన్స్ కోసం ఎలా దరఖాస్తు చేయాలి?",
+        "బంగారు ఆభరణాల హాల్‌మార్కింగ్ HUID ఎలా తనిఖీ చేయాలి?"
+      ];
+    } else if (language === 'bn') {
+      answer = `নমস্কার! 😊 আমি আপনার **BIS AI ইন্টেলিজেন্ট অ্যাসিস্ট্যান্ট (BIS AI Intelligent Assistant)**।\n\n` +
+        `ব্যুরো অফ ইন্ডিয়ান স্ট্যান্ডার্ডস (BIS), ISI মার্ক, বাধ্যতামূলক QCO নির্দেশিকা, ল্যাবরেটরি টেস্ট এবং লাইসেন্সিং প্রক্রিয়ার সমস্ত তথ্য জানতে আমি আপনাকে সাহায্য করতে প্রস্তুত।\n\n` +
+        `আজ আপনি কোন পণ্য বা স্ট্যান্ডার্ড সম্পর্কে জানতে চান? নিচে দেওয়া অপশনগুলি থেকে বেছে নিতে পারেন:`;
+      followups = [
+        "ইলেকট্রিক কেটলি (IS 302-2-15)-র জন্য কী কী পরীক্ষা প্রয়োজন?",
+        "প্যাকেজড পানীয় জলের (IS 14543) প্ল্যান্টের লাইসেন্স কীভাবে পাবেন?",
+        "ISI মার্ক এবং CRS রেজিস্ট্রেশনের মধ্যে পার্থক্য কী?",
+        "Manakonline পোর্টালে কীভাবে আবেদন করবেন?",
+        "সোনার হলমার্কিং HUID কীভাবে যাচাই করবেন?"
+      ];
+    } else if (language === 'mr') {
+      answer = `नमस्कार! 😊 मी तुमचा **BIS AI इंटेलिजंट असिस्टंट (BIS AI Intelligent Assistant)** आहे.\n\n` +
+        `भारतीय मानक ब्युरो (BIS), ISI मार्क, अनिवार्य QCO नियम, चाचणी प्रयोगशाळा आणि परवाना अर्ज प्रक्रियेबद्दल अधिकृत माहिती मिळवणे आता अत्यंत सोपे आहे.\n\n` +
+        `आज आपण कोणत्या उत्पादनाबद्दल किंवा मानकाबद्दल माहिती जाणून घेऊ इच्छिता? सुरुवात करण्यासाठी खालीलपैकी एका पर्यायावर क्लिक करा:`;
+      followups = [
+        "इलेक्ट्रिक किटली (IS 302-2-15) साठी आवश्यक चाचण्या कोणत्या आहेत?",
+        "पॅकेज्ड पिण्याच्या पाण्याचा (IS 14543) प्लांट सुरू करण्यासाठी परवाना कसा मिळवावा?",
+        "ISI मार्क आणि CRS नोंदणीमध्ये काय फरक आहे?",
+        "Manakonline वर परवान्यासाठी अर्ज कसा करावा?",
+        "सोन्याचे हॉलमार्किंग HUID कसे तपासायचे?"
+      ];
+    } else if (language === 'gu') {
+      answer = `નમસ્તે! 😊 હું તમારો **BIS AI ઇન્ટેલિજન્ટ આસિસ્ટન્ટ (BIS AI Intelligent Assistant)** છું.\n\n` +
+        `બ્યુરો ઓફ ઇન્ડિયન સ્ટાન્ડર્ડ્સ (BIS), ISI માર્ક, ફરજિયાત QCO ઓર્ડર, ટેસ્ટિંગ લેબોરેટરીઝ અને લાયસન્સ અરજી પ્રક્રિયા વિશેની અધિકૃત માહિતી અહીં સરળતાથી મેળવો.\n\n` +
+        `આજે તમે કયા ઉત્પાદન અથવા ધોરણ વિશે માહિતી મેળવવા માંગો છો? શરૂ કરવા માટે નીચેના વિકલ્પોમાંથી એક પસંદ કરો:`;
+      followups = [
+        "ઇલેક્ટ્રિક કેટલ (IS 302-2-15) માટે કયા પરીક્ષણો જરૂરી છે?",
+        "પેકેજ્ડ પીવાના પાણી (IS 14543) પ્લાન્ટ માટે લાયસન્સ કેવી રીતે મેળવવું?",
+        "ISI માર્ક અને CRS નોંધણી વચ્ચે શું તફાવત છે?",
+        "Manakonline પોર્ટલ પર લાયસન્સ માટે કેવી રીતે અરજી કરવી?",
+        "સોનાના હોલમાર્કિંગ HUID ની ચકાસણી કેવી રીતે કરવી?"
+      ];
+    } else {
+      answer = `Hey there! 😊 Great to connect with you! I'm your friendly **BIS AI Intelligent Assistant** — think of me as your dedicated guide for everything related to Indian Standards, quality certifications, and testing in India. 🇮🇳\n\n` +
+        `### How I can help you today:\n` +
+        `- 🔍 **Find Applicable Indian Standards (IS):** Inquire about compliance for any product (Electric Kettles, Packaged Water, Helmets, Lithium-ion Batteries, Cement, Steel, Toys, Footwear, Cables, Solar).\n` +
+        `- 📜 **Certification Roadmaps:** Step-by-step navigation for **Scheme I (ISI Mark)**, **Scheme II (CRS)**, and **FMCS (Foreign Manufacturers)**.\n` +
+        `- 🧪 **Testing Protocols & SIT:** Mandatory quality and safety limits, in-house laboratory setup, and test frequencies.\n` +
+        `- 🔬 **Find Recognized Labs (LIMS):** Match testing centers across India for your specific product.\n` +
+        `- 💰 **Fees & Concessions:** Accurate fee breakdown with **50% MSME/Startup discounts**.\n` +
+        `- 🏷️ **Gold Hallmarking & HUID:** Consumer and jeweller verification guidelines.\n\n` +
+        `What product or project are you working on today? Feel free to ask anything, or click one of the quick topics below! 👇`;
+      followups = [
+        "I want to manufacture an Electric Kettle (IS 302-2-15)",
+        "Packaged Drinking Water plant setup under IS 14543",
+        "Lithium-ion Battery testing under CRS (IS 16046)",
+        "Two-Wheeler Helmet safety requirements (IS 4151)",
+        "What are the BIS license fees & MSME 50% discount?",
+        "What is the difference between ISI Mark and CRS Registration?"
+      ];
+    }�्क और CRS रजिस्ट्रेशन में क्या अंतर है?",
         "मानकऑनलाइन (Manakonline) पर आवेदन कैसे करें?",
         "सोने के हॉलमार्किंग HUID की जांच कैसे करें?"
       ];

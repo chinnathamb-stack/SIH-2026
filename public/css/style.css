@@ -414,21 +414,70 @@ html, body {
   gap: 12px;
 }
 
-.select-lang {
+.lang-selector-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
+  padding: 2px 8px 2px 10px;
+  transition: var(--transition);
+}
+
+.lang-selector-wrapper:hover,
+.lang-selector-wrapper:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+.lang-globe-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.select-lang {
+  background: transparent;
+  border: none;
   color: var(--text-primary);
-  padding: 6px 12px;
+  padding: 6px 4px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   outline: none;
+}
+
+.select-lang option {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.btn-speaker-toggle {
+  position: relative;
+  border-radius: var(--radius-md);
   transition: var(--transition);
 }
 
-.select-lang:focus {
-  border-color: var(--border-focus);
+.btn-speaker-toggle.active {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--color-primary);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.btn-speaker-toggle .speaker-badge-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: var(--transition);
+}
+
+.btn-speaker-toggle.active .speaker-badge-dot {
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
 }
 
 /* Two Theme Options Segmented Switcher */
