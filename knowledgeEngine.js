@@ -665,7 +665,6 @@ class BISKnowledgeEngine {
     this.onlineInfo = onlineInfo;
   }
 
-<<<<<<< HEAD
   isBISQuery(raw, clean) {
     if (/\bis[\s:\-]*\d{2,6}\b/i.test(raw)) return true;
 
@@ -703,15 +702,6 @@ class BISKnowledgeEngine {
     const rawMsg = message.trim();
     const q = rawMsg.toLowerCase();
     let cleanQ = q.replace(/[^a-zA-Z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
-=======
-  /**
-   * Process any user query dynamically and return a warm, context-aware,
-   * logically reasoned response.
-   */
-  async processQuery({ message, conversation_id, clarifications = {}, language = 'en', history = [] }) {
-    const q = message.toLowerCase().trim();
-    let cleanQ = q.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, ' ').replace(/\s+/g, ' ').trim();
->>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
 
     // 1. Contextual Query Resolution (Multi-Turn History)
     cleanQ = this.extractContextualQuery(cleanQ, history);
@@ -1329,8 +1319,7 @@ Let me know if you want another joke or need help with a project!`,
       req.on('timeout', () => { req.destroy(); resolve(text); });
     });
   }
-<<<<<<< HEAD
-=======
+
 
   /**
    * Localize payload answer & followups if non-English
@@ -1973,7 +1962,7 @@ Let me know if you want another joke or need help with a project!`,
       ]
     };
   }
->>>>>>> eb87d67fdc86c691570f45a3a7f4a0498057b337
+
 }
 
 module.exports = BISKnowledgeEngine;
