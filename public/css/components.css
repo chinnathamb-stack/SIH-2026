@@ -1703,3 +1703,128 @@ blockquote {
   font-style: italic;
   color: var(--text-secondary);
 }
+
+
+/* =========================================================================
+   KATEX MATH, CODE BLOCKS & RICH MARKDOWN STYLES (DYNAMIC FORMATTING)
+   ========================================================================= */
+
+.katex-block {
+  display: block;
+  margin: 14px 0;
+  padding: 14px 18px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 8px;
+  text-align: center;
+  overflow-x: auto;
+  font-size: 1.15em;
+  color: #f1f5f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.katex-block .katex-display {
+  margin: 0 !important;
+}
+
+.katex-inline {
+  display: inline-block;
+  padding: 0 4px;
+  font-size: 1.05em;
+  color: #38bdf8;
+  vertical-align: middle;
+}
+
+.code-block-container {
+  margin: 14px 0;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  background: #0d1117;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  font-size: 11px;
+  font-family: var(--font-mono, monospace);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #8b949e;
+}
+
+.code-block-lang {
+  color: #58a6ff;
+}
+
+.btn-copy-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-copy-code:hover {
+  background: #21262d;
+  color: #58a6ff;
+  border-color: #58a6ff;
+}
+
+.code-block-pre {
+  margin: 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  background: transparent;
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  line-height: 1.55;
+  color: #e6edf3;
+}
+
+.code-block-pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: inherit;
+  color: inherit;
+}
+
+.markdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  text-align: left;
+}
+
+.markdown-table th {
+  background: rgba(30, 41, 59, 0.85);
+  color: #38bdf8;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+}
+
+.markdown-table td {
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  color: #cbd5e1;
+}
+
+.markdown-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.markdown-table tr:hover td {
+  background: rgba(56, 189, 248, 0.05);
+}

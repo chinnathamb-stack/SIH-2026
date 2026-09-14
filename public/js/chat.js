@@ -19,8 +19,9 @@ class ChatController {
     this.recognition = null;
     this.isListening = false;
 
-    // Mode State (ChatGPT Universal vs BIS Specialist)
-    this.activeMode = localStorage.getItem('bis_ai_mode') || 'chatgpt';
+    // Mode State (BIS Specialist)
+    this.activeMode = 'bis';
+    localStorage.setItem('bis_ai_mode', 'bis');
 
     // Advanced Text-to-Speech & Voice State
     this.isSpeaking = false;
@@ -41,180 +42,88 @@ class ChatController {
   }
 
   setupModeSwitcher() {
-    const tabChatGpt = document.getElementById('tabModeChatGpt');
-    const tabBis = document.getElementById('tabModeBis');
-    const navChatGpt = document.getElementById('navChatGptBtn');
     const navBis = document.getElementById('navBisBtn');
-
-    tabChatGpt?.addEventListener('click', () => this.setMode('chatgpt'));
-    tabBis?.addEventListener('click', () => this.setMode('bis'));
-
-    navChatGpt?.addEventListener('click', () => {
-      window.app.switchView('chatView');
-      this.setMode('chatgpt');
-    });
-
     navBis?.addEventListener('click', () => {
       window.app.switchView('chatView');
-      this.setMode('bis');
+      this.setMode('bis', false);
     });
 
-    this.setMode(this.activeMode, false);
+    this.setMode('bis', false);
   }
 
-  setMode(mode, showNotification = true) {
-    this.activeMode = mode === 'bis' ? 'bis' : 'chatgpt';
-    localStorage.setItem('bis_ai_mode', this.activeMode);
+  setMode(mode = 'bis', showNotification = false) {
+    this.activeMode = 'bis';
+    localStorage.setItem('bis_ai_mode', 'bis');
 
-    // Update topbar segmented control
-    const tabChatGpt = document.getElementById('tabModeChatGpt');
-    const tabBis = document.getElementById('tabModeBis');
-    if (this.activeMode === 'chatgpt') {
-      tabChatGpt?.classList.add('active');
-      tabBis?.classList.remove('active');
-    } else {
-      tabBis?.classList.add('active');
-      tabChatGpt?.classList.remove('active');
-    }
-
-    // Update sidebar navigation active items
-    const navChatGpt = document.getElementById('navChatGptBtn');
     const navBis = document.getElementById('navBisBtn');
-    if (this.activeMode === 'chatgpt') {
-      navChatGpt?.classList.add('active');
-      navBis?.classList.remove('active');
-    } else {
-      navBis?.classList.add('active');
-      navChatGpt?.classList.remove('active');
-    }
+    navBis?.classList.add('active');
 
     this.updateWelcomeUI();
 
     if (showNotification && window.app) {
-      const modeName = this.activeMode === 'chatgpt' ? '🌐 ChatGPT Universal AI' : '🏛️ BIS Standards Specialist';
-      window.app.showToast(`Active Mode: ${modeName}`, 'info');
+      window.app.showToast('Active Mode: 🏛️ BIS Standards Specialist', 'info');
     }
   }
 
   updateWelcomeUI() {
     if (!this.welcomeEl) return;
 
-    if (this.activeMode === 'chatgpt') {
-      this.welcomeEl.innerHTML = `
-        <div class="welcome-badge">
-          <span class="badge-icon">🌐</span>
-          <span>ChatGPT Universal AI — Ask Anything Across All Topics</span>
-        </div>
-        <h1 class="welcome-heading">How can I help you today?</h1>
-        <p class="welcome-desc">
-          Ask me anything! Python & JavaScript code, math calculations, science explanations, essay writing, leave emails, brainstorming, and everyday problem-solving.
-        </p>
-        <div class="prompt-chips">
-          <button class="chip" data-prompt="Write a python function to check if a string is palindrome with two-pointer approach.">
-            <span class="chip-icon">💻</span>
-            <div>
-              <strong>Python Palindrome Code</strong>
-              <span>Clean Two-Pointer Algorithm & Regex</span>
-            </div>
-          </button>
-          <button class="chip" data-prompt="Explain Machine Learning, Supervised vs Unsupervised learning, and the ML training workflow in detail.">
-            <span class="chip-icon">🧠</span>
-            <div>
-              <strong>Machine Learning Deep Dive</strong>
-              <span>Supervised, Unsupervised & RL</span>
-            </div>
-          </button>
-          <button class="chip" data-prompt="Draft a professional 1-day casual leave email to my manager for personal reasons.">
-            <span class="chip-icon">✍️</span>
-            <div>
-              <strong>Casual Leave Email</strong>
-              <span>Office Email Format with Handover</span>
-            </div>
-          </button>
-          <button class="chip" data-prompt="Explain Quantum Computing, Superposition, and Qubits in simple terms.">
-            <span class="chip-icon">⚛️</span>
-            <div>
-              <strong>Quantum Computing</strong>
-              <span>Superposition, Qubits & Applications</span>
-            </div>
-          </button>
-          <button class="chip" data-prompt="What is 15% of 8500 and how is it calculated?">
-            <span class="chip-icon">🧮</span>
-            <div>
-              <strong>Math & Percentage</strong>
-              <span>Fast Arithmetic & Formula Breakdown</span>
-            </div>
-          </button>
-          <button class="chip" data-prompt="Give me 3 innovative AI startup business ideas with target audience and monetization models.">
-            <span class="chip-icon">💡</span>
-            <div>
-              <strong>3 Startup Business Ideas</strong>
-              <span>Tech Innovation & Revenue Models</span>
-            </div>
-          </button>
-        </div>
-      `;
-      if (this.inputEl) {
-        this.inputEl.placeholder = "Ask anything (e.g. Write Python code, solve math, draft an email, explain a concept)...";
-      }
-    } else {
-      this.welcomeEl.innerHTML = `
-        <div class="welcome-badge">
-          <span class="badge-icon">🏛️</span>
-          <span>Bureau of Indian Standards (BIS) — Official Compliance AI</span>
-        </div>
-        <h1 class="welcome-heading">BIS Standards & Quality Compliance</h1>
-        <p class="welcome-desc">
-          Official guidance for Indian Standards (IS), mandatory certification schemes, test parameters, and NABL accredited laboratories.
-        </p>
-        <div class="prompt-chips">
-          <button class="chip" data-prompt="I want to manufacture an electric kettle. What BIS requirements must my product satisfy under IS 302-2-15, what tests are required, and which laboratory can test it?">
-            <span class="chip-icon">⚡</span>
-            <div>
-              <strong>Electric Kettle (IS 302-2-15)</strong>
-              <span>Safety Tests, Scheme I, Lab Directory</span>
-            </div>
-          </button>
-          <button class="chip" data-prompt="What are the mandatory testing and licensing steps to setup a Packaged Drinking Water bottling plant under IS 14543?">
-            <span class="chip-icon">💧</span>
-            <div>
-              <strong>Packaged Drinking Water</strong>
-              <span>IS 14543, FSSAI-BIS Mandate, In-house Lab</span>
-            </div>
-          </button>
-          <button class="chip" data-prompt="What is the Compulsory Registration Scheme (CRS) process and tests for Lithium-ion battery packs under IS 16046?">
-            <span class="chip-icon">🔋</span>
-            <div>
-              <strong>Lithium-ion Battery (CRS)</strong>
-              <span>IS 16046 Part 2, MeitY Order, R-Number</span>
-            </div>
-          </button>
-          <button class="chip" data-prompt="What are the helmet testing parameters, QCO orders, and mandatory ISI mark rules under IS 4151?">
-            <span class="chip-icon">🪖</span>
-            <div>
-              <strong>Protective Helmets (IS 4151)</strong>
-              <span>QCO Mandate, Impact Tests, Penalties</span>
-            </div>
-          </button>
-          <button class="chip" data-prompt="How do MSME and startup manufacturers get the 50% concession on BIS marking and application fees?">
-            <span class="chip-icon">💰</span>
-            <div>
-              <strong>MSME 50% Fee Concession</strong>
-              <span>Udyam Benefits & Marking Fee Rules</span>
-            </div>
-          </button>
-          <button class="chip" data-prompt="What is the difference between Scheme I (ISI Mark) and Scheme II (CRS) under BIS Act 2016?">
-            <span class="chip-icon">🏭</span>
-            <div>
-              <strong>Scheme I vs Scheme II Process</strong>
-              <span>Licensing Steps, Factory Audit & CRS</span>
-            </div>
-          </button>
-        </div>
-      `;
-      if (this.inputEl) {
-        this.inputEl.placeholder = "Ask about Indian Standards (IS), QCOs, testing requirements, or certification...";
-      }
+    this.welcomeEl.innerHTML = `
+      <div class="welcome-badge">
+        <span class="badge-icon">🏛️</span>
+        <span>Bureau of Indian Standards (BIS) — Official Compliance AI</span>
+      </div>
+      <h1 class="welcome-heading">BIS Standards & Quality Compliance</h1>
+      <p class="welcome-desc">
+        Official guidance for Indian Standards (IS), mandatory certification schemes, test parameters, and NABL accredited laboratories.
+      </p>
+      <div class="prompt-chips">
+        <button class="chip" data-prompt="I want to manufacture an electric kettle. What BIS requirements must my product satisfy under IS 302-2-15, what tests are required, and which laboratory can test it?">
+          <span class="chip-icon">⚡</span>
+          <div>
+            <strong>Electric Kettle (IS 302-2-15)</strong>
+            <span>Safety Tests, Scheme I, Lab Directory</span>
+          </div>
+        </button>
+        <button class="chip" data-prompt="What are the mandatory testing and licensing steps to setup a Packaged Drinking Water bottling plant under IS 14543?">
+          <span class="chip-icon">💧</span>
+          <div>
+            <strong>Packaged Drinking Water</strong>
+            <span>IS 14543, FSSAI-BIS Mandate, In-house Lab</span>
+          </div>
+        </button>
+        <button class="chip" data-prompt="What is the Compulsory Registration Scheme (CRS) process and tests for Lithium-ion battery packs under IS 16046?">
+          <span class="chip-icon">🔋</span>
+          <div>
+            <strong>Lithium-ion Battery (CRS)</strong>
+            <span>IS 16046 Part 2, MeitY Order, R-Number</span>
+          </div>
+        </button>
+        <button class="chip" data-prompt="What are the helmet testing parameters, QCO orders, and mandatory ISI mark rules under IS 4151?">
+          <span class="chip-icon">🪖</span>
+          <div>
+            <strong>Protective Helmets (IS 4151)</strong>
+            <span>QCO Mandate, Impact Tests, Penalties</span>
+          </div>
+        </button>
+        <button class="chip" data-prompt="How do MSME and startup manufacturers get the 50% concession on BIS marking and application fees?">
+          <span class="chip-icon">💰</span>
+          <div>
+            <strong>MSME 50% Fee Concession</strong>
+            <span>Udyam Benefits & Marking Fee Rules</span>
+          </div>
+        </button>
+        <button class="chip" data-prompt="What is the difference between Scheme I (ISI Mark) and Scheme II (CRS) under BIS Act 2016?">
+          <span class="chip-icon">🏭</span>
+          <div>
+            <strong>Scheme I vs Scheme II Process</strong>
+            <span>Licensing Steps, Factory Audit & CRS</span>
+          </div>
+        </button>
+      </div>
+    `;
+    if (this.inputEl) {
+      this.inputEl.placeholder = "Ask about Indian Standards (IS), QCOs, testing requirements, or certification...";
     }
 
     // Attach click listeners to chips

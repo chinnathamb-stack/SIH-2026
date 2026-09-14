@@ -43,14 +43,10 @@
 
       <!-- Navigation Menu -->
       <nav class="sidebar-nav">
-        <div class="nav-section-title">AI CHAT MODES</div>
-        <button class="nav-item active" data-view="chatView" data-chat-mode="chatgpt" id="navChatGptBtn">
-          <span class="nav-mode-icon">🌐</span>
-          <span style="font-weight: 600;">ChatGPT Universal AI</span>
-        </button>
-        <button class="nav-item" data-view="chatView" data-chat-mode="bis" id="navBisBtn">
+        <div class="nav-section-title">AI ASSISTANT</div>
+        <button class="nav-item active" data-view="chatView" id="navBisBtn">
           <span class="nav-mode-icon">🏛️</span>
-          <span style="font-weight: 600;">BIS Specialist AI</span>
+          <span style="font-weight: 600;">BIS Standards AI</span>
         </button>
 
         <div class="nav-section-title" data-i18n="workspace" style="margin-top: 14px;">STANDARDS WORKSPACE</div>
@@ -106,17 +102,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
           
-          <!-- Prominent 2-Chat Mode Segmented Switcher in Topbar -->
-          <div class="chat-mode-segmented-control" id="chatModeSegmentedControl">
-            <button type="button" class="mode-tab-btn active" data-mode="chatgpt" id="tabModeChatGpt">
-              <span class="mode-tab-emoji">🌐</span>
-              <span class="mode-tab-title">ChatGPT (Universal AI)</span>
-            </button>
-            <button type="button" class="mode-tab-btn" data-mode="bis" id="tabModeBis">
-              <span class="mode-tab-emoji">🏛️</span>
-              <span class="mode-tab-title">BIS Standards Specialist</span>
-            </button>
-          </div>
+          <span class="current-view-title" id="viewTitle">BIS AI Intelligent Assistant</span>
         </div>
 
         <div class="topbar-right">
@@ -176,37 +162,16 @@
             <!-- Hero Welcome Card (Shown when chat is empty) -->
             <div class="chat-welcome" id="chatWelcome">
               <div class="welcome-badge">
-                <span class="badge-icon">🤖</span>
-                <span>ChatGPT-Powered AI Assistant & BIS Standards Specialist</span>
+                <span class="badge-icon">🏛️</span>
+                <span>Bureau of Indian Standards (BIS) — Official Compliance AI</span>
               </div>
-              <h1 class="welcome-heading" data-i18n="welcome_title">How can I help you today?</h1>
+              <h1 class="welcome-heading" data-i18n="welcome_title">BIS Standards & Quality Compliance</h1>
               <p class="welcome-desc" data-i18n="welcome_sub">
-                Ask me anything! Code generation, mathematical problem-solving, science concepts, essay drafting, general knowledge, or official Bureau of Indian Standards (BIS) product compliance.
+                Official guidance for Indian Standards (IS), mandatory certification schemes, test parameters, and NABL accredited laboratories.
               </p>
 
               <!-- Example Prompt Chips -->
               <div class="prompt-chips">
-                <button class="chip" data-prompt="Write a Python script to scrape news headlines from a website with proper error handling and JSON export.">
-                  <span class="chip-icon">💻</span>
-                  <div>
-                    <strong>Python Web Scraper</strong>
-                    <span>BeautifulSoup, Requests, JSON Export</span>
-                  </div>
-                </button>
-                <button class="chip" data-prompt="Explain Quantum Computing, Superposition, and Qubits in simple terms with real-world examples.">
-                  <span class="chip-icon">⚛️</span>
-                  <div>
-                    <strong>Quantum Computing</strong>
-                    <span>Superposition, Entanglement, Real-world Uses</span>
-                  </div>
-                </button>
-                <button class="chip" data-prompt="Draft a formal email to my manager requesting 2 days of sick leave due to fever.">
-                  <span class="chip-icon">✍️</span>
-                  <div>
-                    <strong>Leave Application Email</strong>
-                    <span>Professional Format, Task Handover</span>
-                  </div>
-                </button>
                 <button class="chip" data-prompt="I want to manufacture an electric kettle. What BIS requirements must my product satisfy under IS 302-2-15, what tests are required, and which laboratory can test it?">
                   <span class="chip-icon">⚡</span>
                   <div>
@@ -226,6 +191,27 @@
                   <div>
                     <strong>Lithium-ion Battery (CRS)</strong>
                     <span>IS 16046 Part 2, MeitY Order, R-Number</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="What are the helmet testing parameters, QCO orders, and mandatory ISI mark rules under IS 4151?">
+                  <span class="chip-icon">🪖</span>
+                  <div>
+                    <strong>Protective Helmets (IS 4151)</strong>
+                    <span>QCO Mandate, Impact Tests, Penalties</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="How do MSME and startup manufacturers get the 50% concession on BIS marking and application fees?">
+                  <span class="chip-icon">💰</span>
+                  <div>
+                    <strong>MSME 50% Fee Concession</strong>
+                    <span>Udyam Benefits & Marking Fee Rules</span>
+                  </div>
+                </button>
+                <button class="chip" data-prompt="What is the difference between Scheme I (ISI Mark) and Scheme II (CRS) under BIS Act 2016?">
+                  <span class="chip-icon">🏭</span>
+                  <div>
+                    <strong>Scheme I vs Scheme II Process</strong>
+                    <span>Licensing Steps, Factory Audit & CRS</span>
                   </div>
                 </button>
               </div>

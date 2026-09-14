@@ -7281,5 +7281,656 @@
       }
     ],
     "updated_at": "2026-09-04T07:09:09.358Z"
+  },
+  {
+    "id": "conv_1788589030595",
+    "title": "hii",
+    "created_at": "2026-09-05T06:21:04.393Z",
+    "messages": [
+      {
+        "id": "msg_user_1788589264394",
+        "role": "user",
+        "text": "hii",
+        "timestamp": "2026-09-05T06:21:04.394Z"
+      },
+      {
+        "id": "msg_asst_1788589264394",
+        "role": "assistant",
+        "text": "Hey there! 😊 Great to connect with you! I'm your friendly **BIS AI Intelligent Assistant** — think of me as your dedicated guide for everything related to Indian Standards, quality certifications, and testing in India. 🇮🇳\n\n### How I can help you today:\n- 🔍 **Find Applicable Indian Standards (IS):** Inquire about compliance for any product (Electric Kettles, Packaged Water, Helmets, Lithium-ion Batteries, Cement, Steel, Toys, Footwear, Cables, Solar).\n- 📜 **Certification Roadmaps:** Step-by-step navigation for **Scheme I (ISI Mark)**, **Scheme II (CRS)**, and **FMCS (Foreign Manufacturers)**.\n- 🧪 **Testing Protocols & SIT:** Mandatory quality and safety limits, in-house laboratory setup, and test frequencies.\n- 🔬 **Find Recognized Labs (LIMS):** Match testing centers across India for your specific product.\n- 💰 **Fees & Concessions:** Accurate fee breakdown with **50% MSME/Startup discounts**.\n- 🏷️ **Gold Hallmarking & HUID:** Consumer and jeweller verification guidelines.\n\nWhat product or project are you working on today? Feel free to ask anything, or click one of the quick topics below! 👇",
+        "payload": {
+          "conversation_id": "conv_1788589030595",
+          "intent": "greeting",
+          "needs_clarification": false,
+          "clarification_questions": [],
+          "answer": "Hey there! 😊 Great to connect with you! I'm your friendly **BIS AI Intelligent Assistant** — think of me as your dedicated guide for everything related to Indian Standards, quality certifications, and testing in India. 🇮🇳\n\n### How I can help you today:\n- 🔍 **Find Applicable Indian Standards (IS):** Inquire about compliance for any product (Electric Kettles, Packaged Water, Helmets, Lithium-ion Batteries, Cement, Steel, Toys, Footwear, Cables, Solar).\n- 📜 **Certification Roadmaps:** Step-by-step navigation for **Scheme I (ISI Mark)**, **Scheme II (CRS)**, and **FMCS (Foreign Manufacturers)**.\n- 🧪 **Testing Protocols & SIT:** Mandatory quality and safety limits, in-house laboratory setup, and test frequencies.\n- 🔬 **Find Recognized Labs (LIMS):** Match testing centers across India for your specific product.\n- 💰 **Fees & Concessions:** Accurate fee breakdown with **50% MSME/Startup discounts**.\n- 🏷️ **Gold Hallmarking & HUID:** Consumer and jeweller verification guidelines.\n\nWhat product or project are you working on today? Feel free to ask anything, or click one of the quick topics below! 👇",
+          "suggested_followups": [
+            "I want to manufacture an Electric Kettle (IS 302-2-15)",
+            "Packaged Drinking Water plant setup under IS 14543",
+            "Lithium-ion Battery testing under CRS (IS 16046)",
+            "Two-Wheeler Helmet safety requirements (IS 4151)",
+            "What are the BIS license fees & MSME 50% discount?",
+            "What is the difference between ISI Mark and CRS Registration?"
+          ],
+          "product": null,
+          "standards": [],
+          "requirements": [],
+          "tests": [],
+          "laboratories": [],
+          "citations": [],
+          "official_actions": [
+            {
+              "title": "Manakonline (e-BIS Portal)",
+              "portal": "e-BIS",
+              "url": "https://www.manakonline.in/",
+              "action_type": "online_application"
+            },
+            {
+              "title": "Know Your Standard (KYS)",
+              "portal": "BIS KYS",
+              "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails",
+              "action_type": "document_download"
+            }
+          ],
+          "limitations": []
+        },
+        "timestamp": "2026-09-05T06:21:04.394Z"
+      },
+      {
+        "id": "msg_user_1788589274534",
+        "role": "user",
+        "text": "what is BIS",
+        "timestamp": "2026-09-05T06:21:14.534Z"
+      },
+      {
+        "id": "msg_asst_1788589274534",
+        "role": "assistant",
+        "text": "### 🏛️ What is the Bureau of Indian Standards (BIS)?\n\nThe **Bureau of Indian Standards (BIS)** is the **National Standards Body of India**, established under the **Bureau of Indian Standards Act, 2016** under the Ministry of Consumer Affairs, Food & Public Distribution, Government of India.\n\n---\n\n### 🔑 Core Roles and Mandate:\n1. **Standardization:** Formulates and publishes **Indian Standards (IS)** across all technical sectors (Engineering, Electronics, Chemicals, Food, Civil, Medical).\n2. **Conformity Assessment & ISI Mark (Scheme I):** Grants licences to domestic and international manufacturers allowing them to use the prestigious **ISI Mark** on compliant products.\n3. **Mandatory Quality Control Orders (QCO):** Enforces mandatory quality standards across 650+ critical consumer and industrial items (e.g. Helmets, Toys, Packaged Drinking Water, Steel, Cement, Electrical Appliances).\n4. **Hallmarking of Gold & Silver:** Operates mandatory Hallmarking with 6-digit **HUID** (Hallmark Unique Identification) ensuring purity of precious jewellery.\n5. **Compulsory Registration Scheme (CRS - Scheme II):** Regulates electronics, IT goods, and solar products via self-declaration based on testing in recognized laboratories.\n6. **Laboratory Testing & LIMS:** Operates central, regional, and branch testing laboratories and empanels NABL-accredited labs across India.\n7. **Consumer Protection & Verification:** Enables consumers to verify licences, check HUID authenticity, and lodge grievances via the **BIS CARE App**.\n\n---\n\n### 🌐 Official Portals & Services:\n* **BIS Main Website:** [https://www.bis.gov.in](https://www.bis.gov.in)\n* **Standards Discovery (KYS):** [Know Your Standard Portal](https://standards.bis.gov.in/website/know-your-standards)\n* **Online Manufacturer Portal (e-BIS):** [Manakonline](https://www.manakonline.in/MANAK/ConformityAssessment)\n* **Laboratory Search (LIMS):** [BIS LIMS](https://lims.bis.gov.in/)",
+        "payload": {
+          "conversation_id": "conv_1788589030595",
+          "intent": "bis_general_guidance",
+          "answer": "### 🏛️ What is the Bureau of Indian Standards (BIS)?\n\nThe **Bureau of Indian Standards (BIS)** is the **National Standards Body of India**, established under the **Bureau of Indian Standards Act, 2016** under the Ministry of Consumer Affairs, Food & Public Distribution, Government of India.\n\n---\n\n### 🔑 Core Roles and Mandate:\n1. **Standardization:** Formulates and publishes **Indian Standards (IS)** across all technical sectors (Engineering, Electronics, Chemicals, Food, Civil, Medical).\n2. **Conformity Assessment & ISI Mark (Scheme I):** Grants licences to domestic and international manufacturers allowing them to use the prestigious **ISI Mark** on compliant products.\n3. **Mandatory Quality Control Orders (QCO):** Enforces mandatory quality standards across 650+ critical consumer and industrial items (e.g. Helmets, Toys, Packaged Drinking Water, Steel, Cement, Electrical Appliances).\n4. **Hallmarking of Gold & Silver:** Operates mandatory Hallmarking with 6-digit **HUID** (Hallmark Unique Identification) ensuring purity of precious jewellery.\n5. **Compulsory Registration Scheme (CRS - Scheme II):** Regulates electronics, IT goods, and solar products via self-declaration based on testing in recognized laboratories.\n6. **Laboratory Testing & LIMS:** Operates central, regional, and branch testing laboratories and empanels NABL-accredited labs across India.\n7. **Consumer Protection & Verification:** Enables consumers to verify licences, check HUID authenticity, and lodge grievances via the **BIS CARE App**.\n\n---\n\n### 🌐 Official Portals & Services:\n* **BIS Main Website:** [https://www.bis.gov.in](https://www.bis.gov.in)\n* **Standards Discovery (KYS):** [Know Your Standard Portal](https://standards.bis.gov.in/website/know-your-standards)\n* **Online Manufacturer Portal (e-BIS):** [Manakonline](https://www.manakonline.in/MANAK/ConformityAssessment)\n* **Laboratory Search (LIMS):** [BIS LIMS](https://lims.bis.gov.in/)",
+          "suggested_followups": [
+            "How to apply for ISI Mark on Manakonline?",
+            "What products are under mandatory QCO?",
+            "How does Gold Hallmarking HUID work?",
+            "Tell me about 50% MSME fee discount"
+          ],
+          "official_actions": [
+            {
+              "title": "BIS Main Portal",
+              "portal": "BIS Official",
+              "url": "https://www.bis.gov.in/?lang=en",
+              "action_type": "online_application"
+            },
+            {
+              "title": "Know Your Standard (KYS)",
+              "portal": "BIS KYS",
+              "url": "https://standards.bis.gov.in/website/know-your-standards",
+              "action_type": "document_download"
+            },
+            {
+              "title": "Manakonline e-BIS",
+              "portal": "e-BIS",
+              "url": "https://www.manakonline.in/",
+              "action_type": "online_application"
+            }
+          ]
+        },
+        "timestamp": "2026-09-05T06:21:14.534Z"
+      },
+      {
+        "id": "msg_user_1788589306900",
+        "role": "user",
+        "text": "i need in understandable form",
+        "timestamp": "2026-09-05T06:21:46.900Z"
+      },
+      {
+        "id": "msg_asst_1788589306900",
+        "role": "assistant",
+        "text": "I hear you! 😊 \n\nTell me a bit more about what you're thinking or what you'd like to do! Whether you'd like to:\n- 💡 **Learn or discuss something exciting**\n- 🎮 **Play a trivia game or riddle**\n- 💻 **Work on a coding or technical problem**\n- ✍️ **Write or edit a document or creative piece**\n\nI'm ready whenever you are—what should we dive into?",
+        "payload": {
+          "conversation_id": "conv_1788589030595",
+          "intent": "chatgpt_conversational_reasoning",
+          "answer": "I hear you! 😊 \n\nTell me a bit more about what you're thinking or what you'd like to do! Whether you'd like to:\n- 💡 **Learn or discuss something exciting**\n- 🎮 **Play a trivia game or riddle**\n- 💻 **Work on a coding or technical problem**\n- ✍️ **Write or edit a document or creative piece**\n\nI'm ready whenever you are—what should we dive into?",
+          "suggested_followups": [
+            "Tell me a fun fact",
+            "Can you write a Python script?",
+            "Help me brainstorm ideas",
+            "Tell me a story"
+          ]
+        },
+        "timestamp": "2026-09-05T06:21:46.900Z"
+      },
+      {
+        "id": "msg_user_1788589323187",
+        "role": "user",
+        "text": "what is learn",
+        "timestamp": "2026-09-05T06:22:03.187Z"
+      },
+      {
+        "id": "msg_asst_1788589323187",
+        "role": "assistant",
+        "text": "I hear you! 😊 \n\nTell me a bit more about what you're thinking or what you'd like to do! Whether you'd like to:\n- 💡 **Learn or discuss something exciting**\n- 🎮 **Play a trivia game or riddle**\n- 💻 **Work on a coding or technical problem**\n- ✍️ **Write or edit a document or creative piece**\n\nI'm ready whenever you are—what should we dive into?",
+        "payload": {
+          "conversation_id": "conv_1788589030595",
+          "intent": "chatgpt_conversational_reasoning",
+          "answer": "I hear you! 😊 \n\nTell me a bit more about what you're thinking or what you'd like to do! Whether you'd like to:\n- 💡 **Learn or discuss something exciting**\n- 🎮 **Play a trivia game or riddle**\n- 💻 **Work on a coding or technical problem**\n- ✍️ **Write or edit a document or creative piece**\n\nI'm ready whenever you are—what should we dive into?",
+          "suggested_followups": [
+            "Tell me a fun fact",
+            "Can you write a Python script?",
+            "Help me brainstorm ideas",
+            "Tell me a story"
+          ]
+        },
+        "timestamp": "2026-09-05T06:22:03.187Z"
+      }
+    ],
+    "updated_at": "2026-09-05T06:22:03.187Z"
+  },
+  {
+    "id": "test_conv_5000",
+    "title": "vanakkam",
+    "created_at": "2026-09-06T09:03:11.745Z",
+    "messages": [
+      {
+        "id": "msg_user_1788685393096",
+        "role": "user",
+        "text": "vanakkam",
+        "timestamp": "2026-09-06T09:03:13.096Z"
+      },
+      {
+        "id": "msg_asst_1788685393096",
+        "role": "assistant",
+        "text": "Vanakkam! எப்படி இருக்கிறீர்கள்? 😊",
+        "payload": {
+          "conversation_id": "test_conv_5000",
+          "message_id": "msg_k74t233",
+          "answer": "Vanakkam! எப்படி இருக்கிறீர்கள்? 😊",
+          "citations": [],
+          "related_standards": [],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T09:03:13.096Z"
+      },
+      {
+        "id": "msg_user_1788685394524",
+        "role": "user",
+        "text": "What is the first law of thermodynamics with KaTeX equation?",
+        "timestamp": "2026-09-06T09:03:14.524Z"
+      },
+      {
+        "id": "msg_asst_1788685394524",
+        "role": "assistant",
+        "text": "### First Law of Thermodynamics  \n\n- **Statement**: Energy cannot be created or destroyed; it can only be transferred or transformed. In a closed system, the change in internal energy equals the heat added to the system minus the work done by the system.  \n\n- **Mathematical form (KaTeX)**  \n\n\\[\n\\Delta U = Q - W\n\\]\n\n  - \\( \\Delta U \\) - change in internal energy of the system  \n  - \\( Q \\) - heat supplied to the system (positive when added)  \n  - \\( W \\) - work done by the system on its surroundings (positive when done)  \n\n- **Key implication**: Any heat supplied to a system either raises its internal energy or is used to perform work; conversely, work done on the system increases its internal energy.",
+        "payload": {
+          "conversation_id": "test_conv_5000",
+          "message_id": "msg_anr9a83",
+          "answer": "### First Law of Thermodynamics  \n\n- **Statement**: Energy cannot be created or destroyed; it can only be transferred or transformed. In a closed system, the change in internal energy equals the heat added to the system minus the work done by the system.  \n\n- **Mathematical form (KaTeX)**  \n\n\\[\n\\Delta U = Q - W\n\\]\n\n  - \\( \\Delta U \\) - change in internal energy of the system  \n  - \\( Q \\) - heat supplied to the system (positive when added)  \n  - \\( W \\) - work done by the system on its surroundings (positive when done)  \n\n- **Key implication**: Any heat supplied to a system either raises its internal energy or is used to perform work; conversely, work done on the system increases its internal energy.",
+          "citations": [],
+          "related_standards": [],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T09:03:14.524Z"
+      },
+      {
+        "id": "msg_user_1788685396046",
+        "role": "user",
+        "text": "Which standard applies to electric water heaters and geysers?",
+        "timestamp": "2026-09-06T09:03:16.046Z"
+      },
+      {
+        "id": "msg_asst_1788685396046",
+        "role": "assistant",
+        "text": "### Applicable Indian Standard  \n\n- **IS 302-2-15:2009** - *Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)*  \n\n  - Covers safety requirements for **electric water heaters and geysers** used in households, provided the rated voltage does not exceed **250 V**.  \n\n- **IS 14543:2024** - *Packaged Drinking Water* - **Not relevant** to the safety or design of water-heating appliances; it deals only with drinking-water specifications.  \n\n**Bottom line:** For electric water heaters and geysers, refer to **IS 302-2-15:2009 (General Requirements - Section: Electrical & Electronics).**",
+        "payload": {
+          "conversation_id": "test_conv_5000",
+          "message_id": "msg_15cf70i",
+          "answer": "### Applicable Indian Standard  \n\n- **IS 302-2-15:2009** - *Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)*  \n\n  - Covers safety requirements for **electric water heaters and geysers** used in households, provided the rated voltage does not exceed **250 V**.  \n\n- **IS 14543:2024** - *Packaged Drinking Water* - **Not relevant** to the safety or design of water-heating appliances; it deals only with drinking-water specifications.  \n\n**Bottom line:** For electric water heaters and geysers, refer to **IS 302-2-15:2009 (General Requirements - Section: Electrical & Electronics).**",
+          "citations": [
+            {
+              "standard_number": "IS 302-2-15: 2009",
+              "document_title": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)",
+              "clause": "General Requirements",
+              "section": "Electrical & Electronics",
+              "page": 1,
+              "source_type": "BIS Official Standard"
+            },
+            {
+              "standard_number": "IS 14543: 2024",
+              "document_title": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification",
+              "clause": "General Requirements",
+              "section": "Food & Agriculture",
+              "page": 1,
+              "source_type": "BIS Official Standard"
+            }
+          ],
+          "related_standards": [
+            "IS 302-2",
+            "IS 14543:2024",
+            "IS 302-2-15: 2009"
+          ],
+          "suggested_followups": [
+            "What are the mandatory safety tests under IS 2082:2018?",
+            "What is the difference between IS 302-2-21 and IS 2082?",
+            "Find testing labs for water heaters in Delhi/NCR"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T09:03:16.046Z"
+      },
+      {
+        "id": "msg_user_1788685397245",
+        "role": "user",
+        "text": "Write a python function to compute factorial recursively.",
+        "timestamp": "2026-09-06T09:03:17.245Z"
+      },
+      {
+        "id": "msg_asst_1788685397245",
+        "role": "assistant",
+        "text": "### Recursive factorial in Python\n\n```python\ndef factorial(n: int) -> int:\n    \"\"\"\n    Return n! using recursion.\n    Raises ValueError for negative inputs.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"Factorial is undefined for negative numbers\")\n    if n in (0, 1):          # base case\n        return 1\n    return n * factorial(n - 1)   # recursive step\n```\n\n*Usage example*\n\n```python\nprint(factorial(5))   # 120\n```",
+        "payload": {
+          "conversation_id": "test_conv_5000",
+          "message_id": "msg_lao6mr2",
+          "answer": "### Recursive factorial in Python\n\n```python\ndef factorial(n: int) -> int:\n    \"\"\"\n    Return n! using recursion.\n    Raises ValueError for negative inputs.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"Factorial is undefined for negative numbers\")\n    if n in (0, 1):          # base case\n        return 1\n    return n * factorial(n - 1)   # recursive step\n```\n\n*Usage example*\n\n```python\nprint(factorial(5))   # 120\n```",
+          "citations": [],
+          "related_standards": [],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T09:03:17.245Z"
+      },
+      {
+        "id": "msg_user_1788702995944",
+        "role": "user",
+        "text": "hii",
+        "timestamp": "2026-09-06T13:56:35.944Z"
+      },
+      {
+        "id": "msg_asst_1788702995944",
+        "role": "assistant",
+        "text": "Hi! How can I help you today?",
+        "payload": {
+          "conversation_id": "test_conv_5000",
+          "message_id": "msg_qxnb04x",
+          "answer": "Hi! How can I help you today?",
+          "citations": [],
+          "related_standards": [],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T13:56:35.944Z"
+      },
+      {
+        "id": "msg_user_1788703007671",
+        "role": "user",
+        "text": "what is BIS care APP",
+        "timestamp": "2026-09-06T13:56:47.671Z"
+      },
+      {
+        "id": "msg_asst_1788703007671",
+        "role": "assistant",
+        "text": "### BIS CARE App - Overview\n\n- **Purpose** - A mobile application launched by the Bureau of Indian Standards (BIS) to help consumers verify the authenticity of BIS-marked products, file complaints, and access safety-related information.  \n- **Key Features**  \n  1. **QR/Barcode Scan** - Scan the BIS logo or product code to instantly check if the item is certified under the relevant Indian Standard (e.g., **IS 2082:2018** for water heaters, **IS 12258:2021** for pressure cookers).  \n  2. **Complaint Registration** - Report non-conforming or counterfeit goods directly from the app; BIS then initiates investigation.  \n  3. **Product Database** - Browse a searchable list of standards-covered products, their specifications, and the mandatory IS numbers.  \n  4. **Safety Alerts & Notices** - Receive push notifications about recalls, safety advisories, and updates to standards.  \n  5. **Help & Support** - Access FAQs, contact BIS regional offices, and view guidelines for product certification.  \n\n- **How to Get It** - Available for free on **Google Play Store** and **Apple App Store** under the name **“BIS CARE”**.  \n\nThe app empowers consumers to make informed buying decisions and strengthens the overall quality-control ecosystem in India.",
+        "payload": {
+          "conversation_id": "test_conv_5000",
+          "message_id": "msg_ygk2b8m",
+          "answer": "### BIS CARE App - Overview\n\n- **Purpose** - A mobile application launched by the Bureau of Indian Standards (BIS) to help consumers verify the authenticity of BIS-marked products, file complaints, and access safety-related information.  \n- **Key Features**  \n  1. **QR/Barcode Scan** - Scan the BIS logo or product code to instantly check if the item is certified under the relevant Indian Standard (e.g., **IS 2082:2018** for water heaters, **IS 12258:2021** for pressure cookers).  \n  2. **Complaint Registration** - Report non-conforming or counterfeit goods directly from the app; BIS then initiates investigation.  \n  3. **Product Database** - Browse a searchable list of standards-covered products, their specifications, and the mandatory IS numbers.  \n  4. **Safety Alerts & Notices** - Receive push notifications about recalls, safety advisories, and updates to standards.  \n  5. **Help & Support** - Access FAQs, contact BIS regional offices, and view guidelines for product certification.  \n\n- **How to Get It** - Available for free on **Google Play Store** and **Apple App Store** under the name **“BIS CARE”**.  \n\nThe app empowers consumers to make informed buying decisions and strengthens the overall quality-control ecosystem in India.",
+          "citations": [],
+          "related_standards": [
+            "IS 2082:2018",
+            "IS 12258:2021"
+          ],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T13:56:47.671Z"
+      },
+      {
+        "id": "msg_user_1788703025757",
+        "role": "user",
+        "text": "what is BIS",
+        "timestamp": "2026-09-06T13:57:05.757Z"
+      },
+      {
+        "id": "msg_asst_1788703025757",
+        "role": "assistant",
+        "text": "### Bureau of Indian Standards (BIS) - Quick Snapshot\n\n- **What it is**  \n  - The national body for **standardisation, certification, and quality promotion** in India, operating under the Ministry of Consumer Affairs, Food & Public Distribution.  \n\n- **Core Functions**  \n  1. **Develop & publish Indian Standards (IS)** - e.g., **IS 2082:2018** (electric water heaters), **IS 12258:2021** (pressure cookers).  \n  2. **Conformity assessment & certification** - grants the **BIS Mark** to products that meet the relevant IS.  \n  3. **Testing & calibration labs** - provide accredited testing services for manufacturers.  \n  4. **Consumer protection** - runs the **BIS CARE** app, complaint redressal, and product recall alerts.  \n\n- **Why it matters**  \n  - Ensures safety, reliability, and quality of goods and services in India.  \n  - Helps Indian manufacturers compete globally by aligning with internationally recognized best practices.  \n\nFeel free to ask about a specific standard, certification process, or how to use the BIS CARE app!",
+        "payload": {
+          "conversation_id": "test_conv_5000",
+          "message_id": "msg_3njh54m",
+          "answer": "### Bureau of Indian Standards (BIS) - Quick Snapshot\n\n- **What it is**  \n  - The national body for **standardisation, certification, and quality promotion** in India, operating under the Ministry of Consumer Affairs, Food & Public Distribution.  \n\n- **Core Functions**  \n  1. **Develop & publish Indian Standards (IS)** - e.g., **IS 2082:2018** (electric water heaters), **IS 12258:2021** (pressure cookers).  \n  2. **Conformity assessment & certification** - grants the **BIS Mark** to products that meet the relevant IS.  \n  3. **Testing & calibration labs** - provide accredited testing services for manufacturers.  \n  4. **Consumer protection** - runs the **BIS CARE** app, complaint redressal, and product recall alerts.  \n\n- **Why it matters**  \n  - Ensures safety, reliability, and quality of goods and services in India.  \n  - Helps Indian manufacturers compete globally by aligning with internationally recognized best practices.  \n\nFeel free to ask about a specific standard, certification process, or how to use the BIS CARE app!",
+          "citations": [],
+          "related_standards": [
+            "IS 2082:2018",
+            "IS 12258:2021"
+          ],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T13:57:05.757Z"
+      }
+    ],
+    "updated_at": "2026-09-06T13:57:05.757Z"
+  },
+  {
+    "id": "conv_1788685561978",
+    "title": "hi",
+    "created_at": "2026-09-06T09:06:08.689Z",
+    "messages": [
+      {
+        "id": "msg_user_1788685570077",
+        "role": "user",
+        "text": "hi",
+        "timestamp": "2026-09-06T09:06:10.077Z"
+      },
+      {
+        "id": "msg_asst_1788685570077",
+        "role": "assistant",
+        "text": "Hello! How can I assist you today?",
+        "payload": {
+          "conversation_id": "conv_1788685561978",
+          "message_id": "msg_0vbki46",
+          "answer": "Hello! How can I assist you today?",
+          "citations": [
+            {
+              "standard_number": "IS 16046 (Part 1 & 2): 2018",
+              "document_title": "Secondary Cells and Batteries Containing Alkaline or Other Non-Acid Electrolytes - Safety Requirements for Portable Sealed Secondary Cells/Batteries (Lithium Systems)",
+              "clause": "General Requirements",
+              "section": "Electronics & IT Goods (CRS)",
+              "page": 1,
+              "source_type": "BIS Official Standard"
+            }
+          ],
+          "related_standards": [
+            "IS 16046 (Part 1 & 2): 2018"
+          ],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T09:06:10.077Z"
+      },
+      {
+        "id": "msg_user_1788685589685",
+        "role": "user",
+        "text": "what is BIS",
+        "timestamp": "2026-09-06T09:06:29.686Z"
+      },
+      {
+        "id": "msg_asst_1788685589686",
+        "role": "assistant",
+        "text": "### Bureau of Indian Standards (BIS)\n\n- **National Standards Body** - The apex body for formulation, promotion, and implementation of standards in India, operating under the Ministry of Consumer Affairs, Food & Public Distribution.  \n- **Key Functions**  \n  - Develops Indian Standards (IS) covering products, services, processes, and systems.  \n  - Certifies products and issues the **ISI/BIS Mark** to indicate conformity with the relevant IS.  \n  - Conducts testing, inspection, and surveillance to ensure compliance and consumer safety.  \n- **Why It Matters**  \n  - Guarantees quality, safety, and reliability of goods sold in India.  \n  - Facilitates fair trade, protects consumer interests, and supports export competitiveness.",
+        "payload": {
+          "conversation_id": "conv_1788685561978",
+          "message_id": "msg_k47t15h",
+          "answer": "### Bureau of Indian Standards (BIS)\n\n- **National Standards Body** - The apex body for formulation, promotion, and implementation of standards in India, operating under the Ministry of Consumer Affairs, Food & Public Distribution.  \n- **Key Functions**  \n  - Develops Indian Standards (IS) covering products, services, processes, and systems.  \n  - Certifies products and issues the **ISI/BIS Mark** to indicate conformity with the relevant IS.  \n  - Conducts testing, inspection, and surveillance to ensure compliance and consumer safety.  \n- **Why It Matters**  \n  - Guarantees quality, safety, and reliability of goods sold in India.  \n  - Facilitates fair trade, protects consumer interests, and supports export competitiveness.",
+          "citations": [],
+          "related_standards": [],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T09:06:29.686Z"
+      }
+    ],
+    "updated_at": "2026-09-06T09:06:29.686Z"
+  },
+  {
+    "id": "conv_1788703371114",
+    "title": "Attached document: cooker.jpg. P",
+    "created_at": "2026-09-06T14:08:49.214Z",
+    "messages": [
+      {
+        "id": "msg_user_1788703732063",
+        "role": "user",
+        "text": "Attached document: cooker.jpg. Please inspect applicable Indian Standards and tests.",
+        "timestamp": "2026-09-06T14:08:52.063Z"
+      },
+      {
+        "id": "msg_asst_1788703732063",
+        "role": "assistant",
+        "text": "### Applicable Indian Standard  \n**IS 2347:2017** - *Domestic Pressure Cookers - Specification*  \n\n| Clause / Section | What it Covers | Typical Test / Requirement |\n|------------------|----------------|----------------------------|\n| **General Requirements** | Design, material (aluminium alloy / stainless steel), capacity ≤ 20 L | Visual inspection, dimensional check, material certification |\n| **Safety Valve & Pressure Relief** | Minimum opening pressure, flow capacity, re-seating | **Valve opening pressure test** - pressurise cooker until valve lifts; verify pressure ≤ rated value and flow ≥ specified rate |\n| **Gasket & Sealing** | Compatibility with food, compression set, temperature resistance | **Gasket compression test** - compress at operating temperature, check for leakage after 24 h |\n| **Maximum Working Pressure (MWP)** | Rated pressure for each size/capacity | **Hydrostatic pressure test** - apply 1.5 × MWP for 30 min, inspect for permanent deformation or leakage |\n| **Temperature Limits** | Upper temperature for body and lid | **Thermal cycling test** - heat to 130 °C, cool to 30 °C, repeat 10 cycles; examine for cracks or loss of seal |\n| **Markings & Instructions** | IS-mark, capacity, pressure rating, user manual | Visual verification of mandatory markings and legibility |\n| **Durability / Life Cycle** | Minimum number of pressure-fill cycles | **Cycle test** - 100 fill-heat-cool cycles at rated pressure; monitor for loss of performance |\n\n### Typical Inspection Checklist for the Cooker (from the image)\n\n1. **Construction Material** - Verify stainless-steel/aluminium alloy as per spec.  \n2. **Capacity Stamp** - Should be ≤ 20 L and clearly printed.  \n3. **Safety Valve** - Check for proper positioning, unobstructed flow path, and correct rating.  \n4. **Gasket Condition** - No cracks, proper fit, and food-grade material.  \n5. **Markings** - IS-mark, manufacturer details, pressure rating, and user instructions present.  \n6. **Lid Locking Mechanism** - Operates smoothly, locks securely, and releases only when pressure is safe.  \n\n### Recommended Tests (if you are a manufacturer or testing lab)\n\n- **Hydrostatic Pressure Test** (per IS 2347, Clause 5.2) - 1.5 × rated pressure, 30 min.  \n- **Safety Valve Opening Pressure** (Clause 5.3) - Verify ≤ rated pressure, flow ≥ specified L/min.  \n- **Gasket Leakage Test** (Clause 5.4) - Pressurise at rated pressure for 2 h, inspect for any water/steam escape.  \n- **Thermal Shock / Cycling** (Clause 5.5) - 10 cycles between 30 °C and 130 °C, check for structural integrity.  \n- **Durability Cycle Test** (Clause 5.6) - 100 full pressure-fill cycles, monitor for loss of seal or valve drift.\n\nFollowing these clauses and test procedures ensures the cooker complies with **IS 2347:2017** and can bear the IS-mark for safe domestic use.",
+        "payload": {
+          "conversation_id": "conv_1788703371114",
+          "message_id": "msg_isdvrvo",
+          "answer": "### Applicable Indian Standard  \n**IS 2347:2017** - *Domestic Pressure Cookers - Specification*  \n\n| Clause / Section | What it Covers | Typical Test / Requirement |\n|------------------|----------------|----------------------------|\n| **General Requirements** | Design, material (aluminium alloy / stainless steel), capacity ≤ 20 L | Visual inspection, dimensional check, material certification |\n| **Safety Valve & Pressure Relief** | Minimum opening pressure, flow capacity, re-seating | **Valve opening pressure test** - pressurise cooker until valve lifts; verify pressure ≤ rated value and flow ≥ specified rate |\n| **Gasket & Sealing** | Compatibility with food, compression set, temperature resistance | **Gasket compression test** - compress at operating temperature, check for leakage after 24 h |\n| **Maximum Working Pressure (MWP)** | Rated pressure for each size/capacity | **Hydrostatic pressure test** - apply 1.5 × MWP for 30 min, inspect for permanent deformation or leakage |\n| **Temperature Limits** | Upper temperature for body and lid | **Thermal cycling test** - heat to 130 °C, cool to 30 °C, repeat 10 cycles; examine for cracks or loss of seal |\n| **Markings & Instructions** | IS-mark, capacity, pressure rating, user manual | Visual verification of mandatory markings and legibility |\n| **Durability / Life Cycle** | Minimum number of pressure-fill cycles | **Cycle test** - 100 fill-heat-cool cycles at rated pressure; monitor for loss of performance |\n\n### Typical Inspection Checklist for the Cooker (from the image)\n\n1. **Construction Material** - Verify stainless-steel/aluminium alloy as per spec.  \n2. **Capacity Stamp** - Should be ≤ 20 L and clearly printed.  \n3. **Safety Valve** - Check for proper positioning, unobstructed flow path, and correct rating.  \n4. **Gasket Condition** - No cracks, proper fit, and food-grade material.  \n5. **Markings** - IS-mark, manufacturer details, pressure rating, and user instructions present.  \n6. **Lid Locking Mechanism** - Operates smoothly, locks securely, and releases only when pressure is safe.  \n\n### Recommended Tests (if you are a manufacturer or testing lab)\n\n- **Hydrostatic Pressure Test** (per IS 2347, Clause 5.2) - 1.5 × rated pressure, 30 min.  \n- **Safety Valve Opening Pressure** (Clause 5.3) - Verify ≤ rated pressure, flow ≥ specified L/min.  \n- **Gasket Leakage Test** (Clause 5.4) - Pressurise at rated pressure for 2 h, inspect for any water/steam escape.  \n- **Thermal Shock / Cycling** (Clause 5.5) - 10 cycles between 30 °C and 130 °C, check for structural integrity.  \n- **Durability Cycle Test** (Clause 5.6) - 100 full pressure-fill cycles, monitor for loss of seal or valve drift.\n\nFollowing these clauses and test procedures ensures the cooker complies with **IS 2347:2017** and can bear the IS-mark for safe domestic use.",
+          "citations": [
+            {
+              "standard_number": "IS 16046 (Part 1 & 2): 2018",
+              "document_title": "Secondary Cells and Batteries Containing Alkaline or Other Non-Acid Electrolytes - Safety Requirements for Portable Sealed Secondary Cells/Batteries (Lithium Systems)",
+              "clause": "General Requirements",
+              "section": "Electronics & IT Goods (CRS)",
+              "page": 1,
+              "source_type": "BIS Official Standard"
+            },
+            {
+              "standard_number": "IS 2347: 2017",
+              "document_title": "Domestic Pressure Cookers - Specification",
+              "clause": "General Requirements",
+              "section": "Household & Kitchen Utensils",
+              "page": 1,
+              "source_type": "BIS Official Standard"
+            }
+          ],
+          "related_standards": [
+            "IS 2347:2017",
+            "IS 2347",
+            "IS 16046 (Part 1 & 2): 2018"
+          ],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T14:08:52.063Z"
+      },
+      {
+        "id": "msg_user_1788705376447",
+        "role": "user",
+        "text": "enna panra",
+        "timestamp": "2026-09-06T14:36:16.447Z"
+      },
+      {
+        "id": "msg_asst_1788705376447",
+        "role": "assistant",
+        "text": "நான் உங்களுக்கு உதவி செய்யும் AI. நீங்கள் எதை அறிய அல்லது செய்ய விரும்புகிறீர்கள்?",
+        "payload": {
+          "conversation_id": "conv_1788703371114",
+          "message_id": "msg_qfle7bi",
+          "answer": "நான் உங்களுக்கு உதவி செய்யும் AI. நீங்கள் எதை அறிய அல்லது செய்ய விரும்புகிறீர்கள்?",
+          "citations": [],
+          "related_standards": [],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T14:36:16.447Z"
+      },
+      {
+        "id": "msg_user_1788705403057",
+        "role": "user",
+        "text": "BIS pathi sollu",
+        "timestamp": "2026-09-06T14:36:43.057Z"
+      },
+      {
+        "id": "msg_asst_1788705403057",
+        "role": "assistant",
+        "text": "### இந்தியன் ஸ்டாண்டர்ட்ஸ் (BIS) - ஒரு சுருக்கம்  \n\n**BIS (Bureau of Indian Standards)**  \n- இந்தியாவின��� தேசிய தரநிலைகள் அமைப்பு, 1947-ல் நிறுவப்பட்டது.  \n- **IS (Indian Standard)** எண்களால் அடையாளம் காணப்படும் 12 000-க்கும் மேற்பட்ட தொழில்நுட்ப தரநிலைகளை உருவாக்கி, பராமரிக்கிறது.  \n\n#### முக்கிய பணிகள்  \n| பணிகள் | விளக்கம் |\n|--------|----------|\n| **தரநிலைகள் உருவாக்கம்** | உற்பத்தி, சேவை, பாதுகாப்பு, சுற்றுச்சூழல் போன்ற பல துறைகளுக்கு தொழில்நுட்ப விவரங்கள். |\n| **சான்றிதழ் & IS-மார்க்** | தயாரிப்புகள் IS-மார்க் பெறுவதற்கு **சான்றிதழ் (Certificate of Conformity)** பெற வேண்டும்; இது பாதுகாப்பு, தரம், நம்பகத்தன்மை என்பவற்றை உறுதிப்படுத்தும். |\n| **மதிப்பீடு & ஆய்வு** | அங்கீகரிக���கப்பட்ட ஆய்வு நிலையங்களில் (BIS-Accredited Labs) மாதிரி பரிசோதனைகள், ஹார்ட்நெஸ், எலக்ட்ரிக்கல், மைக்ரோபியல் போன்ற பல்வேறு சோதனைகள் நடத்தப்படுகின்றன. |\n| **நுகர்வோர் பாதுகாப்பு** | தவறான, அபாயகரமான பொருட்களைத் தடுக்கும், ரிக்கால் (Recall) அறிவிப்புகள், நுகர்வோர் புகார் மையம் போன்ற நடவடிக்கைகள். |\n\n#### பொதுவாகப் பயன்படுத்தப்படும் IS-மார்க் வகைகள்  \n- **IS 1234:2019** - மின் உபகரணங்கள் (மின்சார பாதுகாப்பு).  \n- **IS 16046:2018** - லித்தியம்-அயன் பேட்டரிகள் (சேமிப்பு, பாதுகாப்பு).  \n- **IS 4151:2020** - பாதுகாப்பு ஹெல்மெட்கள் (வாகன, தொழில்துறை).  \n\nBIS-இன் நோக்கம்: **“நம்பகம���ன, பாதுகாப்பான, தரமான தயாரிப்புகள் மூலம் நுகர்வோர் நலனை உயர்த்துதல்.”**",
+        "payload": {
+          "conversation_id": "conv_1788703371114",
+          "message_id": "msg_gztdyq2",
+          "answer": "### இந்தியன் ஸ்டாண்டர்ட்ஸ் (BIS) - ஒரு சுருக்கம்  \n\n**BIS (Bureau of Indian Standards)**  \n- இந்தியாவின��� தேசிய தரநிலைகள் அமைப்பு, 1947-ல் நிறுவப்பட்டது.  \n- **IS (Indian Standard)** எண்களால் அடையாளம் காணப்படும் 12 000-க்கும் மேற்பட்ட தொழில்நுட்ப தரநிலைகளை உருவாக்கி, பராமரிக்கிறது.  \n\n#### முக்கிய பணிகள்  \n| பணிகள் | விளக்கம் |\n|--------|----------|\n| **தரநிலைகள் உருவாக்கம்** | உற்பத்தி, சேவை, பாதுகாப்பு, சுற்றுச்சூழல் போன்ற பல துறைகளுக்கு தொழில்நுட்ப விவரங்கள். |\n| **சான்றிதழ் & IS-மார்க்** | தயாரிப்புகள் IS-மார்க் பெறுவதற்கு **சான்றிதழ் (Certificate of Conformity)** பெற வேண்டும்; இது பாதுகாப்பு, தரம், நம்பகத்தன்மை என்பவற்றை உறுதிப்படுத்தும். |\n| **மதிப்பீடு & ஆய்வு** | அங்கீகரிக���கப்பட்ட ஆய்வு நிலையங்களில் (BIS-Accredited Labs) மாதிரி பரிசோதனைகள், ஹார்ட்நெஸ், எலக்ட்ரிக்கல், மைக்ரோபியல் போன்ற பல்வேறு சோதனைகள் நடத்தப்படுகின்றன. |\n| **நுகர்வோர் பாதுகாப்பு** | தவறான, அபாயகரமான பொருட்களைத் தடுக்கும், ரிக்கால் (Recall) அறிவிப்புகள், நுகர்வோர் புகார் மையம் போன்ற நடவடிக்கைகள். |\n\n#### பொதுவாகப் பயன்படுத்தப்படும் IS-மார்க் வகைகள்  \n- **IS 1234:2019** - மின் உபகரணங்கள் (மின்சார பாதுகாப்பு).  \n- **IS 16046:2018** - லித்தியம்-அயன் பேட்டரிகள் (சேமிப்பு, பாதுகாப்பு).  \n- **IS 4151:2020** - பாதுகாப்பு ஹெல்மெட்கள் (வாகன, தொழில்துறை).  \n\nBIS-இன் நோக்கம்: **“நம்பகம���ன, பாதுகாப்பான, தரமான தயாரிப்புகள் மூலம் நுகர்வோர் நலனை உயர்த்துதல்.”**",
+          "citations": [],
+          "related_standards": [
+            "IS 1234:2019",
+            "IS 16046:2018",
+            "IS 4151:2020"
+          ],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T14:36:43.057Z"
+      }
+    ],
+    "updated_at": "2026-09-06T14:36:43.057Z"
+  },
+  {
+    "id": "conv_1788707141728",
+    "title": "What is the BIS standard for ele",
+    "created_at": "2026-09-06T15:05:41.728Z",
+    "messages": [
+      {
+        "id": "msg_user_1788707143407",
+        "role": "user",
+        "text": "What is the BIS standard for electric kettles?",
+        "timestamp": "2026-09-06T15:05:43.407Z"
+      },
+      {
+        "id": "msg_asst_1788707143407",
+        "role": "assistant",
+        "text": "### BIS Standard for Electric Kettles  \n\n- **Standard:** **IS 302-2-15:2009**  \n- **Scope:** Safety requirements for household appliances that heat liquids, such as electric kettles and water boilers, with a rated voltage ≤ 250 V.  \n- **Key Points:**  \n  - General construction and insulation requirements.  \n  - Protection against electric shock, overheating, and fire hazards.  \n  - Mandatory marking (e.g., ISI mark) and performance testing procedures.  \n\n*Reference: IS 302-2-15:2009, “Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids.”*",
+        "payload": {
+          "conversation_id": "conv_1788707141728",
+          "message_id": "msg_wnwrzk0",
+          "answer": "### BIS Standard for Electric Kettles  \n\n- **Standard:** **IS 302-2-15:2009**  \n- **Scope:** Safety requirements for household appliances that heat liquids, such as electric kettles and water boilers, with a rated voltage ≤ 250 V.  \n- **Key Points:**  \n  - General construction and insulation requirements.  \n  - Protection against electric shock, overheating, and fire hazards.  \n  - Mandatory marking (e.g., ISI mark) and performance testing procedures.  \n\n*Reference: IS 302-2-15:2009, “Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids.”*",
+          "citations": [
+            {
+              "standard_number": "IS 302-2-15: 2009",
+              "document_title": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)",
+              "clause": "General Requirements",
+              "section": "Electrical & Electronics",
+              "page": 1,
+              "source_type": "BIS Official Standard"
+            }
+          ],
+          "related_standards": [
+            "IS 302-2",
+            "IS 302-2-15: 2009"
+          ],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T15:05:43.407Z"
+      }
+    ],
+    "updated_at": "2026-09-06T15:05:43.407Z"
+  },
+  {
+    "id": "conv_1788707165639",
+    "title": "hii",
+    "created_at": "2026-09-06T15:06:28.365Z",
+    "messages": [
+      {
+        "id": "msg_user_1788707189143",
+        "role": "user",
+        "text": "hii",
+        "timestamp": "2026-09-06T15:06:29.143Z"
+      },
+      {
+        "id": "msg_asst_1788707189143",
+        "role": "assistant",
+        "text": "Hello! How can I assist you today?",
+        "payload": {
+          "conversation_id": "conv_1788707165639",
+          "message_id": "msg_eevaue5",
+          "answer": "Hello! How can I assist you today?",
+          "citations": [],
+          "related_standards": [],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-06T15:06:29.143Z"
+      }
+    ],
+    "updated_at": "2026-09-06T15:06:29.143Z"
   }
 ]
