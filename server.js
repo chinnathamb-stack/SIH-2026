@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
+const { translateText } = require('./translator');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -510,43 +511,6 @@ app.get('/api/v1/health', (req, res) => {
     }
   });
 });
-
-// Helper for dynamic translation across 7 languages
-function translateText(text, targetLang = 'en', sourceLang = 'auto') {
-  if (!text || typeof text !== 'string' || !text.trim()) return Promise.resolve(text);
-  if (targetLang === 'en' && (sourceLang === 'en' || !sourceLang)) return Promise.resolve(text);
-
-  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(sourceLang)}&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(text.trim())}`;
-
-  return new Promise((resolve) => {
-    const req = https.get(url, { timeout: 6000 }, (res) => {
-      let raw = '';
-      res.on('data', chunk => raw += chunk);
-      res.on('end', () => {
-        try {
-          if (res.statusCode >= 200 && res.statusCode < 300) {
-            const parsed = JSON.parse(raw);
-            if (Array.isArray(parsed) && Array.isArray(parsed[0])) {
-              const fullTranslation = parsed[0].map(item => item[0]).filter(Boolean).join('');
-              if (fullTranslation && fullTranslation.trim()) {
-                return resolve(fullTranslation);
-              }
-            }
-          }
-          resolve(text);
-        } catch (err) {
-          resolve(text);
-        }
-      });
-    });
-
-    req.on('error', () => resolve(text));
-    req.on('timeout', () => {
-      req.destroy();
-      resolve(text);
-    });
-  });
-}
 
 // 13. POST /api/v1/translate (Dynamic Multi-Language Translation Service)
 app.post('/api/v1/translate', async (req, res) => {

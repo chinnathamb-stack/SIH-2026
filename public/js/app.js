@@ -19,6 +19,7 @@ class Application {
     this.setupThemeToggle();
     this.setupEvidenceDrawer();
     this.setupAISettings();
+    this.setupLanguageListener();
 
     // Initialize sub-modules
     window.chatController.init();
@@ -30,6 +31,30 @@ class Application {
 
     // Load sessions from server & local storage
     await this.syncSessions();
+  }
+
+  setupLanguageListener() {
+    window.addEventListener('languageChanged', () => {
+      this.updateViewTitle();
+      this.renderSessions();
+      this.loadServicesHub();
+      this.loadHealthMetrics();
+    });
+  }
+
+  updateViewTitle() {
+    const viewTitleKeyMap = {
+      chatView: 'view_title_chat',
+      analyzerView: 'view_title_analyzer',
+      standardsView: 'view_title_standards',
+      labsView: 'view_title_labs',
+      servicesView: 'view_title_services',
+      healthView: 'view_title_health'
+    };
+    const titleEl = document.getElementById('viewTitle');
+    if (titleEl && viewTitleKeyMap[this.currentView]) {
+      titleEl.textContent = window.i18n.t(viewTitleKeyMap[this.currentView]);
+    }
   }
 
   setupAISettings() {
@@ -193,20 +218,7 @@ class Application {
     if (targetNav) targetNav.classList.add('active');
 
     this.currentView = viewId;
-
-    // Update title
-    const viewTitles = {
-      chatView: "BIS AI Intelligent Assistant",
-      analyzerView: "Product Analyzer & Compliance Dashboard",
-      standardsView: "Indian Standards Explorer (KYS)",
-      labsView: "Laboratory Finder (LIMS)",
-      servicesView: "Official BIS Portals & Deep Links",
-      healthView: "System Health & Ingestion Telemetry"
-    };
-    const titleEl = document.getElementById('viewTitle');
-    if (titleEl && viewTitles[viewId]) {
-      titleEl.textContent = viewTitles[viewId];
-    }
+    this.updateViewTitle();
   }
 
   setupThemeToggle() {
@@ -331,14 +343,14 @@ class Application {
             <h3 class="card-main-title">${srv.name}</h3>
             <p class="card-desc">${srv.description}</p>
             <div style="margin-bottom: 16px;">
-              <strong style="font-size: 12px; color: var(--text-primary); display: block; margin-bottom: 6px;">Key Functions:</strong>
+              <strong style="font-size: 12px; color: var(--text-primary); display: block; margin-bottom: 6px;">${window.i18n.t('key_functions', 'Key Functions:')}</strong>
               <div class="scope-chips">
                 ${(srv.features || []).map(f => `<span class="scope-pill">✓ ${f}</span>`).join('')}
               </div>
             </div>
           </div>
           <a href="${srv.official_url}" target="_blank" rel="noopener" class="btn-primary" style="width: 100%;">
-            <span>Access Portal</span>
+            <span>${window.i18n.t('access_portal', 'Access Portal')}</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
         `;
@@ -357,10 +369,10 @@ class Application {
       const labsEl = document.getElementById('metricLabs');
       const srvEl = document.getElementById('metricServices');
 
-      if (statusEl) statusEl.textContent = 'Operational (100% JS)';
-      if (stdEl) stdEl.textContent = `${res.indexed_data.standards} Standards`;
-      if (labsEl) labsEl.textContent = `${res.indexed_data.laboratories} Labs`;
-      if (srvEl) srvEl.textContent = `${res.indexed_data.services} Services`;
+      if (statusEl) statusEl.textContent = `${window.i18n.t('status_operational', 'Operational')} (100% JS)`;
+      if (stdEl) stdEl.textContent = `${res.indexed_data.standards} ${window.i18n.t('nav_standards', 'Standards')}`;
+      if (labsEl) labsEl.textContent = `${res.indexed_data.laboratories} ${window.i18n.t('metric_labs', 'Labs')}`;
+      if (srvEl) srvEl.textContent = `${res.indexed_data.services} ${window.i18n.t('nav_services', 'Services')}`;
     } catch (err) {
       console.error(err);
     }
@@ -453,7 +465,7 @@ class Application {
     listEl.innerHTML = '';
 
     if (this.sessions.length === 0) {
-      listEl.innerHTML = `<span style="font-size: 12px; color: var(--text-muted); padding: 8px 10px; display: block;">No saved conversations yet</span>`;
+      listEl.innerHTML = `<span style="font-size: 12px; color: var(--text-muted); padding: 8px 10px; display: block;">${window.i18n.t('no_sessions', 'No saved conversations yet')}</span>`;
       return;
     }
 

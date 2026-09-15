@@ -23,6 +23,12 @@ class ComplianceDashboard {
         this.runAnalysis();
       });
     }
+
+    window.addEventListener('languageChanged', () => {
+      if (this.currentData) {
+        this.renderDashboard(this.currentData);
+      }
+    });
   }
 
   async runAnalysis() {
@@ -75,28 +81,28 @@ class ComplianceDashboard {
         <div>
           <span class="is-badge">${profile.applicable_is}</span>
           <h3 style="font-size: 17px; font-weight: 700; color: var(--text-primary); margin-top: 6px;">${std.title}</h3>
-          <span style="font-size: 12px; color: var(--accent-green);">● Mandatory under ${std.mandatory_order}</span>
+          <span style="font-size: 12px; color: var(--accent-green);">● ${window.i18n.t('card_mandatory_under', 'Mandatory under')} ${std.mandatory_order}</span>
         </div>
         <button class="btn-primary" id="exportPlanBtn" style="font-size: 12px; padding: 6px 12px;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>Export Plan</span>
+          <span>${window.i18n.t('analyzer_export_plan', 'Export Plan')}</span>
         </button>
       </div>
 
       <!-- Readiness Score Bar -->
       <div style="background: var(--bg-secondary); padding: 14px; border-radius: var(--radius-md); margin-bottom: 16px; border: 1px solid var(--border-color);">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">BIS Compliance Readiness Score</span>
+          <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">${window.i18n.t('analyzer_readiness_score', 'BIS Compliance Readiness Score')}</span>
           <span style="font-size: 15px; font-weight: 800; color: #60a5fa;" id="readinessScoreVal">${score}%</span>
         </div>
         <div class="progress-bar-wrapper">
           <div class="progress-bar-fill" id="readinessProgressBar" style="width: ${score}%;"></div>
         </div>
-        <span style="font-size: 11.5px; color: var(--text-muted);">Check off items in the checklist below to track preparation progress.</span>
+        <span style="font-size: 11.5px; color: var(--text-muted);">${window.i18n.t('analyzer_progress_hint', 'Check off items in the checklist below to track preparation progress.')}</span>
       </div>
 
       <!-- Interactive Compliance Checklist -->
-      <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">1. Preparation & Licensing Checklist</h4>
+      <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">${window.i18n.t('analyzer_checklist_title', '1. Preparation & Licensing Checklist')}</h4>
       <div class="checklist-container" id="checklistItems">
         ${data.checklist.map((item, idx) => `
           <div class="checklist-item ${this.completedTasks.has(item.id) ? 'completed' : ''}" data-id="${item.id}">

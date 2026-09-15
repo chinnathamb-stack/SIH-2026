@@ -71,59 +71,59 @@ class ChatController {
     this.welcomeEl.innerHTML = `
       <div class="welcome-badge">
         <span class="badge-icon">🏛️</span>
-        <span>Bureau of Indian Standards (BIS) — Official Compliance AI</span>
+        <span data-i18n="welcome_badge">${window.i18n.t('welcome_badge')}</span>
       </div>
-      <h1 class="welcome-heading">BIS Standards & Quality Compliance</h1>
-      <p class="welcome-desc">
-        Official guidance for Indian Standards (IS), mandatory certification schemes, test parameters, and NABL accredited laboratories.
+      <h1 class="welcome-heading" data-i18n="welcome_title">${window.i18n.t('welcome_title')}</h1>
+      <p class="welcome-desc" data-i18n="welcome_sub">
+        ${window.i18n.t('welcome_sub')}
       </p>
       <div class="prompt-chips">
-        <button class="chip" data-prompt="I want to manufacture an electric kettle. What BIS requirements must my product satisfy under IS 302-2-15, what tests are required, and which laboratory can test it?">
+        <button class="chip" data-i18n-prompt="chip1_prompt" data-prompt="${window.i18n.t('chip1_prompt')}">
           <span class="chip-icon">⚡</span>
           <div>
-            <strong>Electric Kettle (IS 302-2-15)</strong>
-            <span>Safety Tests, Scheme I, Lab Directory</span>
+            <strong data-i18n="chip1_title">${window.i18n.t('chip1_title')}</strong>
+            <span data-i18n="chip1_desc">${window.i18n.t('chip1_desc')}</span>
           </div>
         </button>
-        <button class="chip" data-prompt="What are the mandatory testing and licensing steps to setup a Packaged Drinking Water bottling plant under IS 14543?">
+        <button class="chip" data-i18n-prompt="chip2_prompt" data-prompt="${window.i18n.t('chip2_prompt')}">
           <span class="chip-icon">💧</span>
           <div>
-            <strong>Packaged Drinking Water</strong>
-            <span>IS 14543, FSSAI-BIS Mandate, In-house Lab</span>
+            <strong data-i18n="chip2_title">${window.i18n.t('chip2_title')}</strong>
+            <span data-i18n="chip2_desc">${window.i18n.t('chip2_desc')}</span>
           </div>
         </button>
-        <button class="chip" data-prompt="What is the Compulsory Registration Scheme (CRS) process and tests for Lithium-ion battery packs under IS 16046?">
+        <button class="chip" data-i18n-prompt="chip3_prompt" data-prompt="${window.i18n.t('chip3_prompt')}">
           <span class="chip-icon">🔋</span>
           <div>
-            <strong>Lithium-ion Battery (CRS)</strong>
-            <span>IS 16046 Part 2, MeitY Order, R-Number</span>
+            <strong data-i18n="chip3_title">${window.i18n.t('chip3_title')}</strong>
+            <span data-i18n="chip3_desc">${window.i18n.t('chip3_desc')}</span>
           </div>
         </button>
-        <button class="chip" data-prompt="What are the helmet testing parameters, QCO orders, and mandatory ISI mark rules under IS 4151?">
+        <button class="chip" data-i18n-prompt="chip4_prompt" data-prompt="${window.i18n.t('chip4_prompt')}">
           <span class="chip-icon">🪖</span>
           <div>
-            <strong>Protective Helmets (IS 4151)</strong>
-            <span>QCO Mandate, Impact Tests, Penalties</span>
+            <strong data-i18n="chip4_title">${window.i18n.t('chip4_title')}</strong>
+            <span data-i18n="chip4_desc">${window.i18n.t('chip4_desc')}</span>
           </div>
         </button>
-        <button class="chip" data-prompt="How do MSME and startup manufacturers get the 50% concession on BIS marking and application fees?">
+        <button class="chip" data-i18n-prompt="chip5_prompt" data-prompt="${window.i18n.t('chip5_prompt')}">
           <span class="chip-icon">💰</span>
           <div>
-            <strong>MSME 50% Fee Concession</strong>
-            <span>Udyam Benefits & Marking Fee Rules</span>
+            <strong data-i18n="chip5_title">${window.i18n.t('chip5_title')}</strong>
+            <span data-i18n="chip5_desc">${window.i18n.t('chip5_desc')}</span>
           </div>
         </button>
-        <button class="chip" data-prompt="What is the difference between Scheme I (ISI Mark) and Scheme II (CRS) under BIS Act 2016?">
+        <button class="chip" data-i18n-prompt="chip6_prompt" data-prompt="${window.i18n.t('chip6_prompt')}">
           <span class="chip-icon">🏭</span>
           <div>
-            <strong>Scheme I vs Scheme II Process</strong>
-            <span>Licensing Steps, Factory Audit & CRS</span>
+            <strong data-i18n="chip6_title">${window.i18n.t('chip6_title')}</strong>
+            <span data-i18n="chip6_desc">${window.i18n.t('chip6_desc')}</span>
           </div>
         </button>
       </div>
     `;
     if (this.inputEl) {
-      this.inputEl.placeholder = "Ask about Indian Standards (IS), QCOs, testing requirements, or certification...";
+      this.inputEl.placeholder = window.i18n.t('input_placeholder');
     }
 
     // Attach click listeners to chips
@@ -575,6 +575,9 @@ class ChatController {
 
     const bubbleEl = document.createElement('div');
     bubbleEl.className = 'message-bubble';
+    if (text) {
+      bubbleEl.setAttribute('data-raw-text', text);
+    }
 
     if (isTyping) {
       bubbleEl.innerHTML = `
@@ -600,6 +603,7 @@ class ChatController {
 
   async streamResponse(bubbleEl, markdownText) {
     bubbleEl.innerHTML = '';
+    bubbleEl.setAttribute('data-raw-text', markdownText);
     const formatted = this.formatMarkdown(markdownText);
     bubbleEl.innerHTML = formatted;
     this.scrollToBottom();
@@ -778,8 +782,8 @@ class ChatController {
       };
     }
 
-    // Stop speaking when user changes language
-    window.addEventListener('languageChanged', (e) => {
+    // Stop speaking & update language when user changes language
+    window.addEventListener('languageChanged', async (e) => {
       const newLang = e.detail.lang;
       if (this.isSpeaking) {
         this.stopSpeaking();
@@ -795,6 +799,45 @@ class ChatController {
           'gu': 'gu-IN'
         };
         this.recognition.lang = langMap[newLang] || 'en-IN';
+      }
+
+      // 1. Re-render welcome prompt chips in selected language
+      this.updateWelcomeUI();
+
+      // 2. Update textarea placeholder
+      if (this.inputEl) {
+        this.inputEl.placeholder = window.i18n.t('input_placeholder');
+      }
+
+      // 3. Update existing message action buttons (Listen, Translate, Copy)
+      this.streamEl.querySelectorAll('.message-actions').forEach(bar => {
+        const speakSpan = bar.querySelector('.btn-speaker span');
+        if (speakSpan) speakSpan.textContent = window.i18n.t('btn_listen');
+        const transSpan = bar.querySelector('.btn-translate-action span');
+        if (transSpan) transSpan.textContent = window.i18n.t('btn_translate');
+        const copySpan = bar.querySelector('.btn-msg-action:not(.btn-speaker):not(.btn-translate-action) span');
+        if (copySpan) copySpan.textContent = window.i18n.t('btn_copy');
+      });
+
+      // 4. Translate existing assistant message bubbles in the active stream!
+      const assistantBubbles = this.streamEl.querySelectorAll('.message-row.assistant .message-bubble');
+      if (assistantBubbles.length > 0) {
+        for (const bubble of assistantBubbles) {
+          const rawText = bubble.getAttribute('data-raw-text') || bubble.textContent.trim();
+          if (rawText && rawText.length > 0) {
+            if (!bubble.hasAttribute('data-raw-text')) {
+              bubble.setAttribute('data-raw-text', rawText);
+            }
+            try {
+              const res = await window.apiClient.translate({ text: rawText, target_language: newLang });
+              if (res && res.translated_text) {
+                bubble.innerHTML = this.formatMarkdown(res.translated_text);
+              }
+            } catch (err) {
+              console.warn('Auto-translate error:', err);
+            }
+          }
+        }
       }
     });
   }

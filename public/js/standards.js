@@ -26,6 +26,10 @@ class StandardsExplorer {
     this.categoryFilter.addEventListener('change', () => {
       this.fetchStandards();
     });
+
+    window.addEventListener('languageChanged', () => {
+      this.renderStandards();
+    });
   }
 
   async fetchStandards() {
@@ -48,7 +52,7 @@ class StandardsExplorer {
     if (this.standards.length === 0) {
       this.gridEl.innerHTML = `
         <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
-          <p>No Indian Standards found matching your search.</p>
+          <p>${window.i18n.t('empty_standards', 'No Indian Standards found matching your search.')}</p>
         </div>
       `;
       return;
@@ -66,17 +70,17 @@ class StandardsExplorer {
           <h3 class="card-main-title">${std.title}</h3>
           <p class="card-desc">${std.scope}</p>
           <div class="scope-chips">
-            <span class="scope-pill">Version: ${std.version}</span>
-            <span class="scope-pill">${(std.clauses || []).length} Indexed Clauses</span>
-            <span class="scope-pill">${(std.tests || []).length} Standard Tests</span>
+            <span class="scope-pill">${window.i18n.t('version_label', 'Version:')} ${std.version}</span>
+            <span class="scope-pill">${(std.clauses || []).length} ${window.i18n.t('indexed_clauses', 'Indexed Clauses')}</span>
+            <span class="scope-pill">${(std.tests || []).length} ${window.i18n.t('standard_tests', 'Standard Tests')}</span>
           </div>
         </div>
         <div style="display: flex; gap: 8px; margin-top: 14px;">
           <button class="btn-primary" style="flex: 1;" data-action="evidence" data-is="${std.is_number}">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>View Clauses & Tests</span>
+            <span>${window.i18n.t('view_clauses_tests', 'View Clauses & Tests')}</span>
           </button>
-          <a href="${std.source_url}" target="_blank" rel="noopener" class="btn-icon" title="Open in Know Your Standard">
+          <a href="${std.source_url}" target="_blank" rel="noopener" class="btn-icon" title="${window.i18n.t('open_in_kys', 'Open in Know Your Standard')}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
         </div>

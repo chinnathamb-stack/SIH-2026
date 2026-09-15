@@ -13,6 +13,7 @@
 
 const https = require('https');
 const http = require('http');
+const { translateText, LANGUAGE_NAMES } = require('./translator');
 
 const GROQ_DEFAULT_API_KEY = process.env.GROQ_API_KEY || '';
 const GROQ_BASE_URL = process.env.GROQ_BASE_URL || 'https://api.groq.com/openai/v1';
@@ -130,6 +131,7 @@ class BISKnowledgeEngine {
 
   async callGroqLLM({ prompt, history = [], groundingEvidence = [], language = 'en', customApiKey = null, customProvider = null, aiModel = null }) {
     const apiKey = customApiKey || process.env.GROQ_API_KEY || GROQ_DEFAULT_API_KEY;
+    const langFullName = LANGUAGE_NAMES[language] || language;
 
     let groundingContext = '';
     if (groundingEvidence && groundingEvidence.length > 0) {
@@ -153,7 +155,10 @@ RESPONSE RULES:
    - When questions touch on Indian products, testing, or certification, prioritize and explicitly name the Indian Standard numbers provided in the evidence (e.g. **IS 2082:2018** for stationary electric water heaters, **IS 12258:2021** for pressure cookers, **IS 1417:2016** for gold hallmarking, **IS 694:2010** for PVC cables, **IS 14543:2024** for packaged drinking water, **IS 16046:2018** for lithium batteries, **IS 4151:2020** for helmets) with their key clause references. Do not alter or translate the standard identifiers.
 4. FORMATTING:
    - Use clean Markdown with bold headers (### ), bullet points, and concise tables where helpful.
-5. Multilingual: Respond in the user's language (${language}) naturally.`;
+5. STRICT MULTILINGUAL MANDATE (CRITICAL):
+   - The user has selected interface language: ${langFullName} (${language}).
+   - You MUST generate your ENTIRE response in ${langFullName}, regardless of whether the user prompt or reference evidence was in English or another language.
+   - Indian Standard codes and alphanumeric identifiers (e.g., IS 302-2-15, IS 14543, IS 16046, IS 4151, Cl. 13, 0.75mA, 230V AC) MUST be strictly preserved without translation or transliteration into other scripts.`;
 
     const userPrompt = groundingContext
       ? `${groundingContext}\nUser Prompt: ${prompt}`
@@ -219,6 +224,15 @@ RESPONSE RULES:
     } else {
       fallbackText += 'How can I assist you today with Indian Standards, ISI certification, lab testing, or general questions?';
     }
+
+    if (language && language !== 'en') {
+      try {
+        fallbackText = await translateText(fallbackText, language);
+      } catch (e) {
+        console.warn('Fallback translation error:', e);
+      }
+    }
+
     return { answer: fallbackText, modelUsed: 'offline-fallback' };
   }
 
@@ -235,9 +249,15 @@ RESPONSE RULES:
   }) {
     const rawMsg = (message || '').trim();
     if (!rawMsg) {
+      let emptyMsg = 'Please enter a message or question.';
+      if (language && language !== 'en') {
+        try {
+          emptyMsg = await translateText(emptyMsg, language);
+        } catch (e) {}
+      }
       return {
         conversation_id,
-        answer: 'Please enter a message or question.',
+        answer: emptyMsg,
         citations: [],
         related_standards: [],
         suggested_followups: []
@@ -299,6 +319,16 @@ RESPONSE RULES:
         'What are the three mandatory hallmarking symbols on gold jewellery?',
         'What is the fee for jeweler hallmarking registration?'
       ];
+    }
+
+    if (language && language !== 'en') {
+      try {
+        suggested_followups = await Promise.all(
+          suggested_followups.map(f => translateText(f, language).catch(() => f))
+        );
+      } catch (e) {
+        console.warn('Followups translation error:', e);
+      }
     }
 
     return {

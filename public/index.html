@@ -24,11 +24,11 @@
             <span class="emblem-symbol">BIS</span>
           </div>
           <div class="brand-text">
-            <h2>BIS AI Assistant</h2>
-            <span class="badge-sih">SIH 26107</span>
+            <h2 data-i18n="brand_title">BIS AI Assistant</h2>
+            <span class="badge-sih" data-i18n="brand_badge">SIH 26107</span>
           </div>
         </div>
-        <button class="btn-icon" id="newChatBtn" title="Start New Chat" aria-label="Start New Chat">
+        <button class="btn-icon" id="newChatBtn" title="Start New Chat" data-i18n-title="new_chat" aria-label="Start New Chat">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
         </button>
       </div>
@@ -43,10 +43,10 @@
 
       <!-- Navigation Menu -->
       <nav class="sidebar-nav">
-        <div class="nav-section-title">AI ASSISTANT</div>
+        <div class="nav-section-title" data-i18n="nav_section_ai">AI ASSISTANT</div>
         <button class="nav-item active" data-view="chatView" id="navBisBtn">
           <span class="nav-mode-icon">🏛️</span>
-          <span style="font-weight: 600;">BIS Standards AI</span>
+          <span style="font-weight: 600;" data-i18n="nav_bis_ai">BIS Standards AI</span>
         </button>
 
         <div class="nav-section-title" data-i18n="workspace" style="margin-top: 14px;">STANDARDS WORKSPACE</div>
@@ -85,8 +85,8 @@
         <div class="bis-authority-card">
           <div class="authority-dot"></div>
           <div>
-            <span class="auth-title">Bureau of Indian Standards</span>
-            <span class="auth-sub">Official AI Verification Layer</span>
+            <span class="auth-title" data-i18n="brand_org">Bureau of Indian Standards</span>
+            <span class="auth-sub" data-i18n="brand_sub">Official AI Verification Layer</span>
           </div>
         </div>
       </div>
@@ -102,13 +102,13 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
           
-          <span class="current-view-title" id="viewTitle">BIS AI Intelligent Assistant</span>
+          <span class="current-view-title" id="viewTitle" data-i18n="view_title_chat">BIS AI Intelligent Assistant</span>
         </div>
 
         <div class="topbar-right">
 
           <!-- AI Engine / API Settings Button -->
-          <button type="button" class="btn-icon btn-ai-settings" id="aiSettingsBtn" title="AI Model & API Key Settings" aria-label="AI Model & API Key Settings">
+          <button type="button" class="btn-icon btn-ai-settings" id="aiSettingsBtn" title="AI Model & API Key Settings" data-i18n-title="modal_title" aria-label="AI Model & API Key Settings">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </button>
 
@@ -127,25 +127,25 @@
           </div>
 
           <!-- Topbar Speaker Audio Mode Toggle -->
-          <button type="button" class="btn-icon btn-speaker-toggle" id="speakerToggleBtn" title="Toggle Auto-Speak Voice Mode" aria-label="Toggle Auto-Speak Voice Mode">
+          <button type="button" class="btn-icon btn-speaker-toggle" id="speakerToggleBtn" title="Toggle Auto-Speak Voice Mode" data-i18n-title="speaker_tooltip" aria-label="Toggle Auto-Speak Voice Mode">
             <svg class="speaker-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
             <span class="speaker-badge-dot"></span>
           </button>
 
           <!-- Two Theme Options Segmented Switcher -->
           <div class="theme-switcher-control" id="themeSwitcherControl">
-            <button type="button" class="theme-option-btn active" data-theme-val="dark" title="Switch to Dark Theme" aria-label="Dark Theme">
+            <button type="button" class="theme-option-btn active" data-theme-val="dark" title="Switch to Dark Theme" data-i18n-title="theme_dark" aria-label="Dark Theme">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-              <span>Dark</span>
+              <span data-i18n="theme_dark">Dark</span>
             </button>
-            <button type="button" class="theme-option-btn" data-theme-val="light" title="Switch to Light Theme" aria-label="Light Theme">
+            <button type="button" class="theme-option-btn" data-theme-val="light" title="Switch to Light Theme" data-i18n-title="theme_light" aria-label="Light Theme">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-              <span>Light</span>
+              <span data-i18n="theme_light">Light</span>
             </button>
           </div>
 
           <!-- Mobile Theme Toggle Button -->
-          <button class="btn-icon theme-toggle" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
+          <button class="btn-icon theme-toggle" id="themeToggleBtn" title="Toggle Theme" data-i18n-title="theme_dark" aria-label="Toggle Theme">
             <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
             <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
@@ -163,7 +163,7 @@
             <div class="chat-welcome" id="chatWelcome">
               <div class="welcome-badge">
                 <span class="badge-icon">🏛️</span>
-                <span>Bureau of Indian Standards (BIS) — Official Compliance AI</span>
+                <span data-i18n="welcome_badge">Bureau of Indian Standards (BIS) — Official Compliance AI</span>
               </div>
               <h1 class="welcome-heading" data-i18n="welcome_title">BIS Standards & Quality Compliance</h1>
               <p class="welcome-desc" data-i18n="welcome_sub">
@@ -172,46 +172,46 @@
 
               <!-- Example Prompt Chips -->
               <div class="prompt-chips">
-                <button class="chip" data-prompt="I want to manufacture an electric kettle. What BIS requirements must my product satisfy under IS 302-2-15, what tests are required, and which laboratory can test it?">
+                <button class="chip" data-i18n-prompt="chip1_prompt" data-prompt="I want to manufacture an electric kettle. What BIS requirements must my product satisfy under IS 302-2-15, what tests are required, and which laboratory can test it?">
                   <span class="chip-icon">⚡</span>
                   <div>
-                    <strong>Electric Kettle (IS 302-2-15)</strong>
-                    <span>Safety Tests, BIS Scheme I, Lab Directory</span>
+                    <strong data-i18n="chip1_title">Electric Kettle (IS 302-2-15)</strong>
+                    <span data-i18n="chip1_desc">Safety Tests, BIS Scheme I, Lab Directory</span>
                   </div>
                 </button>
-                <button class="chip" data-prompt="What are the mandatory testing and licensing steps to setup a Packaged Drinking Water bottling plant under IS 14543?">
+                <button class="chip" data-i18n-prompt="chip2_prompt" data-prompt="What are the mandatory testing and licensing steps to setup a Packaged Drinking Water bottling plant under IS 14543?">
                   <span class="chip-icon">💧</span>
                   <div>
-                    <strong>Packaged Drinking Water</strong>
-                    <span>IS 14543, FSSAI-BIS Mandate, In-house Lab</span>
+                    <strong data-i18n="chip2_title">Packaged Drinking Water</strong>
+                    <span data-i18n="chip2_desc">IS 14543, FSSAI-BIS Mandate, In-house Lab</span>
                   </div>
                 </button>
-                <button class="chip" data-prompt="What is the Compulsory Registration Scheme (CRS) process and tests for Lithium-ion battery packs under IS 16046?">
+                <button class="chip" data-i18n-prompt="chip3_prompt" data-prompt="What is the Compulsory Registration Scheme (CRS) process and tests for Lithium-ion battery packs under IS 16046?">
                   <span class="chip-icon">🔋</span>
                   <div>
-                    <strong>Lithium-ion Battery (CRS)</strong>
-                    <span>IS 16046 Part 2, MeitY Order, R-Number</span>
+                    <strong data-i18n="chip3_title">Lithium-ion Battery (CRS)</strong>
+                    <span data-i18n="chip3_desc">IS 16046 Part 2, MeitY Order, R-Number</span>
                   </div>
                 </button>
-                <button class="chip" data-prompt="What are the helmet testing parameters, QCO orders, and mandatory ISI mark rules under IS 4151?">
+                <button class="chip" data-i18n-prompt="chip4_prompt" data-prompt="What are the helmet testing parameters, QCO orders, and mandatory ISI mark rules under IS 4151?">
                   <span class="chip-icon">🪖</span>
                   <div>
-                    <strong>Protective Helmets (IS 4151)</strong>
-                    <span>QCO Mandate, Impact Tests, Penalties</span>
+                    <strong data-i18n="chip4_title">Protective Helmets (IS 4151)</strong>
+                    <span data-i18n="chip4_desc">QCO Mandate, Impact Tests, Penalties</span>
                   </div>
                 </button>
-                <button class="chip" data-prompt="How do MSME and startup manufacturers get the 50% concession on BIS marking and application fees?">
+                <button class="chip" data-i18n-prompt="chip5_prompt" data-prompt="How do MSME and startup manufacturers get the 50% concession on BIS marking and application fees?">
                   <span class="chip-icon">💰</span>
                   <div>
-                    <strong>MSME 50% Fee Concession</strong>
-                    <span>Udyam Benefits & Marking Fee Rules</span>
+                    <strong data-i18n="chip5_title">MSME 50% Fee Concession</strong>
+                    <span data-i18n="chip5_desc">Udyam Benefits & Marking Fee Rules</span>
                   </div>
                 </button>
-                <button class="chip" data-prompt="What is the difference between Scheme I (ISI Mark) and Scheme II (CRS) under BIS Act 2016?">
+                <button class="chip" data-i18n-prompt="chip6_prompt" data-prompt="What is the difference between Scheme I (ISI Mark) and Scheme II (CRS) under BIS Act 2016?">
                   <span class="chip-icon">🏭</span>
                   <div>
-                    <strong>Scheme I vs Scheme II Process</strong>
-                    <span>Licensing Steps, Factory Audit & CRS</span>
+                    <strong data-i18n="chip6_title">Scheme I vs Scheme II Process</strong>
+                    <span data-i18n="chip6_desc">Licensing Steps, Factory Audit & CRS</span>
                   </div>
                 </button>
               </div>
@@ -223,7 +223,7 @@
           <!-- Bottom Chat Input Bar -->
           <div class="chat-input-container">
             <div class="chat-input-wrapper">
-              <button class="btn-icon input-tool-btn" id="attachBtn" title="Attach Document / Spec" aria-label="Attach File">
+              <button class="btn-icon input-tool-btn" id="attachBtn" title="Attach Document / Spec" data-i18n-title="attach_tooltip" aria-label="Attach File">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
               </button>
               
@@ -236,16 +236,16 @@
                 aria-label="Message Input"
               ></textarea>
 
-              <button class="btn-icon input-tool-btn" id="voiceBtn" title="Voice Input (Speech-to-Text)" aria-label="Voice Input">
+              <button class="btn-icon input-tool-btn" id="voiceBtn" title="Voice Input (Speech-to-Text)" data-i18n-title="voice_tooltip" aria-label="Voice Input">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
               </button>
 
-              <button class="btn-send" id="sendBtn" title="Send Message" aria-label="Send Message">
+              <button class="btn-send" id="sendBtn" title="Send Message" data-i18n-title="send_tooltip" aria-label="Send Message">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
               </button>
             </div>
             <div class="input-disclaimer">
-              <span class="disclaimer-text">BIS AI Assistant provides authoritative guidance grounded in Indian Standards. Always confirm formal licensing on <a href="https://www.manakonline.in/" target="_blank" rel="noopener">Manakonline</a>.</span>
+              <span class="disclaimer-text" data-i18n="input_disclaimer">BIS AI Assistant provides authoritative guidance grounded in Indian Standards. Always confirm formal licensing on <a href="https://www.manakonline.in/" target="_blank" rel="noopener">Manakonline</a>.</span>
             </div>
           </div>
 
@@ -265,56 +265,56 @@
           <div class="analyzer-grid">
             <!-- Left: Form -->
             <div class="card form-card">
-              <h3 class="card-title">Product Specification Input</h3>
+              <h3 class="card-title" data-i18n="analyzer_form_title">Product Specification Input</h3>
               <form id="productAnalysisForm">
                 <div class="form-group">
-                  <label for="prodName">Product Name / Description *</label>
-                  <input type="text" id="prodName" class="form-input" placeholder="e.g. Electric Kettle with Cordless Base" value="Electric Kettle" required>
+                  <label for="prodName" data-i18n="label_prod_name">Product Name / Description *</label>
+                  <input type="text" id="prodName" class="form-input" placeholder="e.g. Electric Kettle with Cordless Base" data-i18n-placeholder="placeholder_prod_name" value="Electric Kettle" required>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="prodCategory">Industry Sector</label>
+                    <label for="prodCategory" data-i18n="label_prod_category">Industry Sector</label>
                     <select id="prodCategory" class="form-select">
-                      <option value="Electrical & Electronics">Electrical & Electronics</option>
-                      <option value="Food & Agriculture">Food & Agriculture</option>
-                      <option value="Electronics & IT Goods (CRS)">Electronics & IT Goods (CRS)</option>
-                      <option value="Mechanical / Road Safety">Mechanical / Road Safety</option>
-                      <option value="Consumer Goods / Toys">Consumer Goods / Toys</option>
-                      <option value="Renewable Energy / Solar">Renewable Energy / Solar</option>
-                      <option value="Household & Kitchen Utensils">Household & Kitchen Utensils</option>
-                      <option value="Precious Metals & Hallmarking">Precious Metals & Hallmarking</option>
+                      <option value="Electrical & Electronics" data-i18n="cat_electrical">Electrical & Electronics</option>
+                      <option value="Food & Agriculture" data-i18n="cat_food">Food & Agriculture</option>
+                      <option value="Electronics & IT Goods (CRS)" data-i18n="cat_crs">Electronics & IT Goods (CRS)</option>
+                      <option value="Mechanical / Road Safety" data-i18n="cat_mech">Mechanical / Road Safety</option>
+                      <option value="Consumer Goods / Toys" data-i18n="cat_toys">Consumer Goods / Toys</option>
+                      <option value="Renewable Energy / Solar" data-i18n="cat_solar">Renewable Energy / Solar</option>
+                      <option value="Household & Kitchen Utensils" data-i18n="cat_kitchen">Household & Kitchen Utensils</option>
+                      <option value="Precious Metals & Hallmarking" data-i18n="cat_precious">Precious Metals & Hallmarking</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="prodMaterial">Primary Body Material</label>
-                    <input type="text" id="prodMaterial" class="form-input" placeholder="e.g. SS 304 / Food grade PP" value="Stainless Steel 304">
+                    <label for="prodMaterial" data-i18n="label_prod_material">Primary Body Material</label>
+                    <input type="text" id="prodMaterial" class="form-input" placeholder="e.g. SS 304 / Food grade PP" data-i18n-placeholder="placeholder_prod_material" value="Stainless Steel 304">
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="prodVoltage">Rated Voltage / Power</label>
-                    <input type="text" id="prodVoltage" class="form-input" placeholder="e.g. 230V AC, 1800W" value="230V AC, 1500W">
+                    <label for="prodVoltage" data-i18n="label_prod_voltage">Rated Voltage / Power</label>
+                    <input type="text" id="prodVoltage" class="form-input" placeholder="e.g. 230V AC, 1800W" data-i18n-placeholder="placeholder_prod_voltage" value="230V AC, 1500W">
                   </div>
                   <div class="form-group">
-                    <label for="prodCapacity">Rated Capacity / Size</label>
-                    <input type="text" id="prodCapacity" class="form-input" placeholder="e.g. 1.8 Litres" value="1.8 Litres">
+                    <label for="prodCapacity" data-i18n="label_prod_capacity">Rated Capacity / Size</label>
+                    <input type="text" id="prodCapacity" class="form-input" placeholder="e.g. 1.8 Litres" data-i18n-placeholder="placeholder_prod_capacity" value="1.8 Litres">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="prodMarket">Target Market / Channel</label>
+                  <label for="prodMarket" data-i18n="label_prod_market">Target Market / Channel</label>
                   <select id="prodMarket" class="form-select">
-                    <option value="Domestic Indian Market (Mandatory QCO)">Domestic Indian Market (Mandatory QCO)</option>
-                    <option value="Export & Domestic Dual Compliance">Export & Domestic Dual Compliance</option>
-                    <option value="Institutional & Government GeM Procurement">Institutional & Government GeM Procurement</option>
+                    <option value="Domestic Indian Market (Mandatory QCO)" data-i18n="market_domestic">Domestic Indian Market (Mandatory QCO)</option>
+                    <option value="Export & Domestic Dual Compliance" data-i18n="market_export">Export & Domestic Dual Compliance</option>
+                    <option value="Institutional & Government GeM Procurement" data-i18n="market_gem">Institutional & Government GeM Procurement</option>
                   </select>
                 </div>
 
                 <button type="submit" class="btn-primary" id="analyzeSubmitBtn">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                  <span>Generate Full Compliance Plan</span>
+                  <span data-i18n="btn_generate_plan">Generate Full Compliance Plan</span>
                 </button>
               </form>
             </div>
@@ -323,8 +323,8 @@
             <div class="card result-card" id="analyzerResults">
               <div class="result-placeholder" id="analyzerPlaceholder">
                 <div class="placeholder-icon">📋</div>
-                <h4>Ready to Analyze Product</h4>
-                <p>Fill in the product specification and click Generate to see the grounded Indian Standard, testing matrix, and step-by-step checklist.</p>
+                <h4 data-i18n="analyzer_placeholder_title">Ready to Analyze Product</h4>
+                <p data-i18n="analyzer_placeholder_desc">Fill in the product specification and click Generate to see the grounded Indian Standard, testing matrix, and step-by-step checklist.</p>
               </div>
 
               <div class="result-display" id="analyzerDisplay" style="display: none;">
@@ -348,18 +348,18 @@
           <div class="search-filter-bar">
             <div class="search-input-box">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input type="text" id="standardSearchInput" placeholder="Search standard by IS Number (e.g. IS 302, IS 14543), title, or product..." aria-label="Search Standards">
+              <input type="text" id="standardSearchInput" placeholder="Search standard by IS Number (e.g. IS 302, IS 14543), title, or product..." data-i18n-placeholder="search_standards_placeholder" aria-label="Search Standards">
             </div>
             <select id="standardCategoryFilter" class="filter-select" aria-label="Filter by Category">
-              <option value="">All Categories</option>
-              <option value="Electrical">Electrical & Electronics</option>
-              <option value="Food">Food & Agriculture</option>
-              <option value="CRS">Electronics CRS</option>
-              <option value="Safety">Mechanical & Road Safety</option>
-              <option value="Toys">Toys Safety</option>
-              <option value="Solar">Solar & Renewable</option>
-              <option value="Kitchen">Household & Kitchen</option>
-              <option value="Hallmarking">Precious Metals & Hallmarking</option>
+              <option value="" data-i18n="filter_all_categories">All Categories</option>
+              <option value="Electrical" data-i18n="cat_electrical">Electrical & Electronics</option>
+              <option value="Food" data-i18n="cat_food">Food & Agriculture</option>
+              <option value="CRS" data-i18n="cat_crs">Electronics CRS</option>
+              <option value="Safety" data-i18n="cat_mech">Mechanical & Road Safety</option>
+              <option value="Toys" data-i18n="cat_toys">Toys Safety</option>
+              <option value="Solar" data-i18n="cat_solar">Solar & Renewable</option>
+              <option value="Kitchen" data-i18n="cat_kitchen">Household & Kitchen</option>
+              <option value="Hallmarking" data-i18n="cat_precious">Precious Metals & Hallmarking</option>
             </select>
           </div>
 
@@ -382,10 +382,10 @@
           <div class="search-filter-bar">
             <div class="search-input-box">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input type="text" id="labSearchInput" placeholder="Search by city, lab name, or test standard (e.g. Chennai, IS 302, Water)..." aria-label="Search Labs">
+              <input type="text" id="labSearchInput" placeholder="Search by city, lab name, or test standard (e.g. Chennai, IS 302, Water)..." data-i18n-placeholder="search_labs_placeholder" aria-label="Search Labs">
             </div>
             <select id="labStateFilter" class="filter-select" aria-label="Filter by State">
-              <option value="">All States / Regions</option>
+              <option value="" data-i18n="filter_all_states">All States / Regions</option>
               <option value="Tamil Nadu">Tamil Nadu (Chennai)</option>
               <option value="Uttar Pradesh">Uttar Pradesh (Sahibabad)</option>
               <option value="Maharashtra">Maharashtra (Mumbai)</option>
@@ -422,8 +422,8 @@
         <div class="panel-content-scroll">
           <div class="panel-header">
             <div>
-              <h2 class="panel-title">System Health & Ingestion Telemetry</h2>
-              <p class="panel-subtitle">Real-time status of backend services, RAG knowledge stores, citation verification pipelines, and audit logs.</p>
+              <h2 class="panel-title" data-i18n="health_heading">System Health & Ingestion Telemetry</h2>
+              <p class="panel-subtitle" data-i18n="health_sub">Real-time status of backend services, RAG knowledge stores, citation verification pipelines, and audit logs.</p>
             </div>
           </div>
 
@@ -431,40 +431,40 @@
             <div class="metric-card">
               <div class="metric-icon">🟢</div>
               <div class="metric-info">
-                <span class="metric-val" id="healthStatus">Operational</span>
-                <span class="metric-lbl">API Server Health</span>
+                <span class="metric-val" id="healthStatus" data-i18n="status_operational">Operational</span>
+                <span class="metric-lbl" data-i18n="metric_api_health">API Server Health</span>
               </div>
             </div>
             <div class="metric-card">
               <div class="metric-icon">📚</div>
               <div class="metric-info">
                 <span class="metric-val" id="metricStandards">8 Standards</span>
-                <span class="metric-lbl">Ingested Indian Standards</span>
+                <span class="metric-lbl" data-i18n="metric_standards">Ingested Indian Standards</span>
               </div>
             </div>
             <div class="metric-card">
               <div class="metric-icon">🔬</div>
               <div class="metric-info">
                 <span class="metric-val" id="metricLabs">6 Labs</span>
-                <span class="metric-lbl">BIS-Recognized Test Centers</span>
+                <span class="metric-lbl" data-i18n="metric_labs">BIS-Recognized Test Centers</span>
               </div>
             </div>
             <div class="metric-card">
               <div class="metric-icon">🌐</div>
               <div class="metric-info">
                 <span class="metric-val" id="metricServices">6 Portals</span>
-                <span class="metric-lbl">Integrated Official Services</span>
+                <span class="metric-lbl" data-i18n="metric_services">Integrated Official Services</span>
               </div>
             </div>
           </div>
 
           <div class="card mt-24">
-            <h3 class="card-title">Orchestration & Verification Rules</h3>
+            <h3 class="card-title" data-i18n="telemetry_rules_title">Orchestration & Verification Rules</h3>
             <ul class="telemetry-list">
-              <li><strong>RAG Grounding:</strong> Only citations from verified Indian Standards (IS) clauses are returned.</li>
-              <li><strong>Zero Hallucination Policy:</strong> Missing product attributes trigger interactive clarification cards.</li>
-              <li><strong>Regulatory Authority:</strong> Clear distinction between automated guidance and final official BIS licensing.</li>
-              <li><strong>Language Engine:</strong> Technical identifiers (e.g., IS 302-2-15, Cl. 13, 0.75mA) are strictly preserved across English, Tamil, and Hindi translations.</li>
+              <li><strong data-i18n="rule_rag">RAG Grounding: Only citations from verified Indian Standards (IS) clauses are returned.</strong></li>
+              <li><strong data-i18n="rule_zero_hallucination">Zero Hallucination Policy: Missing product attributes trigger interactive clarification cards.</strong></li>
+              <li><strong data-i18n="rule_authority">Regulatory Authority: Clear distinction between automated guidance and final official BIS licensing.</strong></li>
+              <li><strong data-i18n="rule_language">Language Engine: Technical identifiers (e.g., IS 302-2-15, Cl. 13, 0.75mA) are strictly preserved across English, Tamil, and Hindi translations.</strong></li>
             </ul>
           </div>
         </div>
@@ -476,7 +476,7 @@
     <div class="evidence-drawer" id="evidenceDrawer">
       <div class="drawer-header">
         <div class="drawer-title-group">
-          <span class="drawer-badge">BIS Official Evidence</span>
+          <span class="drawer-badge" data-i18n="drawer_badge">BIS Official Evidence</span>
           <h3 id="drawerTitle">IS 302-2-15: 2009</h3>
         </div>
         <button class="btn-icon" id="closeDrawerBtn" aria-label="Close Evidence Drawer">
@@ -488,7 +488,7 @@
       </div>
       <div class="drawer-footer">
         <a href="https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/indian_standards/isdetails" target="_blank" rel="noopener" class="btn-primary" id="drawerOfficialBtn">
-          <span>Open in Know Your Standard (KYS)</span>
+          <span data-i18n="drawer_btn">Open in Know Your Standard (KYS)</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
       </div>
@@ -500,20 +500,20 @@
       <div class="modal-card" id="aiSettingsModal">
         <div class="modal-header">
           <div class="modal-title-group">
-            <span class="modal-badge">AI Configuration</span>
-            <h3>AI Engine & Model Settings</h3>
+            <span class="modal-badge" data-i18n="modal_badge">AI Configuration</span>
+            <h3 data-i18n="modal_title">AI Engine & Model Settings</h3>
           </div>
           <button class="btn-icon" id="closeAiSettingsBtn" aria-label="Close Settings">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
         <div class="modal-body">
-          <p class="modal-desc">
+          <p class="modal-desc" data-i18n="modal_desc">
             Choose your preferred AI Intelligence Provider. You can use the high-performance <strong>Built-in Universal Brain</strong> (free & offline-capable) or connect your own API Key for Google Gemini, OpenAI, or Groq.
           </p>
 
           <div class="form-group">
-            <label for="aiProviderSelect" class="form-label">Active AI Provider</label>
+            <label for="aiProviderSelect" class="form-label" data-i18n="modal_active_provider">Active AI Provider</label>
             <select id="aiProviderSelect" class="form-select">
               <option value="builtin">⚡ Built-in Universal Intelligence Brain (Free, No Key Required)</option>
               <option value="gemini">🌟 Google Gemini (Gemini 1.5 Flash / 2.0 Flash)</option>
@@ -523,11 +523,11 @@
           </div>
 
           <div class="form-group" id="apiKeyFormGroup" style="display: none;">
-            <label for="customApiKeyInput" class="form-label">Custom API Key</label>
+            <label for="customApiKeyInput" class="form-label" data-i18n="modal_custom_key">Custom API Key</label>
             <div class="api-key-input-wrapper">
               <input type="password" id="customApiKeyInput" class="form-input" placeholder="Enter your API Key (e.g. AIzaSy... or sk-...)">
               <button type="button" class="btn-icon" id="toggleApiKeyVisibility" title="Toggle Key Visibility">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
             </div>
             <div class="form-help-text" id="apiKeyHelpText">API keys are stored securely in your local browser storage.</div>
@@ -535,14 +535,14 @@
 
           <div class="modal-actions-row">
             <button type="button" class="btn-secondary" id="testAiKeyBtn" style="display: none;">
-              <span>Test Connection</span>
+              <span data-i18n="btn_test_connection">Test Connection</span>
             </button>
             <div id="testKeyStatus" class="test-key-status"></div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn-secondary" id="cancelAiSettingsBtn">Cancel</button>
-          <button type="button" class="btn-primary" id="saveAiSettingsBtn">Save & Apply</button>
+          <button type="button" class="btn-secondary" id="cancelAiSettingsBtn" data-i18n="btn_cancel">Cancel</button>
+          <button type="button" class="btn-primary" id="saveAiSettingsBtn" data-i18n="btn_save">Save & Apply</button>
         </div>
       </div>
     </div>

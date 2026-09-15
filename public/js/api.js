@@ -145,6 +145,17 @@ const apiClient = {
       body: JSON.stringify(payload)
     });
     return await res.json();
+  },
+
+  // Dynamic Text Translation API across 7 languages
+  async translate(payload) {
+    const res = await fetch(`${API_BASE}/translate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error(`Translate API error: ${res.statusText}`);
+    return await res.json();
   }
 };
 
