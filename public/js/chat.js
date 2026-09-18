@@ -187,7 +187,11 @@ class ChatController {
     try {
       const lang = window.i18n.currentLang;
       const customProvider = localStorage.getItem('bis_ai_provider') || 'builtin';
-      const customApiKey = localStorage.getItem('bis_custom_api_key') || null;
+      let customApiKey = null;
+      if (customProvider !== 'builtin') {
+        const storedKey = (localStorage.getItem('bis_custom_api_key') || '').trim();
+        if (storedKey) customApiKey = storedKey;
+      }
 
       const res = await window.apiClient.sendChat({
         message: text,

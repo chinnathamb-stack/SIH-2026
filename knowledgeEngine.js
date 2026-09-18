@@ -1,14 +1,16 @@
 /**
- * BIS AI Intelligent Assistant - Dynamic Groq & Knowledge Engine Orchestrator
+ * BIS AI Intelligent Assistant - Dynamic Multi-Model & Knowledge Engine Orchestrator
  * SIH Problem Statement 26107
  * 
  * Features:
- * - 100% Dynamic Groq LPU Generation (No static canned responses)
- * - Multi-Model Fallback: openai/gpt-oss-120b -> qwen/qwen3.8-27b -> groq/compound -> openai/gpt-oss-20b -> llama-3.3-70b-versatile
- * - Optimal token safety (max_tokens: 850) preventing OTPM rate limit errors
- * - Grounded RAG context injection from official Indian Standards corpus
+ * - Dynamic Groq & Gemini LPU/API Generation
+ * - Verified working Groq models: openai/gpt-oss-120b -> qwen/qwen3.8-27b -> groq/compound -> groq/compound-mini
+ * - Native Google Gemini API integration if Gemini provider/key is configured
+ * - Resilient API key handling (builtin provider always uses server GROQ_API_KEY)
+ * - Grounded RAG context injection across Indian Standards, Knowledge Base, Services & Online Portals
+ * - Rich Offline Knowledge Base fallback (authoritative statutory knowledge, never blank greetings)
  * - KaTeX formula & math formatting support
- * - Adaptive concise response sizing
+ * - Adaptive concise response sizing & 7-language localization
  */
 
 const https = require('https');
@@ -16,14 +18,12 @@ const http = require('http');
 const { translateText, LANGUAGE_NAMES } = require('./translator');
 
 const GROQ_DEFAULT_API_KEY = process.env.GROQ_API_KEY || '';
-const GROQ_BASE_URL = process.env.GROQ_BASE_URL || 'https://api.groq.com/openai/v1';
 
 const CANDIDATE_MODELS = [
   'openai/gpt-oss-120b',
   'qwen/qwen3.8-27b',
   'groq/compound',
-  'openai/gpt-oss-20b',
-  'llama-3.3-70b-versatile'
+  'groq/compound-mini'
 ];
 
 function makeHttpsRequest(urlStr, method = 'POST', data = null, headers = {}) {
@@ -79,7 +79,7 @@ class BISKnowledgeEngine {
     const q = query.toLowerCase();
     const evidence = [];
 
-    // Search standards
+    // 1. Search standards
     for (const std of this.standards) {
       const isMatch = (std.is_number && q.includes(std.is_number.toLowerCase().replace(/[^a-z0-9]/g, ''))) ||
         (std.title && std.title.toLowerCase().split(' ').some(w => w.length > 3 && q.includes(w))) ||
@@ -106,7 +106,7 @@ class BISKnowledgeEngine {
       if (evidence.length >= 4) break;
     }
 
-    // Search Knowledge Base
+    // 2. Search Knowledge Base
     if (evidence.length < 3 && this.knowledgeBase) {
       for (const [key, item] of Object.entries(this.knowledgeBase)) {
         if (q.includes(key.toLowerCase()) || (item.title && item.title.toLowerCase().split(' ').some(w => w.length > 4 && q.includes(w)))) {
@@ -126,31 +126,56 @@ class BISKnowledgeEngine {
       }
     }
 
+    // 3. Search Official Services & Portals
+    if (evidence.length < 3 && this.services && this.services.length > 0) {
+      for (const srv of this.services) {
+        const sMatch = q.includes(srv.name.toLowerCase()) ||
+          q.includes((srv.badge || '').toLowerCase()) ||
+          ((q.includes('service') || q.includes('portal') || q.includes('bis') || q.includes('scheme') || q.includes('apply') || q.includes('license') || q.includes('licence') || q.includes('manakonline') || q.includes('kys') || q.includes('lims')) &&
+          srv.features && srv.features.some(f => q.includes(f.toLowerCase())));
+
+        if (sMatch) {
+          evidence.push({
+            standard_number: srv.name,
+            document_title: srv.category,
+            scheme: srv.badge || 'Official Service',
+            chunk: {
+              clause: srv.official_url,
+              section: 'BIS Online Portals',
+              page: 1,
+              text: `${srv.description} Key capabilities: ${(srv.features || []).join(', ')}`
+            }
+          });
+        }
+        if (evidence.length >= 4) break;
+      }
+    }
+
     return evidence;
   }
 
-  async callGroqLLM({ prompt, history = [], groundingEvidence = [], language = 'en', customApiKey = null, customProvider = null, aiModel = null }) {
-    const apiKey = customApiKey || process.env.GROQ_API_KEY || GROQ_DEFAULT_API_KEY;
+  buildSystemPrompt(groundingEvidence, language) {
     const langFullName = LANGUAGE_NAMES[language] || language;
 
     let groundingContext = '';
     if (groundingEvidence && groundingEvidence.length > 0) {
       groundingContext = '\n\n--- OFFICIAL AUTHORIZED INDIAN STANDARDS CORPUS EVIDENCE ---\n' +
         groundingEvidence.map(e =>
-          `[Standard: ${e.standard_number} | Clause: ${e.chunk?.clause || 'Standard'} | Section: ${e.chunk?.section || 'Specification'}]\nTitle: ${e.document_title}\nExcerpt: "${e.chunk?.text || ''}"`
+          `[Standard/Portal: ${e.standard_number} | Clause/URL: ${e.chunk?.clause || 'Standard'} | Section: ${e.chunk?.section || 'Specification'}]\nTitle: ${e.document_title}\nExcerpt: "${e.chunk?.text || ''}"`
         ).join('\n\n') +
         '\n--- END OF EVIDENCE ---\n';
     }
 
-    const systemPrompt = `You are BIS Sahayak AI, an intelligent, agile, and helpful assistant for the Bureau of Indian Standards (Govt of India) and general user inquiries.
+    return `You are BIS Sahayak AI, an intelligent, agile, and authoritative assistant for the Bureau of Indian Standards (Govt of India) and general user inquiries.
 
+${groundingContext}
 RESPONSE RULES:
 1. ADAPTIVE LENGTH (VERY IMPORTANT):
    - Keep answers direct, punchy, and appropriately sized for the prompt. Do NOT generate unnecessary filler or huge walls of text for simple questions.
    - For greetings (e.g. 'vanakkam', 'namaste', 'hi', 'hello'), reply warmly and briefly (1-2 lines) in the user's language.
-   - For factual or conceptual questions (e.g. 'what is thermodynamics', 'what is ISI mark'), provide a crisp, direct, and well-structured answer in 2-3 short sections or bullet points.
+   - For factual or conceptual questions (e.g. 'what is BIS', 'what is ISI mark', 'how to apply on Manakonline'), provide a crisp, direct, and well-structured answer in 2-3 short sections or bullet points.
 2. FORMULAS & MATH (KaTeX):
-   - When writing mathematical, physical, or chemical formulas, ALWAYS use standard LaTeX/KaTeX format (e.g. inline \$E = mc^2\$ or block \$\$\Delta U = Q - W\$\$, \$\$H = U + PV\$\$, \$\$\Delta S \ge \frac{Q}{T}\$\$).
+   - When writing mathematical, physical, or chemical formulas, ALWAYS use standard LaTeX/KaTeX format (e.g. inline $E = mc^2$ or block $$\\Delta U = Q - W$$).
 3. BIS STANDARDS & CITATIONS:
    - When questions touch on Indian products, testing, or certification, prioritize and explicitly name the Indian Standard numbers provided in the evidence (e.g. **IS 2082:2018** for stationary electric water heaters, **IS 12258:2021** for pressure cookers, **IS 1417:2016** for gold hallmarking, **IS 694:2010** for PVC cables, **IS 14543:2024** for packaged drinking water, **IS 16046:2018** for lithium batteries, **IS 4151:2020** for helmets) with their key clause references. Do not alter or translate the standard identifiers.
 4. FORMATTING:
@@ -159,10 +184,50 @@ RESPONSE RULES:
    - The user has selected interface language: ${langFullName} (${language}).
    - You MUST generate your ENTIRE response in ${langFullName}, regardless of whether the user prompt or reference evidence was in English or another language.
    - Indian Standard codes and alphanumeric identifiers (e.g., IS 302-2-15, IS 14543, IS 16046, IS 4151, Cl. 13, 0.75mA, 230V AC) MUST be strictly preserved without translation or transliteration into other scripts.`;
+  }
 
-    const userPrompt = groundingContext
-      ? `${groundingContext}\nUser Prompt: ${prompt}`
-      : prompt;
+  async callGeminiLLM({ prompt, history = [], groundingEvidence = [], language = 'en', apiKey, aiModel = 'gemini-1.5-flash' }) {
+    if (!apiKey) return null;
+    const systemInstruction = this.buildSystemPrompt(groundingEvidence, language);
+    const model = (aiModel && aiModel.includes('gemini')) ? aiModel : 'gemini-1.5-flash';
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+    const contents = [];
+    if (history && Array.isArray(history)) {
+      history.slice(-4).forEach(m => {
+        contents.push({
+          role: (m.role === 'assistant' || m.role === 'model') ? 'model' : 'user',
+          parts: [{ text: m.text || m.content || '' }]
+        });
+      });
+    }
+    contents.push({ role: 'user', parts: [{ text: prompt }] });
+
+    const payload = JSON.stringify({
+      system_instruction: { parts: [{ text: systemInstruction }] },
+      contents: contents,
+      generationConfig: {
+        maxOutputTokens: 850,
+        temperature: 0.5
+      }
+    });
+
+    const res = await makeHttpsRequest(url, 'POST', payload, { 'Content-Type': 'application/json' });
+    if (res && !res.error && res.body) {
+      try {
+        const parsed = JSON.parse(res.body);
+        const ans = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (ans && ans.trim()) {
+          return { answer: ans.trim(), modelUsed: model };
+        }
+      } catch (e) {}
+    }
+    return null;
+  }
+
+  async callGroqLLM({ prompt, history = [], groundingEvidence = [], language = 'en', apiKey, aiModel = null }) {
+    if (!apiKey) return null;
+    const systemPrompt = this.buildSystemPrompt(groundingEvidence, language);
 
     const messages = [
       { role: 'system', content: systemPrompt }
@@ -177,11 +242,13 @@ RESPONSE RULES:
       });
     }
 
-    messages.push({ role: 'user', content: userPrompt });
+    messages.push({ role: 'user', content: prompt });
 
-    const modelsToTry = aiModel ? [aiModel, ...CANDIDATE_MODELS] : CANDIDATE_MODELS;
+    const validCandidate = (aiModel && CANDIDATE_MODELS.includes(aiModel))
+      ? [aiModel, ...CANDIDATE_MODELS.filter(m => m !== aiModel)]
+      : CANDIDATE_MODELS;
 
-    for (const model of modelsToTry) {
+    for (const model of validCandidate) {
       try {
         const payload = JSON.stringify({
           model: model,
@@ -202,7 +269,8 @@ RESPONSE RULES:
 
         if (res && !res.error && res.body) {
           const parsed = JSON.parse(res.body);
-          const ans = parsed.choices?.[0]?.message?.content;
+          const choice = parsed.choices?.[0]?.message;
+          const ans = choice?.content || choice?.reasoning;
           if (ans && ans.trim().length > 0) {
             const cleaned = ans
               .trim()
@@ -212,28 +280,58 @@ RESPONSE RULES:
           }
         }
       } catch (err) {
-        console.warn(`Groq model ${model} failed:`, err.message || err);
+        console.warn(`Groq model ${model} error:`, err.message || err);
       }
     }
+    return null;
+  }
 
-    // Fallback if offline
-    let fallbackText = 'I am **BIS Sahayak AI**. ';
+  getOfflineAnswer(rawMsg, groundingEvidence = []) {
+    const q = rawMsg.toLowerCase().trim();
+
+    // Check greetings
+    if (/^(hi|hello|hey|namaste|vanakkam|namaskar|pranam|good morning|good evening)\b/i.test(q)) {
+      return "Namaste! I am **BIS Sahayak AI**, your official assistant for the Bureau of Indian Standards (Govt of India). How can I assist you today with Indian Standards, ISI certification, lab testing, or compliance inquiries?";
+    }
+
+    // Check "What is BIS" or general BIS inquiries
+    if (q.includes('what is bis') || q.includes('about bis') || q.includes('who is bis') || q.includes('bureau of indian standards') || q === 'bis' || q.includes('explain bis')) {
+      return `### Bureau of Indian Standards (BIS)\n\n` +
+        `The **Bureau of Indian Standards (BIS)** is the National Standards Body of India established under the **Bureau of Indian Standards Act, 2016** under the Ministry of Consumer Affairs, Food & Public Distribution, Government of India.\n\n` +
+        `#### 🏛️ Core Functions & Pillars:\n` +
+        `1. **Standard Formulation (Indian Standards - IS):** Developing, publishing, and updating harmonized quality and safety benchmarks across agriculture, mechanical, chemical, electrotechnical, IT, and medical sectors.\n` +
+        `2. **Conformity Assessment & Product Certification (ISI Mark):** Implementing **Scheme I (ISI Mark)** and **Scheme II (CRS)** to ensure manufactured goods conform to mandatory Quality Control Orders (QCOs).\n` +
+        `3. **Hallmarking:** Ensuring mandatory purity certification of gold and silver jewellery with 6-digit **Hallmark Unique Identification (HUID)** numbers.\n` +
+        `4. **Laboratory Testing:** Operating a nationwide network of Central, Regional, and Branch Testing Laboratories alongside recognized NABL-accredited labs.\n\n` +
+        `#### 💻 Official Digital Portals:\n` +
+        `- **Manakonline (e-BIS):** [manakonline.in](https://www.manakonline.in/) - Online application submission (Form-V), licence tracking, and renewals.\n` +
+        `- **Know Your Standard (KYS):** [standards.bis.gov.in](https://standards.bis.gov.in/) - Free search, preview, and download of Indian Standards.\n` +
+        `- **BIS CARE App:** Official mobile app for consumers to verify ISI marks, check HUID authenticity, and register grievances.`;
+    }
+
+    // Check ISI mark
+    if (q.includes('isi mark') || q.includes('what is isi')) {
+      return `### The ISI Mark (Scheme I Certification)\n\n` +
+        `The **ISI mark** is the premier quality certification mark in India issued by the Bureau of Indian Standards (BIS) under Scheme I of the BIS (Conformity Assessment) Regulations, 2018.\n\n` +
+        `- **Purpose:** Certifies that an industrial product complies with the relevant Indian Standard (IS) regarding safety, health, and environmental performance.\n` +
+        `- **Mandatory vs Voluntary:** Mandatory for products covered under Government Quality Control Orders (QCOs)—including packaged drinking water, electric appliances, cement, steel, helmets, toys, and cables.\n` +
+        `- **How to Apply:** Domestic manufacturers submit **Form-V** on the **[Manakonline Portal](https://www.manakonline.in/)** with factory premises, manufacturing machinery, and calibrated in-house testing equipment.\n` +
+        `- **Concessions:** Micro, Small & Medium Enterprises (MSMEs) and Startups enjoy a **50% concession** on marking and inspection fees.`;
+    }
+
+    // Grounding evidence fallback if available
     if (groundingEvidence && groundingEvidence.length > 0) {
-      fallbackText += 'Here is official information based on authorized standards:\n\n' +
-        groundingEvidence.map(e => `### **${e.standard_number}** - ${e.document_title}\n- **Clause ${e.chunk.clause}:** ${e.chunk.text}`).join('\n\n');
-    } else {
-      fallbackText += 'How can I assist you today with Indian Standards, ISI certification, lab testing, or general questions?';
+      return `Here is official information grounded in authorized Indian Standards and BIS resources:\n\n` +
+        groundingEvidence.map(e => `### **${e.standard_number}** - ${e.document_title}\n- **${e.chunk?.clause || 'Standard Reference'}:** ${e.chunk?.text || ''}`).join('\n\n');
     }
 
-    if (language && language !== 'en') {
-      try {
-        fallbackText = await translateText(fallbackText, language);
-      } catch (e) {
-        console.warn('Fallback translation error:', e);
-      }
-    }
-
-    return { answer: fallbackText, modelUsed: 'offline-fallback' };
+    // General intelligent advisory fallback
+    return `Under the **Bureau of Indian Standards Act, 2016**, quality compliance in India is governed through published Indian Standards (IS) and mandatory Quality Control Orders (QCOs).\n\n` +
+      `### Key Guidance:\n` +
+      `1. **Standard Search:** Use **[Know Your Standard (KYS)](https://standards.bis.gov.in/)** to find the exact IS number for your product.\n` +
+      `2. **Testing & Audit:** Ensure testing facilities comply with the Scheme of Inspection and Testing (SIT).\n` +
+      `3. **Licensing:** Applications must be filed on **[Manakonline Portal](https://www.manakonline.in/)**.\n\n` +
+      `💡 *Tip: Mention the exact product name (e.g. Electric Kettle, Packaged Water, Steel, Helmets, Gold) to receive specific standard clauses, test parameters, and fees.*`;
   }
 
   async processQuery({
@@ -251,9 +349,7 @@ RESPONSE RULES:
     if (!rawMsg) {
       let emptyMsg = 'Please enter a message or question.';
       if (language && language !== 'en') {
-        try {
-          emptyMsg = await translateText(emptyMsg, language);
-        } catch (e) {}
+        try { emptyMsg = await translateText(emptyMsg, language); } catch (e) {}
       }
       return {
         conversation_id,
@@ -267,20 +363,70 @@ RESPONSE RULES:
     // 1. Retrieve official grounding evidence from database
     const groundingEvidence = this.findRelevantEvidence(rawMsg);
 
-    // 2. Call dynamic Groq LLM
-    const llmResult = await this.callGroqLLM({
-      prompt: rawMsg,
-      history,
-      groundingEvidence,
-      language,
-      customApiKey: custom_api_key,
-      customProvider: custom_provider,
-      aiModel: ai_model
-    });
+    // 2. Determine API credentials
+    const isBuiltin = !custom_provider || custom_provider === 'builtin';
+    const serverGroqKey = process.env.GROQ_API_KEY || GROQ_DEFAULT_API_KEY;
 
-    const aiAnswer = llmResult.answer;
+    let llmResult = null;
 
-    // 3. Extract standard mentions
+    // A. If user chose Gemini and supplied a valid Gemini API key
+    if (custom_provider === 'gemini' && custom_api_key && custom_api_key.trim()) {
+      try {
+        llmResult = await this.callGeminiLLM({
+          prompt: rawMsg,
+          history,
+          groundingEvidence,
+          language,
+          apiKey: custom_api_key.trim(),
+          aiModel: ai_model || 'gemini-1.5-flash'
+        });
+      } catch (err) {
+        console.warn('Gemini LLM call failed:', err.message);
+      }
+    }
+
+    // B. Call Groq LLM (if Gemini was not used or failed, and we have a Groq key)
+    if (!llmResult) {
+      const groqKey = (!isBuiltin && custom_api_key && custom_api_key.trim())
+        ? custom_api_key.trim()
+        : serverGroqKey;
+
+      if (groqKey) {
+        try {
+          llmResult = await this.callGroqLLM({
+            prompt: rawMsg,
+            history,
+            groundingEvidence,
+            language,
+            apiKey: groqKey,
+            aiModel: ai_model
+          });
+        } catch (err) {
+          console.warn('Groq LLM call failed:', err.message);
+        }
+      }
+    }
+
+    // 3. Fallback to resilient offline knowledge base if LLM is unavailable
+    let aiAnswer = '';
+    let modelUsed = 'offline-knowledge-engine';
+
+    if (llmResult && llmResult.answer) {
+      aiAnswer = llmResult.answer;
+      modelUsed = llmResult.modelUsed;
+    } else {
+      let fallbackText = this.getOfflineAnswer(rawMsg, groundingEvidence);
+      if (language && language !== 'en') {
+        try {
+          fallbackText = await translateText(fallbackText, language);
+        } catch (e) {
+          console.warn('Fallback translation error:', e);
+        }
+      }
+      aiAnswer = fallbackText;
+    }
+
+    // 4. Extract standard mentions
     const isMatches = aiAnswer.match(/IS\s*[:\-\/]?\s*\d+(?:\s*(?:part|pt|\-)\s*\d+)?(?:\s*[:\-\(]?\s*\d{4})?/gi) || [];
     const relatedStandards = Array.from(
       new Set([
@@ -289,7 +435,7 @@ RESPONSE RULES:
       ].slice(0, 4))
     );
 
-    // 4. Extract citations
+    // 5. Extract citations
     const citations = groundingEvidence.map(e => ({
       standard_number: e.standard_number,
       document_title: e.document_title,
@@ -299,12 +445,12 @@ RESPONSE RULES:
       source_type: 'BIS Official Standard'
     }));
 
-    // 5. Generate contextual suggested followups
+    // 6. Generate contextual suggested followups
     let suggested_followups = [
-      'Which Indian Standard applies to electric water heaters?',
-      'How to apply for ISI Mark (Scheme-I) on Manakonline?',
-      'How do I verify 6-digit HUID code on BIS CARE app?',
-      'Find BIS recognized testing laboratories in Mumbai'
+      'What is the difference between Scheme I (ISI) and Scheme II (CRS)?',
+      'How do I apply for an ISI Mark licence on Manakonline?',
+      'How to verify 6-digit HUID code on the BIS CARE app?',
+      'Find BIS recognized testing laboratories in my state'
     ];
 
     if (rawMsg.toLowerCase().includes('water') || rawMsg.toLowerCase().includes('heater')) {
@@ -326,9 +472,7 @@ RESPONSE RULES:
         suggested_followups = await Promise.all(
           suggested_followups.map(f => translateText(f, language).catch(() => f))
         );
-      } catch (e) {
-        console.warn('Followups translation error:', e);
-      }
+      } catch (e) {}
     }
 
     return {
@@ -339,7 +483,7 @@ RESPONSE RULES:
       related_standards: relatedStandards,
       suggested_followups,
       confidence: 'HIGH',
-      model_used: llmResult.modelUsed,
+      model_used: modelUsed,
       disclaimer: 'Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications.'
     };
   }

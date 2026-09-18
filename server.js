@@ -76,6 +76,10 @@ app.post('/api/v1/chat', async (req, res) => {
     }
 
     const history = session.messages || [];
+    const sanitizedProvider = custom_provider || 'builtin';
+    const sanitizedApiKey = (sanitizedProvider !== 'builtin' && custom_api_key && typeof custom_api_key === 'string')
+      ? custom_api_key.trim()
+      : null;
 
     const responsePayload = await knowledgeEngine.processQuery({
       message: message.trim(),
@@ -85,8 +89,8 @@ app.post('/api/v1/chat', async (req, res) => {
       history,
       ai_mode,
       ai_model,
-      custom_api_key,
-      custom_provider
+      custom_api_key: sanitizedApiKey,
+      custom_provider: sanitizedProvider
     });
 
     // Record user message
