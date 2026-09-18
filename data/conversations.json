@@ -6014,5 +6014,184 @@
       }
     ],
     "updated_at": "2026-09-18T16:19:37.249Z"
+  },
+  {
+    "id": "conv_1789750591975",
+    "title": "I want to manufacture an electri",
+    "created_at": "2026-09-18T16:56:35.896Z",
+    "messages": [
+      {
+        "id": "msg_user_1789750599045",
+        "role": "user",
+        "text": "I want to manufacture an electric kettle. What BIS requirements must my product satisfy under IS 302-2-15, what tests are required, and which laboratory can test it?",
+        "timestamp": "2026-09-18T16:56:39.045Z"
+      },
+      {
+        "id": "msg_asst_1789750599045",
+        "role": "assistant",
+        "text": "### 1. Core BIS Requirements (IS 302-2-15:2009 - General Requirements)\n\n| Aspect | Mandatory Requirement |\n|--------|------------------------|\n| **Rated Voltage** | ≤ 250 V (single-phase) |\n| **Construction & Materials** | Non-conductive, heat-resistant housing; corrosion-resistant contacts; no sharp edges |\n| **Insulation** | Minimum creepage & clearance as per voltage class; double insulation for Class II designs |\n| **Earthing / Protective-Earth** | If metal body - must be earthed and marked “earthed” |\n| **Temperature Limits** | Surface temperature not to exceed 60 °C at 230 V (or 50 °C at 120 V) after 30 min continuous operation |\n| **Over-heat / Boil-dry Protection** | Automatic shut-off when water level is low or kettle body exceeds safe temperature |\n| **Marking & Documentation** | IS 302-2-15 logo, model, rated voltage, power, manufacturer details, user manual with safety instructions |\n| **Electrical Safety** | Leakage current ≤ 0.75 mA (Class II) or ≤ 3 mA (earthed) under normal use |\n| **Mechanical Strength** | Handles, lid, and spout must withstand a minimum of 10 kg static load without deformation |\n\n### 2. Required Tests (as per the standard)\n\n- **Dielectric Strength / Withstand Voltage** - 2 × rated voltage for 1 min (no breakdown).  \n- **Earth Continuity & Leakage Current** - Measure under normal load conditions.  \n- **Temperature Rise Test** - Operate at full load for 30 min; record surface temperature.  \n- **Over-heat / Boil-dry Protection Test** - Simulate empty-kettle operation; verify automatic shut-off within 30 s.  \n- **Mechanical Stability** - Load test on handle, lid, and spout (≥ 10 kg).  \n- **Water-Ingress (IP) Test** - Verify protection against accidental splashing (minimum IPX3).  \n- **Surge Immunity** - 250 V, 1 kV surge pulse per IEC 61000-4-5.  \n- **EMC Emission** - Radiated and conducted emissions within limits of IEC 60335-2-15 (referenced by IS 302-2-15).  \n- **Durability (Cycle Test)** - Minimum 500 on/off cycles; check for performance degradation.  \n\nA full test report covering each item above is required for BIS certification.\n\n### 3. Accredited Laboratories in India (NABL-listed)\n\n| Lab | Location | Services Offered for IS 302-2-15 |\n|-----|----------|---------------------------------|\n| **BIS Central Testing Laboratory (CTL)** | New Delhi | Complete safety & EMC testing for household appliances |\n| **Intertek",
+        "payload": {
+          "conversation_id": "conv_1789750591975",
+          "message_id": "msg_i8mz72w",
+          "answer": "### 1. Core BIS Requirements (IS 302-2-15:2009 - General Requirements)\n\n| Aspect | Mandatory Requirement |\n|--------|------------------------|\n| **Rated Voltage** | ≤ 250 V (single-phase) |\n| **Construction & Materials** | Non-conductive, heat-resistant housing; corrosion-resistant contacts; no sharp edges |\n| **Insulation** | Minimum creepage & clearance as per voltage class; double insulation for Class II designs |\n| **Earthing / Protective-Earth** | If metal body - must be earthed and marked “earthed” |\n| **Temperature Limits** | Surface temperature not to exceed 60 °C at 230 V (or 50 °C at 120 V) after 30 min continuous operation |\n| **Over-heat / Boil-dry Protection** | Automatic shut-off when water level is low or kettle body exceeds safe temperature |\n| **Marking & Documentation** | IS 302-2-15 logo, model, rated voltage, power, manufacturer details, user manual with safety instructions |\n| **Electrical Safety** | Leakage current ≤ 0.75 mA (Class II) or ≤ 3 mA (earthed) under normal use |\n| **Mechanical Strength** | Handles, lid, and spout must withstand a minimum of 10 kg static load without deformation |\n\n### 2. Required Tests (as per the standard)\n\n- **Dielectric Strength / Withstand Voltage** - 2 × rated voltage for 1 min (no breakdown).  \n- **Earth Continuity & Leakage Current** - Measure under normal load conditions.  \n- **Temperature Rise Test** - Operate at full load for 30 min; record surface temperature.  \n- **Over-heat / Boil-dry Protection Test** - Simulate empty-kettle operation; verify automatic shut-off within 30 s.  \n- **Mechanical Stability** - Load test on handle, lid, and spout (≥ 10 kg).  \n- **Water-Ingress (IP) Test** - Verify protection against accidental splashing (minimum IPX3).  \n- **Surge Immunity** - 250 V, 1 kV surge pulse per IEC 61000-4-5.  \n- **EMC Emission** - Radiated and conducted emissions within limits of IEC 60335-2-15 (referenced by IS 302-2-15).  \n- **Durability (Cycle Test)** - Minimum 500 on/off cycles; check for performance degradation.  \n\nA full test report covering each item above is required for BIS certification.\n\n### 3. Accredited Laboratories in India (NABL-listed)\n\n| Lab | Location | Services Offered for IS 302-2-15 |\n|-----|----------|---------------------------------|\n| **BIS Central Testing Laboratory (CTL)** | New Delhi | Complete safety & EMC testing for household appliances |\n| **Intertek",
+          "citations": [
+            {
+              "standard_number": "IS 302-2-15: 2009",
+              "document_title": "Safety of Household and Similar Electrical Appliances - Particular Requirements for Appliances for Heating Liquids (e.g., Electric Kettles, Water Boilers)",
+              "clause": "General Requirements",
+              "section": "Electrical & Electronics",
+              "page": 1,
+              "source_type": "BIS Official Standard"
+            },
+            {
+              "standard_number": "IS 14543: 2024",
+              "document_title": "Packaged Drinking Water (Other Than Packaged Natural Mineral Water) - Specification",
+              "clause": "General Requirements",
+              "section": "Food & Agriculture",
+              "page": 1,
+              "source_type": "BIS Official Standard"
+            },
+            {
+              "standard_number": "IS 16046 (Part 1 & 2): 2018",
+              "document_title": "Secondary Cells and Batteries Containing Alkaline or Other Non-Acid Electrolytes - Safety Requirements for Portable Sealed Secondary Cells/Batteries (Lithium Systems)",
+              "clause": "General Requirements",
+              "section": "Electronics & IT Goods (CRS)",
+              "page": 1,
+              "source_type": "BIS Official Standard"
+            },
+            {
+              "standard_number": "IS 4151: 2020",
+              "document_title": "Protective Helmets for Two-Wheeler Motor Vehicle Riders - Specification",
+              "clause": "General Requirements",
+              "section": "Mechanical / Road Safety",
+              "page": 1,
+              "source_type": "BIS Official Standard"
+            }
+          ],
+          "related_standards": [
+            "IS 302-2"
+          ],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-18T16:56:39.045Z"
+      }
+    ],
+    "updated_at": "2026-09-18T16:56:39.045Z"
+  },
+  {
+    "id": "conv_1789752232307",
+    "title": "What is BIS",
+    "created_at": "2026-09-18T17:23:52.307Z",
+    "messages": [
+      {
+        "id": "msg_user_1789752234345",
+        "role": "user",
+        "text": "What is BIS",
+        "timestamp": "2026-09-18T17:23:54.345Z"
+      },
+      {
+        "id": "msg_asst_1789752234345",
+        "role": "assistant",
+        "text": "### Bureau of Indian Standards (BIS)\n\n- **Statutory Body** - The national standards organization of India, established under the *Bureau of Indian Standards Act, 2016*.  \n- **Core Functions**  \n  - **Formulation & Publication** of Indian Standards (IS) for products, services, and systems.  \n  - **Certification & Marking** (the ISI mark) to assure conformity to these standards.  \n  - **Testing & Calibration** through its network of accredited labs.  \n- **Key Roles**  \n  - Protect consumer safety, health, and the environment.  \n  - Promote quality, reliability, and competitiveness of Indian industry.  \n  - Support trade by facilitating mutual recognition of standards.",
+        "payload": {
+          "conversation_id": "conv_1789752232307",
+          "message_id": "msg_3gsy9hl",
+          "answer": "### Bureau of Indian Standards (BIS)\n\n- **Statutory Body** - The national standards organization of India, established under the *Bureau of Indian Standards Act, 2016*.  \n- **Core Functions**  \n  - **Formulation & Publication** of Indian Standards (IS) for products, services, and systems.  \n  - **Certification & Marking** (the ISI mark) to assure conformity to these standards.  \n  - **Testing & Calibration** through its network of accredited labs.  \n- **Key Roles**  \n  - Protect consumer safety, health, and the environment.  \n  - Promote quality, reliability, and competitiveness of Indian industry.  \n  - Support trade by facilitating mutual recognition of standards.",
+          "citations": [],
+          "related_standards": [],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-18T17:23:54.345Z"
+      }
+    ],
+    "updated_at": "2026-09-18T17:23:54.345Z"
+  },
+  {
+    "id": "conv_1789752381185",
+    "title": "What is BIS",
+    "created_at": "2026-09-18T17:26:21.185Z",
+    "messages": [
+      {
+        "id": "msg_user_1789752383206",
+        "role": "user",
+        "text": "What is BIS",
+        "timestamp": "2026-09-18T17:26:23.206Z"
+      },
+      {
+        "id": "msg_asst_1789752383206",
+        "role": "assistant",
+        "text": "### Bureau of Indian Standards (BIS)\n\n- **Statutory body** under the Ministry of Consumer Affairs, Government of India, established under the **BIS Act, 2016**.  \n- **Primary functions**:  \n  - Formulate, publish, and revise **Indian Standards (IS)** for products, services, and systems.  \n  - Conduct **product testing, certification, and conformity assessment** (e.g., ISI mark).  \n  - Promote **quality, safety, and consumer protection** across industries.  \n\nBIS thus serves as India’s national standards authority, ensuring that goods and services meet defined quality and safety criteria.",
+        "payload": {
+          "conversation_id": "conv_1789752381185",
+          "message_id": "msg_lla0yxu",
+          "answer": "### Bureau of Indian Standards (BIS)\n\n- **Statutory body** under the Ministry of Consumer Affairs, Government of India, established under the **BIS Act, 2016**.  \n- **Primary functions**:  \n  - Formulate, publish, and revise **Indian Standards (IS)** for products, services, and systems.  \n  - Conduct **product testing, certification, and conformity assessment** (e.g., ISI mark).  \n  - Promote **quality, safety, and consumer protection** across industries.  \n\nBIS thus serves as India’s national standards authority, ensuring that goods and services meet defined quality and safety criteria.",
+          "citations": [],
+          "related_standards": [],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "openai/gpt-oss-120b",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-18T17:26:23.206Z"
+      }
+    ],
+    "updated_at": "2026-09-18T17:26:23.206Z"
+  },
+  {
+    "id": "conv_1789752403044",
+    "title": "What is BIS",
+    "created_at": "2026-09-18T17:26:43.044Z",
+    "messages": [
+      {
+        "id": "msg_user_1789752404944",
+        "role": "user",
+        "text": "What is BIS",
+        "timestamp": "2026-09-18T17:26:44.944Z"
+      },
+      {
+        "id": "msg_asst_1789752404944",
+        "role": "assistant",
+        "text": "I am **BIS Sahayak AI**. How can I assist you today with Indian Standards, ISI certification, lab testing, or general questions?",
+        "payload": {
+          "conversation_id": "conv_1789752403044",
+          "message_id": "msg_9fhpe9u",
+          "answer": "I am **BIS Sahayak AI**. How can I assist you today with Indian Standards, ISI certification, lab testing, or general questions?",
+          "citations": [],
+          "related_standards": [],
+          "suggested_followups": [
+            "Which Indian Standard applies to electric water heaters?",
+            "How to apply for ISI Mark (Scheme-I) on Manakonline?",
+            "How do I verify 6-digit HUID code on BIS CARE app?",
+            "Find BIS recognized testing laboratories in Mumbai"
+          ],
+          "confidence": "HIGH",
+          "model_used": "offline-fallback",
+          "disclaimer": "Guidance generated dynamically by BIS Sahayak AI grounded in official Bureau of Indian Standards specifications."
+        },
+        "timestamp": "2026-09-18T17:26:44.944Z"
+      }
+    ],
+    "updated_at": "2026-09-18T17:26:44.944Z"
   }
 ]
