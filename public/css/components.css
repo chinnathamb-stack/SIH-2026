@@ -1908,8 +1908,6 @@ blockquote {
   border-radius: var(--radius-md);
   padding: 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -1919,25 +1917,22 @@ blockquote {
   box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.25);
 }
 
-.telemetry-card-header {
+.telemetry-gauge-card {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  gap: 14px;
 }
 
-.telemetry-icon-box {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
+.telemetry-card-left {
+  flex: 1;
+  min-width: 0;
 }
 
 .telemetry-rate-badge {
-  font-size: 11px;
+  display: inline-block;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -1946,7 +1941,13 @@ blockquote {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
+  margin-bottom: 8px;
 }
+
+.badge-green { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); color: #10b981; }
+.badge-blue { background: rgba(59, 130, 246, 0.12); border-color: rgba(59, 130, 246, 0.3); color: #60a5fa; }
+.badge-purple { background: rgba(168, 85, 247, 0.12); border-color: rgba(168, 85, 247, 0.3); color: #c084fc; }
+.badge-amber { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #fbbf24; }
 
 .telemetry-main-stat {
   font-size: 26px;
@@ -1966,43 +1967,68 @@ blockquote {
 .telemetry-sub-stat {
   font-size: 11.5px;
   color: var(--text-muted);
-  margin-bottom: 12px;
 }
 
-.telemetry-progress-track {
+/* Radial Circular Percentage Gauge */
+.radial-gauge-container {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.radial-gauge-svg {
   width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  overflow: hidden;
-}
-
-.telemetry-progress-bar {
   height: 100%;
-  border-radius: 9999px;
-  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: rotate(-90deg);
 }
 
-.gradient-green { background: linear-gradient(90deg, #10b981, #34d399); }
-.gradient-blue { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-.gradient-purple { background: linear-gradient(90deg, #8b5cf6, #c084fc); }
-.gradient-amber { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.gauge-circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 6.5;
+}
 
+.gauge-circle-val {
+  fill: none;
+  stroke-width: 6.5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gauge-green { stroke: #10b981; filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.4)); }
+.gauge-blue { stroke: #3b82f6; filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.4)); }
+.gauge-purple { stroke: #a855f7; filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.4)); }
+.gauge-amber { stroke: #f59e0b; filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.4)); }
+
+.radial-gauge-value {
+  position: absolute;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-align: center;
+  letter-spacing: -0.2px;
+}
+
+/* Section Card & Telemetry Grid */
 .telemetry-section-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 .section-card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
 }
 
 .section-card-title {
@@ -2014,43 +2040,76 @@ blockquote {
 .section-card-subtitle {
   font-size: 12.5px;
   color: var(--text-muted);
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
-.telemetry-counter-badge {
+/* Visual Graph Telemetry Layout (Dual Column) */
+.grid-graph-telemetry {
+  display: grid;
+  grid-template-columns: 1.65fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 992px) {
+  .grid-graph-telemetry {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Graph Legend */
+.graph-legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   font-size: 11.5px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: rgba(59, 130, 246, 0.1);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
 }
 
-/* Pipeline Progress Rows */
-.pipeline-progress-list {
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 2.5px;
+}
+
+.dot-fetched { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+.dot-inserted { background: linear-gradient(135deg, #10b981, #34d399); }
+.dot-yield { background: #06b6d4; }
+
+/* Visual Dual-Bar Graph Components */
+.telemetry-bar-graph {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.pipeline-item {
+.graph-row {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 14px 18px;
+  padding: 12px 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
-.pipeline-item:hover {
+.graph-row:hover {
   background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(59, 130, 246, 0.3);
+  border-color: rgba(59, 130, 246, 0.35);
+  transform: translateX(3px);
 }
 
-.pipeline-item-top {
+.graph-row-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2058,40 +2117,113 @@ blockquote {
   gap: 8px;
 }
 
-.pipeline-source-name {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--text-primary);
+.graph-row-title {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
-.pipeline-source-category {
-  font-size: 11.5px;
+.graph-row-category {
+  font-size: 11px;
   color: var(--text-muted);
   font-weight: 400;
+  padding: 2px 7px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
 }
 
-.pipeline-stats-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.pipeline-stat-tag {
-  font-size: 12px;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.pipeline-yield-tag {
-  font-size: 13px;
+.graph-yield-pill {
+  font-size: 11.5px;
   font-weight: 700;
   color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 2px 9px;
+  border-radius: 9999px;
 }
 
-.pipeline-bar-wrapper {
+.graph-bars-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.graph-bar-lane {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.graph-bar-type {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  width: 50px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.graph-bar-track {
+  flex: 1;
+  height: 9px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.graph-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bar-fetched { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+.bar-inserted { background: linear-gradient(90deg, #10b981, #34d399); }
+
+.graph-bar-count {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 44px;
+  text-align: right;
+}
+
+/* AI Grounding & Accuracy Radar/Bar Cards */
+.accuracy-graph-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.accuracy-graph-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.accuracy-graph-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accuracy-graph-lbl {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.accuracy-graph-val {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.accuracy-bar-track {
   width: 100%;
   height: 7px;
   background: rgba(255, 255, 255, 0.08);
@@ -2099,110 +2231,13 @@ blockquote {
   overflow: hidden;
 }
 
-.pipeline-bar-fill {
+.accuracy-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #10b981, #06b6d4);
   border-radius: 9999px;
   transition: width 0.8s ease;
 }
 
-/* Ingestion Telemetry Table */
-.telemetry-table-responsive {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.telemetry-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-  text-align: left;
-}
-
-.telemetry-table th {
-  padding: 12px 16px;
-  color: var(--text-muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--border-color);
-  background: rgba(255, 255, 255, 0.01);
-}
-
-.telemetry-table td {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--text-primary);
-}
-
-.telemetry-table tr:last-child td {
-  border-bottom: none;
-}
-
-.telemetry-table tr:hover td {
-  background: rgba(59, 130, 246, 0.04);
-}
-
-.status-badge-verified {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  padding: 3px 8px;
-  border-radius: 4px;
-}
-
-/* Accuracy Matrix Grid */
-.grid-2-col {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
-}
-
-.accuracy-metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-}
-
-.accuracy-item {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.accuracy-val {
-  font-size: 22px;
-  font-weight: 800;
-  color: #60a5fa;
-  line-height: 1.1;
-}
-
-.accuracy-lbl {
-  font-size: 11.5px;
-  color: var(--text-secondary);
-}
-
-.mini-bar-track {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  overflow: hidden;
-  margin-top: 4px;
-}
-
-.mini-bar-fill {
-  height: 100%;
-  background: #3b82f6;
-  border-radius: 9999px;
-}
+.bar-fill-emerald { background: linear-gradient(90deg, #10b981, #34d399); }
+.bar-fill-cyan { background: linear-gradient(90deg, #06b6d4, #38bdf8); }
+.bar-fill-purple { background: linear-gradient(90deg, #8b5cf6, #c084fc); }
+.bar-fill-amber { background: linear-gradient(90deg, #f59e0b, #fbbf24); }

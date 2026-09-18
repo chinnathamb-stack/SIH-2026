@@ -427,184 +427,173 @@
       <section class="view-panel" id="healthView">
         <div class="panel-content-scroll">
           
-          <!-- Header Banner with Status and Actions -->
+          <!-- Header Banner (Clean & Focused - Action buttons removed as requested) -->
           <div class="telemetry-hero-card">
             <div class="telemetry-hero-left">
               <div class="telemetry-badge-row">
                 <span class="telemetry-live-pill">
                   <span class="pulse-indicator"></span> <span data-i18n="telemetry_live">LIVE TELEMETRY ACTIVE</span>
                 </span>
-                <span class="telemetry-version-tag">ENTERPRISE v2.4</span>
+                <span class="telemetry-version-tag">SYSTEM METRICS MONITOR</span>
               </div>
               <h2 class="panel-title" style="margin-top: 8px;" data-i18n="health_heading">System Health & Ingestion Telemetry</h2>
-              <p class="panel-subtitle" data-i18n="health_sub">Real-time surveillance of official BIS ETL pipelines, data extraction yields, RAG grounding accuracy, and system resources.</p>
-            </div>
-            <div class="telemetry-hero-actions">
-              <button class="btn-primary" id="btnTriggerLiveSync" title="Re-sync all official datasets live">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-                <span data-i18n="btn_trigger_sync">Trigger Live Sync</span>
-              </button>
-              <button class="btn-secondary" id="btnRunIntegrityAudit" title="Validate schema and data integrity">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                <span data-i18n="btn_integrity_audit">Integrity Audit</span>
-              </button>
-              <button class="btn-secondary" id="btnExportAuditLog" title="Export complete telemetry in JSON">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                <span data-i18n="btn_export_audit">Export Audit</span>
-              </button>
+              <p class="panel-subtitle" data-i18n="health_sub">Real-time performance dashboard displaying data ingestion yields, verified standards, laboratory network, and server health.</p>
             </div>
           </div>
 
-          <!-- Top 4 KPI Cards with Progress Bars and Percentages -->
+          <!-- Top 4 KPI Cards with Radial Circular Gauges and Percentages -->
           <div class="health-dashboard-grid mt-20" id="healthMetrics">
             
-            <!-- Card 1: Overall Ingestion Yield (Fetched vs Inserted) -->
-            <div class="telemetry-card">
-              <div class="telemetry-card-header">
-                <span class="telemetry-icon-box" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">📊</span>
-                <span class="telemetry-rate-badge" id="telemetryOverallYieldBadge">99.5% YIELD</span>
-              </div>
-              <div class="telemetry-card-body">
-                <div class="telemetry-main-stat" id="telemetryOverallYield">99.5%</div>
+            <!-- Card 1: Data Ingestion Yield (Fetched vs Inserted) -->
+            <div class="telemetry-card telemetry-gauge-card">
+              <div class="telemetry-card-left">
+                <div class="telemetry-rate-badge badge-green" id="telemetryOverallYieldBadge">99.4% YIELD</div>
+                <div class="telemetry-main-stat" id="telemetryOverallYield">99.4%</div>
                 <div class="telemetry-card-title" data-i18n="card_ingestion_yield">Data Ingestion Yield</div>
-                <div class="telemetry-sub-stat" id="telemetryFetchedInsertedText">1,472 Inserted / 1,480 Fetched</div>
-                <div class="telemetry-progress-track">
-                  <div class="telemetry-progress-bar gradient-green" id="telemetryYieldBar" style="width: 99.5%;"></div>
+                <div class="telemetry-sub-stat" id="telemetryFetchedInsertedText">1,298 Inserted / 1,306 Fetched</div>
+              </div>
+              <div class="telemetry-card-right">
+                <div class="radial-gauge-container">
+                  <svg class="radial-gauge-svg" viewBox="0 0 80 80">
+                    <circle class="gauge-circle-bg" cx="40" cy="40" r="32"></circle>
+                    <circle class="gauge-circle-val gauge-green" id="gaugeCircleYield" cx="40" cy="40" r="32" stroke-dasharray="201.06" stroke-dashoffset="1.2"></circle>
+                  </svg>
+                  <div class="radial-gauge-value" id="gaugeValYield">99.4%</div>
                 </div>
               </div>
             </div>
 
-            <!-- Card 2: Standards Ingestion & Clause Matrix -->
-            <div class="telemetry-card">
-              <div class="telemetry-card-header">
-                <span class="telemetry-icon-box" style="background: rgba(59, 130, 246, 0.12); color: #3b82f6;">📚</span>
-                <span class="telemetry-rate-badge" id="telemetryStandardsBadge">100% VERIFIED</span>
-              </div>
-              <div class="telemetry-card-body">
+            <!-- Card 2: Standards Ingestion & Catalog -->
+            <div class="telemetry-card telemetry-gauge-card">
+              <div class="telemetry-card-left">
+                <div class="telemetry-rate-badge badge-blue" id="telemetryStandardsBadge">100% VERIFIED</div>
                 <div class="telemetry-main-stat" id="metricStandards">8 Standards</div>
                 <div class="telemetry-card-title" data-i18n="card_standards_catalog">Indian Standards (IS)</div>
-                <div class="telemetry-sub-stat" id="telemetryStandardsSub">8 / 8 Specifications Ingested (100%)</div>
-                <div class="telemetry-progress-track">
-                  <div class="telemetry-progress-bar gradient-blue" id="telemetryStandardsBar" style="width: 100%;"></div>
+                <div class="telemetry-sub-stat" id="telemetryStandardsSub">8 of 8 Specifications Ingested</div>
+              </div>
+              <div class="telemetry-card-right">
+                <div class="radial-gauge-container">
+                  <svg class="radial-gauge-svg" viewBox="0 0 80 80">
+                    <circle class="gauge-circle-bg" cx="40" cy="40" r="32"></circle>
+                    <circle class="gauge-circle-val gauge-blue" id="gaugeCircleStandards" cx="40" cy="40" r="32" stroke-dasharray="201.06" stroke-dashoffset="0"></circle>
+                  </svg>
+                  <div class="radial-gauge-value" id="gaugeValStandards">100%</div>
                 </div>
               </div>
             </div>
 
             <!-- Card 3: Laboratory Testing Centers -->
-            <div class="telemetry-card">
-              <div class="telemetry-card-header">
-                <span class="telemetry-icon-box" style="background: rgba(168, 85, 247, 0.12); color: #a855f7;">🔬</span>
-                <span class="telemetry-rate-badge" id="telemetryLabsBadge">100% INDEXED</span>
-              </div>
-              <div class="telemetry-card-body">
+            <div class="telemetry-card telemetry-gauge-card">
+              <div class="telemetry-card-left">
+                <div class="telemetry-rate-badge badge-purple" id="telemetryLabsBadge">100% INDEXED</div>
                 <div class="telemetry-main-stat" id="metricLabs">20 Laboratories</div>
                 <div class="telemetry-card-title" data-i18n="card_labs_network">BIS & NABL Lab Network</div>
-                <div class="telemetry-sub-stat" id="telemetryLabsSub">20 / 20 Labs Mapped Across States (100%)</div>
-                <div class="telemetry-progress-track">
-                  <div class="telemetry-progress-bar gradient-purple" id="telemetryLabsBar" style="width: 100%;"></div>
+                <div class="telemetry-sub-stat" id="telemetryLabsSub">20 of 20 Labs Mapped Across States</div>
+              </div>
+              <div class="telemetry-card-right">
+                <div class="radial-gauge-container">
+                  <svg class="radial-gauge-svg" viewBox="0 0 80 80">
+                    <circle class="gauge-circle-bg" cx="40" cy="40" r="32"></circle>
+                    <circle class="gauge-circle-val gauge-purple" id="gaugeCircleLabs" cx="40" cy="40" r="32" stroke-dasharray="201.06" stroke-dashoffset="0"></circle>
+                  </svg>
+                  <div class="radial-gauge-value" id="gaugeValLabs">100%</div>
                 </div>
               </div>
             </div>
 
-            <!-- Card 4: System Uptime & Response Latency -->
-            <div class="telemetry-card">
-              <div class="telemetry-card-header">
-                <span class="telemetry-icon-box" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b;">⚡</span>
-                <span class="telemetry-rate-badge" id="telemetryUptimeBadge">99.98% UP</span>
-              </div>
-              <div class="telemetry-card-body">
+            <!-- Card 4: System Operational Health & Uptime -->
+            <div class="telemetry-card telemetry-gauge-card">
+              <div class="telemetry-card-left">
+                <div class="telemetry-rate-badge badge-amber" id="telemetryUptimeBadge">99.98% UP</div>
                 <div class="telemetry-main-stat" id="healthStatus">Operational</div>
                 <div class="telemetry-card-title" data-i18n="card_server_health">API Server Health & Uptime</div>
                 <div class="telemetry-sub-stat" id="telemetryUptimeSub">Latency: 38ms | Uptime: 99.98%</div>
-                <div class="telemetry-progress-track">
-                  <div class="telemetry-progress-bar gradient-amber" id="telemetryUptimeBar" style="width: 99.98%;"></div>
+              </div>
+              <div class="telemetry-card-right">
+                <div class="radial-gauge-container">
+                  <svg class="radial-gauge-svg" viewBox="0 0 80 80">
+                    <circle class="gauge-circle-bg" cx="40" cy="40" r="32"></circle>
+                    <circle class="gauge-circle-val gauge-amber" id="gaugeCircleUptime" cx="40" cy="40" r="32" stroke-dasharray="201.06" stroke-dashoffset="0.04"></circle>
+                  </svg>
+                  <div class="radial-gauge-value" id="gaugeValUptime">99.9%</div>
                 </div>
               </div>
             </div>
 
           </div>
 
-          <!-- Middle Section: Detailed Fetch vs Insert Telemetry Breakdown -->
-          <div class="telemetry-section-card mt-24">
-            <div class="section-card-header">
-              <div>
-                <h3 class="section-card-title" data-i18n="pipeline_telemetry_title">📥 Data Ingestion Pipeline: Fetched vs. Inserted Telemetry</h3>
-                <p class="section-card-subtitle" data-i18n="pipeline_telemetry_sub">Exact audit of records extracted from official government portals vs verified and inserted into local stores.</p>
-              </div>
-              <span class="telemetry-counter-badge" id="totalPipelineCount">6 Official Pipelines Active</span>
-            </div>
-
-            <div class="pipeline-progress-list" id="pipelineProgressList">
-              <!-- Dynamically populated by app.js -->
-            </div>
-          </div>
-
-          <!-- Ingestion Source Audit Table -->
-          <div class="telemetry-section-card mt-24">
-            <div class="section-card-header">
-              <div>
-                <h3 class="section-card-title" data-i18n="audit_log_title">📋 Live ETL Ingestion Audit Log</h3>
-                <p class="section-card-subtitle" data-i18n="audit_log_sub">Detailed ingestion telemetry per data source, including extraction format, yield percentage, and verification status.</p>
-              </div>
-            </div>
+          <!-- Visual Ingestion Graph & Grounding Analytics Section -->
+          <div class="grid-graph-telemetry mt-24">
             
-            <div class="telemetry-table-responsive">
-              <table class="telemetry-table" id="telemetryTable">
-                <thead>
-                  <tr>
-                    <th data-i18n="col_source">Pipeline Source</th>
-                    <th data-i18n="col_category">Category</th>
-                    <th style="text-align: right;" data-i18n="col_fetched">Fetched</th>
-                    <th style="text-align: right;" data-i18n="col_inserted">Inserted</th>
-                    <th style="text-align: center;" data-i18n="col_yield">Yield %</th>
-                    <th style="text-align: center;" data-i18n="col_status">Verification</th>
-                    <th style="text-align: right;" data-i18n="col_last_synced">Last Synced</th>
-                  </tr>
-                </thead>
-                <tbody id="telemetryTableBody">
-                  <!-- Dynamically populated by app.js -->
-                </tbody>
-              </table>
-            </div>
-          </div>
+            <!-- Main Graphical Comparison Chart: Fetched vs. Inserted -->
+            <div class="telemetry-section-card graph-main-card">
+              <div class="section-card-header">
+                <div>
+                  <h3 class="section-card-title" data-i18n="pipeline_graph_title">📊 Data Ingestion Graph: Fetched vs. Inserted</h3>
+                  <p class="section-card-subtitle" data-i18n="pipeline_graph_sub">Graphical telemetry comparing extracted source records against verified database records.</p>
+                </div>
+                <!-- Visual Graph Legend -->
+                <div class="graph-legend">
+                  <div class="legend-item"><span class="legend-dot dot-fetched"></span> <span>Fetched</span></div>
+                  <div class="legend-item"><span class="legend-dot dot-inserted"></span> <span>Inserted</span></div>
+                  <div class="legend-item"><span class="legend-dot dot-yield"></span> <span>Yield %</span></div>
+                </div>
+              </div>
 
-          <!-- AI Model Reliability & RAG Guardrails Matrix -->
-          <div class="grid-2-col mt-24">
-            <div class="telemetry-section-card">
-              <h3 class="section-card-title" style="margin-bottom: 14px;" data-i18n="ai_grounding_title">🛡️ AI Grounding & Accuracy Matrix</h3>
-              <div class="accuracy-metrics-grid">
-                <div class="accuracy-item">
-                  <span class="accuracy-val" id="valZeroHal">99.5%</span>
-                  <span class="accuracy-lbl" data-i18n="metric_zero_hal">Zero-Hallucination Rate</span>
-                  <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 99.5%;"></div></div>
+              <!-- Visual Dual Bar Graph Container -->
+              <div class="telemetry-bar-graph" id="pipelineBarGraph">
+                <!-- Dynamically rendered by app.js with comparative dual visual bars -->
+              </div>
+            </div>
+
+            <!-- AI Grounding & Accuracy Radar Card -->
+            <div class="telemetry-section-card graph-side-card">
+              <h3 class="section-card-title" style="margin-bottom: 6px;" data-i18n="ai_grounding_title">🛡️ AI Grounding & Accuracy</h3>
+              <p class="section-card-subtitle" style="margin-bottom: 18px;">RAG precision and multi-layer verification scores.</p>
+              
+              <div class="accuracy-graph-list">
+                <div class="accuracy-graph-item">
+                  <div class="accuracy-graph-head">
+                    <span class="accuracy-graph-lbl" data-i18n="metric_zero_hal">Zero-Hallucination Rate</span>
+                    <strong class="accuracy-graph-val" id="valZeroHal">99.5%</strong>
+                  </div>
+                  <div class="accuracy-bar-track">
+                    <div class="accuracy-bar-fill bar-fill-emerald" id="barZeroHal" style="width: 99.5%;"></div>
+                  </div>
                 </div>
-                <div class="accuracy-item">
-                  <span class="accuracy-val" id="valCitationMatch">98.8%</span>
-                  <span class="accuracy-lbl" data-i18n="metric_citation_match">RAG Clause Citation Match</span>
-                  <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 98.8%;"></div></div>
+
+                <div class="accuracy-graph-item">
+                  <div class="accuracy-graph-head">
+                    <span class="accuracy-graph-lbl" data-i18n="metric_citation_match">RAG Clause Citation Match</span>
+                    <strong class="accuracy-graph-val" id="valCitationMatch">98.8%</strong>
+                  </div>
+                  <div class="accuracy-bar-track">
+                    <div class="accuracy-bar-fill bar-fill-cyan" id="barCitationMatch" style="width: 98.8%;"></div>
+                  </div>
                 </div>
-                <div class="accuracy-item">
-                  <span class="accuracy-val" id="valMultilingual">99.4%</span>
-                  <span class="accuracy-lbl" data-i18n="metric_multilingual">Multilingual Precision (7 Langs)</span>
-                  <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 99.4%;"></div></div>
+
+                <div class="accuracy-graph-item">
+                  <div class="accuracy-graph-head">
+                    <span class="accuracy-graph-lbl" data-i18n="metric_multilingual">Multilingual Precision (7 Langs)</span>
+                    <strong class="accuracy-graph-val" id="valMultilingual">99.4%</strong>
+                  </div>
+                  <div class="accuracy-bar-track">
+                    <div class="accuracy-bar-fill bar-fill-purple" id="barMultilingual" style="width: 99.4%;"></div>
+                  </div>
                 </div>
-                <div class="accuracy-item">
-                  <span class="accuracy-val" id="valCacheHit">94.8%</span>
-                  <span class="accuracy-lbl" data-i18n="metric_cache_hit">Grounding Cache Hit Ratio</span>
-                  <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 94.8%;"></div></div>
+
+                <div class="accuracy-graph-item">
+                  <div class="accuracy-graph-head">
+                    <span class="accuracy-graph-lbl" data-i18n="metric_cache_hit">Grounding Cache Hit Ratio</span>
+                    <strong class="accuracy-graph-val" id="valCacheHit">94.8%</strong>
+                  </div>
+                  <div class="accuracy-bar-track">
+                    <div class="accuracy-bar-fill bar-fill-amber" id="barCacheHit" style="width: 94.8%;"></div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="telemetry-section-card">
-              <h3 class="section-card-title" style="margin-bottom: 14px;" data-i18n="telemetry_rules_title">⚙️ Orchestration & Verification Rules</h3>
-              <ul class="telemetry-list">
-                <li><strong data-i18n="rule_rag">RAG Grounding:</strong> Only citations from verified Indian Standards (IS) clauses are returned.</li>
-                <li><strong data-i18n="rule_zero_hallucination">Zero Hallucination Policy:</strong> Missing product attributes trigger interactive clarification cards.</li>
-                <li><strong data-i18n="rule_authority">Regulatory Authority:</strong> Clear distinction between automated guidance and final official BIS licensing.</li>
-                <li><strong data-i18n="rule_language">Language Engine:</strong> Technical identifiers (e.g., IS 302-2-15, Cl. 13, 0.75mA) are strictly preserved across 7 languages.</li>
-              </ul>
-            </div>
           </div>
 
         </div>
