@@ -137,6 +137,13 @@ const apiClient = {
     return await res.json();
   },
 
+  // Trigger admin live ingestion sync
+  async syncAdminData() {
+    const res = await fetch(`${API_BASE}/admin/sync`, { method: 'POST' });
+    if (!res.ok) throw new Error(`Admin sync API error: ${res.statusText}`);
+    return await res.json();
+  },
+
   // Get available AI model providers & status
   async getAIModels() {
     const res = await fetch(`${API_BASE}/ai/models`);
