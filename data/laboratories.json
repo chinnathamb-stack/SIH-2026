@@ -116,5 +116,288 @@
       "IS 16046 (Lithium-ion Cells & Batteries)",
       "IS 302-2-15 (Electrical Appliance Safety)"
     ]
+  },
+  {
+    "id": "lab_007",
+    "lab_code": "BIS-BL-MOHALI",
+    "name": "BIS Branch Laboratory (BBO Mohali)",
+    "category": "Branch BIS Laboratory",
+    "address": "Plot No. E-21, Phase VII, Industrial Area, SAS Nagar (Mohali)",
+    "state": "Punjab",
+    "district": "SAS Nagar / Mohali",
+    "pincode": "160055",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2028-09-30",
+    "contact": { "phone": "+91-172-2214434", "email": "mohali-lab@bis.gov.in" },
+    "scopes": [
+      "IS 14543 (Packaged Drinking Water Complete Spectrum)",
+      "IS 4151 (Protective Helmets for Two-Wheeler Riders)",
+      "IS 2347 (Domestic Pressure Cookers Hydrostatic Test)",
+      "IS 1786 (High Strength Deformed Steel Bars for Concrete)",
+      "IS 269 (Ordinary Portland Cement 33/43/53 Grade)"
+    ]
+  },
+  {
+    "id": "lab_008",
+    "lab_code": "BIS-BL-PATNA",
+    "name": "BIS Branch Laboratory (Patna)",
+    "category": "Branch BIS Laboratory",
+    "address": "Plot No. B-3, Patliputra Industrial Estate, Patliputra",
+    "state": "Bihar",
+    "district": "Patna",
+    "pincode": "800013",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2028-11-30",
+    "contact": { "phone": "+91-612-2262305", "email": "patna-lab@bis.gov.in" },
+    "scopes": [
+      "IS 14543 (Packaged Drinking Water Microbiological & Chemical)",
+      "IS 1165 (Milk Powder and Dairy Products)",
+      "IS 269 (Portland Cement Strength & Setting Time)",
+      "IS 1786 (High Strength Steel Rebars & Tensile Test)",
+      "IS 1417 (Gold Assaying & Fire Assay Verification)"
+    ]
+  },
+  {
+    "id": "lab_009",
+    "lab_code": "BIS-BL-GUWAHATI",
+    "name": "BIS Branch Laboratory (Guwahati / North-Eastern Regional Office)",
+    "category": "Branch BIS Laboratory",
+    "address": "5th Floor, Subham Buildwell Complex, Christian Basti, G.S. Road",
+    "state": "Assam",
+    "district": "Guwahati / Kamrup Metropolitan",
+    "pincode": "781005",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2027-12-31",
+    "contact": { "phone": "+91-361-2342555", "email": "ghy-lab@bis.gov.in" },
+    "scopes": [
+      "IS 14543 (Packaged Drinking Water Testing)",
+      "IS 269 (Ordinary & Pozzolana Portland Cement)",
+      "IS 1786 (Deformed Steel Bars for Concrete Reinforcement)",
+      "IS 1165 (Dairy Powder Testing)",
+      "IS 4985 (Unplasticized PVC Pipes for Water Supply)"
+    ]
+  },
+  {
+    "id": "lab_010",
+    "lab_code": "BIS-BL-AHMEDABAD",
+    "name": "BIS Branch Laboratory (Gujarat / Ahmedabad)",
+    "category": "Branch BIS Laboratory",
+    "address": "Block No. 4, 3rd Floor, Udhyog Bhavan, Sector 11, Gandhinagar",
+    "state": "Gujarat",
+    "district": "Gandhinagar / Ahmedabad",
+    "pincode": "382017",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2028-05-31",
+    "contact": { "phone": "+91-79-23244580", "email": "ahmedabad-lab@bis.gov.in" },
+    "scopes": [
+      "IS 694 (PVC Insulated Cables for Working Voltages up to 1100V)",
+      "IS 14543 (Packaged Drinking Water & Mineral Analysis)",
+      "IS 12258 (Domestic Pressure Cookers & Utensils)",
+      "IS 1417 (Gold Hallmarking Fire Assay & XRF)",
+      "IS 1293 (Plugs and Socket-Outlets of Rated Voltage up to 250V)",
+      "IS 302-2-15 (Electric Kettles & Food Warmers)"
+    ]
+  },
+  {
+    "id": "lab_011",
+    "lab_code": "BIS-BL-BENGALURU",
+    "name": "BIS Branch Laboratory (Bengaluru)",
+    "category": "Branch BIS Laboratory",
+    "address": "Peenya Industrial Area, 1st Stage, Tumkur Road, Bengaluru",
+    "state": "Karnataka",
+    "district": "Bengaluru Urban",
+    "pincode": "560058",
+    "status": "Recognized / NABL Accredited",
+    "validity": "2028-08-31",
+    "contact": { "phone": "+91-80-28394955", "email": "blr-lab@bis.gov.in" },
+    "scopes": [
+      "IS 302-2-3 (Electric Irons Safety Requirements)",
+      "IS 302-2-15 (Electric Kettles and Liquid Heaters)",
+      "IS 16046 (Lithium-ion Cells & Portable Power Batteries)",
+      "IS 1293 (Plugs and Socket Outlets Safety)",
+      "IS 14543 (Packaged Drinking Water Testing)",
+      "IS 9873 (Toys Safety Mechanical and Flammability)"
+    ]
+  },
+  {
+    "id": "lab_012",
+    "lab_code": "NTH-ER-KOLKATA",
+    "name": "National Test House (NTH - Headquarters & ER)",
+    "category": "Central Government Autonomous National Test House",
+    "address": "11/1, Judges Court Road, Alipore, Kolkata",
+    "state": "West Bengal",
+    "district": "Kolkata",
+    "pincode": "700027",
+    "status": "Recognized / NABL Accredited (ISO/IEC 17025)",
+    "validity": "2029-06-30",
+    "contact": { "phone": "+91-33-24791223", "email": "nth-alipore@nic.in" },
+    "scopes": [
+      "IS 1786 (High Strength Deformed Steel Bars for Concrete)",
+      "IS 269 (Ordinary Portland Cement Chemical & Physical Tests)",
+      "IS 14543 (Packaged Drinking Water Heavy Metals & Microbiology)",
+      "IS 694 (PVC Insulated Industrial Cables)",
+      "IS 2062 (Hot Rolled Medium and High Tensile Structural Steel)",
+      "IS 4985 (Unplasticized PVC Pipes for Water Supply)"
+    ]
+  },
+  {
+    "id": "lab_013",
+    "lab_code": "NTH-WR-MUMBAI",
+    "name": "National Test House (NTH - Western Region)",
+    "category": "Central Government Autonomous National Test House",
+    "address": "Plot No. F-10, MIDC Road No. 9, Marol, Andheri (East), Mumbai",
+    "state": "Maharashtra",
+    "district": "Mumbai Suburban",
+    "pincode": "400093",
+    "status": "Recognized / NABL Accredited (ISO/IEC 17025)",
+    "validity": "2028-10-31",
+    "contact": { "phone": "+91-22-28325603", "email": "nth-mumbai@nic.in" },
+    "scopes": [
+      "IS 4151 (Protective Helmets for Two-Wheeler Riders - Impact & Chin Strap)",
+      "IS 2347 (Domestic Pressure Cookers Proof Pressure & Safety Valve)",
+      "IS 302-1 (Safety of Household Electrical Appliances)",
+      "IS 14543 (Packaged Drinking Water Full Spectrum)",
+      "IS 9873 (Toy Safety Part 1-3 Mechanical & Toxic Elements)",
+      "IS 2082 (Stationary Storage Electric Water Heaters)"
+    ]
+  },
+  {
+    "id": "lab_014",
+    "lab_code": "ARAI-PUNE-TEST",
+    "name": "Automotive Research Association of India (ARAI)",
+    "category": "BIS-Recognized Premier National Research & Testing Institute",
+    "address": "Survey No. 102, Vetal Hill, Off Paud Road, Kothrud, Pune",
+    "state": "Maharashtra",
+    "district": "Pune",
+    "pincode": "411038",
+    "status": "Recognized / NABL Accredited (ISO/IEC 17025)",
+    "validity": "2029-04-30",
+    "contact": { "phone": "+91-20-30231111", "email": "director@araiindia.com" },
+    "scopes": [
+      "IS 4151 (Protective Helmets for Motorcycle Riders - Dynamic & Impact Rig)",
+      "IS 16046 (Lithium-ion Cells & Battery Packs for Electric Vehicles)",
+      "IS 14286 (Automotive PV & Electrical Insulation Systems)",
+      "AIS 038 / AIS 156 (Electric Power Train & Battery Safety)",
+      "IS 2553 (Safety Glass for Road Transport & Windshields)"
+    ]
+  },
+  {
+    "id": "lab_015",
+    "lab_code": "CPRI-BHOPAL-HIGHVOLT",
+    "name": "Central Power Research Institute (CPRI - Bhopal High Voltage Lab)",
+    "category": "Autonomous Society under Ministry of Power / BIS-Recognized",
+    "address": "Govindpura, Near ITI, Bhopal",
+    "state": "Madhya Pradesh",
+    "district": "Bhopal",
+    "pincode": "462023",
+    "status": "Recognized / NABL Accredited (ISO/IEC 17025)",
+    "validity": "2029-08-31",
+    "contact": { "phone": "+91-755-2586682", "email": "cpribpl@cpri.in" },
+    "scopes": [
+      "IS 694 (PVC Insulated Cables for Electric Power and Lighting)",
+      "IS 13779 (AC Static Watt-hour Meters, Class 1 and 2)",
+      "IS 2026 (Power Transformers and Reactor Safety Testing)",
+      "IS 302-1 (Household Electrical Appliances General Safety & High Voltage Flash)",
+      "IS 14286 (Photovoltaic High Voltage Isolation Testing)"
+    ]
+  },
+  {
+    "id": "lab_016",
+    "lab_code": "SIIR-DELHI-TEST",
+    "name": "Shriram Institute for Industrial Research (SIIR - Delhi)",
+    "category": "BIS-Recognized National Research & Testing Laboratory",
+    "address": "19, University Road, Timarpur, Delhi",
+    "state": "Delhi",
+    "district": "North Delhi",
+    "pincode": "110007",
+    "status": "Recognized / NABL Accredited (ISO/IEC 17025)",
+    "validity": "2028-12-31",
+    "contact": { "phone": "+91-11-27667267", "email": "customercare@shriraminstitute.org" },
+    "scopes": [
+      "IS 9873 (Safety of Toys - Mechanical, Physical, Flammability & Phthalates)",
+      "IS 14543 (Packaged Drinking Water Complete Chemical, Pesticides & Microbiological)",
+      "IS 12258 (Domestic Cookers Food Contact Safety & Heavy Metal Extraction)",
+      "IS 14625 (Plastics for Food Contact & Polymer Testing)",
+      "IS 16046 (Secondary Lithium Cells & Batteries Environmental Simulation)",
+      "IS 302-2-15 (Liquid Heaters & Domestic Appliances Thermal Safety)"
+    ]
+  },
+  {
+    "id": "lab_017",
+    "lab_code": "ERTL-NORTH-DELHI",
+    "name": "Electronic Regional Test Laboratory (ERTL North / STQC MeitY)",
+    "category": "MeitY STQC Directorate / BIS-Recognized IT & Electronics Lab",
+    "address": "S-Block, Okhla Industrial Area, Phase-II, New Delhi",
+    "state": "Delhi",
+    "district": "South East Delhi",
+    "pincode": "110020",
+    "status": "Recognized / NABL Accredited (ISO/IEC 17025)",
+    "validity": "2029-03-31",
+    "contact": { "phone": "+91-11-26386219", "email": "ertlnorth@stqc.gov.in" },
+    "scopes": [
+      "IS 13252-1 (Information Technology Equipment Safety under BIS CRS)",
+      "IS 16046 (Lithium-ion Cells & Battery Packs for Mobile Phones & Laptops)",
+      "IS 616 (Audio, Video and Similar Electronic Apparatus Safety)",
+      "IS 302-2-15 (Household Liquid Heating Appliances Electrical Safety)",
+      "IS 14286 (Solar PV Inverters & Balance of System Electronics)"
+    ]
+  },
+  {
+    "id": "lab_018",
+    "lab_code": "CIPET-IPT-CHENNAI",
+    "name": "CIPET: Institute of Petrochemicals Technology (IPT Chennai)",
+    "category": "Govt of India Autonomous Institute / BIS-Recognized Polymer Lab",
+    "address": "TVK Industrial Estate, Guindy, Chennai",
+    "state": "Tamil Nadu",
+    "district": "Chennai",
+    "pincode": "600032",
+    "status": "Recognized / NABL Accredited (ISO/IEC 17025)",
+    "validity": "2028-07-31",
+    "contact": { "phone": "+91-44-22254701", "email": "chennai@cipet.gov.in" },
+    "scopes": [
+      "IS 4985 (Unplasticized PVC Pipes for Potable Water Supplies Hydrostatic Test)",
+      "IS 14543 (PET Preforms & Bottles for Packaged Drinking Water)",
+      "IS 9873 (Plastic Toys Chemical Safety & Non-toxic Migration)",
+      "IS 4151 (Helmets Thermoplastic Outer Shell & Retention Straps)",
+      "IS 12258 (Polymeric Gaskets and Safety Valves for Cookers)"
+    ]
+  },
+  {
+    "id": "lab_019",
+    "lab_code": "CSIR-CGCRI-KOLKATA",
+    "name": "CSIR - Central Glass and Ceramic Research Institute (CGCRI)",
+    "category": "CSIR National Laboratory / BIS-Recognized",
+    "address": "196, Raja S.C. Mullick Road, Jadavpur, Kolkata",
+    "state": "West Bengal",
+    "district": "Kolkata",
+    "pincode": "700032",
+    "status": "Recognized / NABL Accredited (ISO/IEC 17025)",
+    "validity": "2029-05-31",
+    "contact": { "phone": "+91-33-24733469", "email": "director@cgcri.res.in" },
+    "scopes": [
+      "IS 13983 (Ceramic Tiles - Water Absorption & Modulus of Rupture)",
+      "IS 2858 (Glass Tableware & Laboratory Glassware Thermal Shock)",
+      "IS 2553 (Safety Glazing Materials and Toughened Glass)",
+      "IS 14543 (Glass Containers for Drinking Water and Chemical Leaching)"
+    ]
+  },
+  {
+    "id": "lab_020",
+    "lab_code": "CSIR-NML-JAMSHEDPUR",
+    "name": "CSIR - National Metallurgical Laboratory (NML)",
+    "category": "CSIR Premier Research Laboratory / BIS-Recognized Metallurgical Lab",
+    "address": "P.O. Burmamines, Jamshedpur",
+    "state": "Jharkhand",
+    "district": "East Singhbhum / Jamshedpur",
+    "pincode": "831007",
+    "status": "Recognized / NABL Accredited (ISO/IEC 17025)",
+    "validity": "2029-02-28",
+    "contact": { "phone": "+91-657-2345100", "email": "director@nmlindia.org" },
+    "scopes": [
+      "IS 1786 (High Strength Deformed Steel Bars for Concrete Reinforcement)",
+      "IS 2062 (Hot Rolled Structural Steel Strength and Impact Charpy Test)",
+      "IS 1417 / IS 1418 (Gold Assaying & Precious Metal Spectrometry)",
+      "IS 2347 (Aluminium and Stainless Steel Cooker Alloys Composition & Tensile)"
+    ]
   }
 ]

@@ -13,6 +13,7 @@ class LaboratoryFinder {
 
   async init() {
     this.setupEventListeners();
+    await this.populateStates();
     await this.fetchLabs();
   }
 
@@ -30,6 +31,31 @@ class LaboratoryFinder {
     window.addEventListener('languageChanged', () => {
       this.renderLabs();
     });
+  }
+
+  async populateStates() {
+    try {
+      if (!this.stateFilter) return;
+      let states = [];
+      if (window.apiClient && window.apiClient.getLabStates) {
+        const res = await window.apiClient.getLabStates();
+        states = res.states || [];
+      }
+
+      if (states.length > 0) {
+        const currentVal = this.stateFilter.value;
+        const allLabel = window.i18n ? window.i18n.t('filter_all_states') : 'All States / Regions';
+        
+        let html = `<option value="" data-i18n="filter_all_states">${allLabel}</option>`;
+        states.forEach(st => {
+          html += `<option value="${st}">${st}</option>`;
+        });
+        this.stateFilter.innerHTML = html;
+        if (currentVal) this.stateFilter.value = currentVal;
+      }
+    } catch (err) {
+      console.warn('Could not populate states dynamically:', err);
+    }
   }
 
   async fetchLabs() {
@@ -72,8 +98,13 @@ class LaboratoryFinder {
             <span class="is-badge">${lab.lab_code}</span>
             <span class="scheme-tag">Valid to ${lab.validity ? lab.validity.split('-')[0] : 'Active'}</span>
           </div>
+          ${lab.category ? `
+            <div style="display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-primary); background: rgba(59, 130, 246, 0.08); padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; border: 1px solid rgba(59, 130, 246, 0.2);">
+              🏛️ ${lab.category}
+            </div>
+          ` : ''}
           <h3 class="card-main-title">${lab.name}</h3>
-          <p style="font-size: 11.5px; color: var(--accent-green); margin-bottom: 8px;">● ${lab.status}</p>
+          <p style="font-size: 11.5px; color: var(--accent-green); margin-bottom: 8px; font-weight: 500;">● ${lab.status}</p>
           <p class="card-desc" style="margin-bottom: 12px;">
             <strong>${locLabel}</strong> ${lab.address}, ${lab.district}, ${lab.state} - ${lab.pincode}
           </p>
@@ -85,10 +116,10 @@ class LaboratoryFinder {
           </div>
         </div>
         <div style="display: flex; gap: 8px; margin-top: 14px; border-top: 1px solid var(--border-color); padding-top: 12px;">
-          <a href="tel:${lab.contact.phone}" class="btn-msg-action" style="background: var(--bg-tertiary);">
+          <a href="tel:${lab.contact.phone}" class="btn-msg-action" style="background: var(--bg-tertiary);" title="Call ${lab.name}">
             <span>📞 ${lab.contact.phone}</span>
           </a>
-          <a href="mailto:${lab.contact.email}" class="btn-msg-action" style="background: var(--bg-tertiary);">
+          <a href="mailto:${lab.contact.email}" class="btn-msg-action" style="background: var(--bg-tertiary);" title="Email ${lab.name}">
             <span>✉️ ${emailLabel}</span>
           </a>
         </div>

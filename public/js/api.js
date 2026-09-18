@@ -105,6 +105,13 @@ const apiClient = {
     return await res.json();
   },
 
+  // Get laboratory states list
+  async getLabStates() {
+    const res = await fetch(`${API_BASE}/labs/states`);
+    if (!res.ok) throw new Error(`Lab states API error: ${res.statusText}`);
+    return await res.json();
+  },
+
   // Get official BIS services
   async getServices() {
     const res = await fetch(`${API_BASE}/services`);

@@ -417,6 +417,8 @@ app.get('/api/v1/labs/search', (req, res) => {
     const q = query.toLowerCase();
     results = results.filter(l =>
       l.name.toLowerCase().includes(q) ||
+      l.lab_code.toLowerCase().includes(q) ||
+      (l.category && l.category.toLowerCase().includes(q)) ||
       l.district.toLowerCase().includes(q) ||
       l.state.toLowerCase().includes(q) ||
       l.scopes.some(s => s.toLowerCase().includes(q))
@@ -424,7 +426,7 @@ app.get('/api/v1/labs/search', (req, res) => {
   }
 
   if (state.trim()) {
-    results = results.filter(l => l.state.toLowerCase().includes(state.toLowerCase()));
+    results = results.filter(l => l.state.toLowerCase().includes(state.toLowerCase()) || l.district.toLowerCase().includes(state.toLowerCase()));
   }
 
   if (standard.trim()) {
@@ -434,6 +436,15 @@ app.get('/api/v1/labs/search', (req, res) => {
   res.json({
     total: results.length,
     laboratories: results
+  });
+});
+
+// GET /api/v1/labs/states
+app.get('/api/v1/labs/states', (req, res) => {
+  const states = Array.from(new Set(laboratoriesData.map(l => l.state))).filter(Boolean).sort();
+  res.json({
+    total: states.length,
+    states
   });
 });
 

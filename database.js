@@ -131,6 +131,8 @@ class BISDatabase {
     return this.laboratories.filter(lab => {
       const matchQ = !q ||
         lab.name.toLowerCase().includes(q) ||
+        lab.lab_code.toLowerCase().includes(q) ||
+        (lab.category && lab.category.toLowerCase().includes(q)) ||
         lab.district.toLowerCase().includes(q) ||
         lab.state.toLowerCase().includes(q) ||
         lab.scopes.some(s => s.toLowerCase().includes(q));
@@ -140,6 +142,13 @@ class BISDatabase {
 
       return matchQ && matchState && matchStd;
     });
+  }
+
+  /**
+   * Get list of unique laboratory states
+   */
+  getLaboratoryStates() {
+    return Array.from(new Set(this.laboratories.map(l => l.state))).filter(Boolean).sort();
   }
 
   /**
