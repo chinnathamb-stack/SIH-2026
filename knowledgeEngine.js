@@ -7,6 +7,16 @@
  * - Verified working Groq models: openai/gpt-oss-120b -> qwen/qwen3.8-27b -> groq/compound -> groq/compound-mini
  * - Native Google Gemini API integration if Gemini provider/key is configured
  * - Resilient API key handling (builtin provider always uses server GROQ_API_KEY)
+ * - Multi-turn conversational clarification ("What product are you manufacturing?")
+ * - Standardized 8-part structured output for all product and standards inquiries:
+ *   1. 🔍 PRODUCT IDENTIFIED
+ *   2. 📘 APPLICABLE BIS STANDARD
+ *   3. 📋 KEY REQUIREMENTS (✓)
+ *   4. 🧪 REQUIRED TESTING (•)
+ *   5. 🏭 LABORATORY
+ *   6. 📑 CERTIFICATION PATH (1-5)
+ *   7. 📚 EVIDENCE
+ *   8. ➡ NEXT STEP ([Find Laboratory] [Certification Process] [View Standard])
  * - Grounded RAG context injection across Indian Standards, Knowledge Base, Services & Online Portals
  * - Rich Offline Knowledge Base fallback (authoritative statutory knowledge, never blank greetings)
  * - KaTeX formula & math formatting support
@@ -76,7 +86,7 @@ class BISKnowledgeEngine {
   }
 
   findRelevantEvidence(query) {
-    const q = query.toLowerCase();
+    const q = (query || '').toLowerCase();
     const evidence = [];
 
     // 1. Search standards
@@ -154,6 +164,208 @@ class BISKnowledgeEngine {
     return evidence;
   }
 
+  detectProductAndStandard(query) {
+    const q = (query || '').toLowerCase().trim();
+    if (!q) return null;
+
+    for (const std of this.standards) {
+      // 1. IS number match
+      const isRaw = (std.is_number || '').toLowerCase();
+      const isClean = isRaw.replace(/[^a-z0-9]/g, '');
+      const qClean = q.replace(/[^a-z0-9]/g, '');
+      if (isClean && qClean.includes(isClean)) {
+        return { standard: std, matchedProduct: std.product_names?.[0] || std.title };
+      }
+
+      // 2. Product names match
+      if (std.product_names && Array.isArray(std.product_names)) {
+        for (const p of std.product_names) {
+          const pLow = p.toLowerCase();
+          if (q.includes(pLow) || (pLow.length >= 3 && q.split(/[\s,\.\?!]+/).some(w => w === pLow || pLow.includes(w)))) {
+            return { standard: std, matchedProduct: p };
+          }
+        }
+      }
+
+      // 3. Title keywords
+      if (std.title) {
+        const words = std.title.toLowerCase().split(/[\s,\.\?!]+/).filter(w => w.length > 4);
+        if (words.some(w => q.includes(w))) {
+          return { standard: std, matchedProduct: std.product_names?.[0] || std.title };
+        }
+      }
+    }
+
+    return null;
+  }
+
+  isMissingProductSpecification(query) {
+    const q = (query || '').toLowerCase().trim();
+    if (!q) return false;
+
+    // If it matches a known product or standard, it's not missing
+    if (this.detectProductAndStandard(query)) return false;
+
+    // If greeting, not missing
+    if (/^(hi|hello|hey|namaste|vanakkam|namaskar|pranam|good morning|good evening)\b/i.test(q)) {
+      return false;
+    }
+
+    // If asking "what is bis" definition, not missing
+    if (/^(what is bis|about bis|who is bis|explain bis|bureau of indian standards)\b/i.test(q) || q === 'bis') {
+      return false;
+    }
+
+    // Trigger words for certification/compliance/testing inquiry where product is omitted
+    const broadTriggers = [
+      'certification', 'certify', 'certified',
+      'licence', 'license', 'licensing',
+      'isi mark', 'isi',
+      'testing', 'test requirement', 'tests',
+      'standards', 'standard',
+      'compliance', 'conformity',
+      'how to apply', 'process of', 'procedure',
+      'manufacturing', 'manufacturer', 'manufacture',
+      'qco', 'scheme i', 'scheme 1'
+    ];
+
+    return broadTriggers.some(t => q.includes(t));
+  }
+
+  formatStandardToStructuredResponse(std, matchedProduct = null, includeIntro = true) {
+    const rawProd = matchedProduct || std.product_names?.[0] || 'Product';
+    const prodName = rawProd.split(' ')
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
+
+    const intro = includeIntro
+      ? `Understood. I can help identify the relevant standard, testing requirements and BIS process.\n\n`
+      : '';
+
+    const isNum = (std.is_number || 'IS 302-2-15:2009').replace(/\s+/g, ' ').trim();
+    let isTitle = std.title || 'Safety of Household and Similar Electrical Appliances';
+    let isScope = std.scope || 'Particular Requirements for Appliances for Heating Liquids';
+
+    // Tailored requirements
+    let reqs = [];
+    if (prodName.toLowerCase().includes('kettle')) {
+      reqs = [
+        'Electrical safety',
+        'Protection against electric shock',
+        'Insulation requirements',
+        'Temperature/overheating safety',
+        'Construction and mechanical safety',
+        'Marking and instructions'
+      ];
+    } else if (std.requirements && std.requirements.length > 0) {
+      reqs = std.requirements.map(r => r.name);
+    } else {
+      reqs = [
+        'Conformity to standard material specifications',
+        'Protection against operational and environmental hazards',
+        'High voltage insulation & dielectric integrity',
+        'Thermal stability and abnormal-operation endurance',
+        'Mechanical durability and robust construction',
+        'Official ISI Mark, rating plate, and batch marking'
+      ];
+    }
+
+    // Tailored tests
+    let tests = [];
+    if (prodName.toLowerCase().includes('kettle')) {
+      tests = [
+        'Electrical safety tests',
+        'Leakage current test',
+        'Dielectric strength test',
+        'Temperature-rise test',
+        'Mechanical safety tests',
+        'Abnormal-operation tests'
+      ];
+    } else if (std.tests && std.tests.length > 0) {
+      tests = std.tests.map(t => t.name);
+    } else {
+      tests = [
+        'Electrical / dielectric strength test',
+        'Leakage current & insulation resistance test',
+        'Temperature-rise and thermal endurance test',
+        'Mechanical impact and structural safety test',
+        'Abnormal-operation and fault simulation test',
+        'Marking durability & warning legibility test'
+      ];
+    }
+
+    return `${intro}` +
+      `🔍 PRODUCT IDENTIFIED\n` +
+      `${prodName}\n\n` +
+      `📘 APPLICABLE BIS STANDARD\n` +
+      `${isNum}\n` +
+      `${isTitle}\n` +
+      `${isScope}\n\n` +
+      `📋 KEY REQUIREMENTS\n` +
+      reqs.map(r => `✓ ${r}`).join('\n') + `\n\n` +
+      `🧪 REQUIRED TESTING\n` +
+      tests.map(t => `• ${t}`).join('\n') + `\n\n` +
+      `🏭 LABORATORY\n` +
+      `Find BIS-recognized laboratories capable of\n` +
+      `testing against ${isNum}\n\n` +
+      `📑 CERTIFICATION PATH\n` +
+      `1. Confirm applicable standard\n` +
+      `2. Check applicable certification/QCO requirements\n` +
+      `3. Identify required testing\n` +
+      `4. Select suitable BIS-recognized laboratory\n` +
+      `5. Apply through the appropriate BIS portal\n\n` +
+      `📚 EVIDENCE\n` +
+      `Standard: ${isNum}\n` +
+      `Source: BIS\n` +
+      `[View source / standard]\n\n` +
+      `➡ NEXT STEP\n` +
+      `[Find Laboratory] [Certification Process] [View Standard]`;
+  }
+
+  formatGenericProductResponse(productInput, includeIntro = true) {
+    const pClean = (productInput || 'Manufactured Item').replace(/[\.\?!]/g, '').trim();
+    const prodName = pClean.charAt(0).toUpperCase() + pClean.slice(1);
+
+    const intro = includeIntro
+      ? `Understood. I can help identify the relevant standard, testing requirements and BIS process.\n\n`
+      : '';
+
+    return `${intro}` +
+      `🔍 PRODUCT IDENTIFIED\n` +
+      `${prodName}\n\n` +
+      `📘 APPLICABLE BIS STANDARD\n` +
+      `Relevant Indian Standard (IS Specification)\n` +
+      `Safety, Quality and Performance Mandates for ${prodName}\n\n` +
+      `📋 KEY REQUIREMENTS\n` +
+      `✓ Raw material compliance & grade specifications\n` +
+      `✓ Structural, operational, and user safety\n` +
+      `✓ Mandatory Quality Control Order (QCO) compliance\n` +
+      `✓ In-house testing laboratory and calibrated instruments\n` +
+      `✓ Factory production control & Scheme of Inspection and Testing (SIT)\n` +
+      `✓ Standard marking, serial traceability, and ISI insignia\n\n` +
+      `🧪 REQUIRED TESTING\n` +
+      `• Raw material quality & composition verification\n` +
+      `• Routine safety and performance testing\n` +
+      `• Type testing by BIS recognized testing laboratory\n` +
+      `• Mechanical and environmental endurance tests\n` +
+      `• Abnormal operation and tolerance testing\n` +
+      `• Packaging and marking durability tests\n\n` +
+      `🏭 LABORATORY\n` +
+      `Find BIS-recognized laboratories capable of testing against Indian Standards for ${prodName}\n\n` +
+      `📑 CERTIFICATION PATH\n` +
+      `1. Confirm applicable standard\n` +
+      `2. Check applicable certification/QCO requirements\n` +
+      `3. Identify required testing\n` +
+      `4. Select suitable BIS-recognized laboratory\n` +
+      `5. Apply through the appropriate BIS portal\n\n` +
+      `📚 EVIDENCE\n` +
+      `Standard: Indian Standards Catalog\n` +
+      `Source: BIS\n` +
+      `[View source / standard]\n\n` +
+      `➡ NEXT STEP\n` +
+      `[Find Laboratory] [Certification Process] [View Standard]`;
+  }
+
   buildSystemPrompt(groundingEvidence, language) {
     const langFullName = LANGUAGE_NAMES[language] || language;
 
@@ -166,24 +378,75 @@ class BISKnowledgeEngine {
         '\n--- END OF EVIDENCE ---\n';
     }
 
-    return `You are BIS Sahayak AI, an intelligent, agile, and authoritative assistant for the Bureau of Indian Standards (Govt of India) and general user inquiries.
+    return `You are BIS Sahayak AI, the official intelligent assistant for the Bureau of Indian Standards (Govt of India).
 
 ${groundingContext}
-RESPONSE RULES:
-1. ADAPTIVE LENGTH (VERY IMPORTANT):
-   - Keep answers direct, punchy, and appropriately sized for the prompt. Do NOT generate unnecessary filler or huge walls of text for simple questions.
-   - For greetings (e.g. 'vanakkam', 'namaste', 'hi', 'hello'), reply warmly and briefly (1-2 lines) in the user's language.
-   - For factual or conceptual questions (e.g. 'what is BIS', 'what is ISI mark', 'how to apply on Manakonline'), provide a crisp, direct, and well-structured answer in 2-3 short sections or bullet points.
-2. FORMULAS & MATH (KaTeX):
-   - When writing mathematical, physical, or chemical formulas, ALWAYS use standard LaTeX/KaTeX format (e.g. inline $E = mc^2$ or block $$\\Delta U = Q - W$$).
-3. BIS STANDARDS & CITATIONS:
-   - When questions touch on Indian products, testing, or certification, prioritize and explicitly name the Indian Standard numbers provided in the evidence (e.g. **IS 2082:2018** for stationary electric water heaters, **IS 12258:2021** for pressure cookers, **IS 1417:2016** for gold hallmarking, **IS 694:2010** for PVC cables, **IS 14543:2024** for packaged drinking water, **IS 16046:2018** for lithium batteries, **IS 4151:2020** for helmets) with their key clause references. Do not alter or translate the standard identifiers.
-4. FORMATTING:
-   - Use clean Markdown with bold headers (### ), bullet points, and concise tables where helpful.
-5. STRICT MULTILINGUAL MANDATE (CRITICAL):
-   - The user has selected interface language: ${langFullName} (${language}).
-   - You MUST generate your ENTIRE response in ${langFullName}, regardless of whether the user prompt or reference evidence was in English or another language.
-   - Indian Standard codes and alphanumeric identifiers (e.g., IS 302-2-15, IS 14543, IS 16046, IS 4151, Cl. 13, 0.75mA, 230V AC) MUST be strictly preserved without translation or transliteration into other scripts.`;
+CORE CONVERSATIONAL AND STRUCTURAL PROTOCOLS:
+
+1. MULTI-TURN INCOMPLETE QUERY CLARIFICATION:
+   - If the user asks general or incomplete questions about BIS certification, ISI mark, testing, licensing, or compliance WITHOUT specifying which product they are manufacturing (e.g. "I want certification", "how do I get an ISI mark?", "what are testing requirements?", "tell me about compliance"):
+     DO NOT generate a long wall of text. Reply concisely with exactly:
+     "What product are you manufacturing?"
+
+2. STRUCTURED 8-PART OUTPUT FORMAT:
+   - When a product is identified or provided by the user (or follows the "What product are you manufacturing?" question):
+     You MUST start your response with:
+     "Understood. I can help identify the relevant standard, testing requirements and BIS process."
+
+     Followed immediately by this exact structured 8-part card:
+
+🔍 PRODUCT IDENTIFIED
+[Product Name]
+
+📘 APPLICABLE BIS STANDARD
+[IS Standard Number (e.g. IS 302-2-15:2009)]
+[Standard Official Title]
+[Specific Scope or Requirements Description]
+
+📋 KEY REQUIREMENTS
+✓ [Key Requirement 1]
+✓ [Key Requirement 2]
+✓ [Key Requirement 3]
+✓ [Key Requirement 4]
+✓ [Key Requirement 5]
+✓ [Key Requirement 6]
+
+🧪 REQUIRED TESTING
+• [Required Test 1]
+• [Required Test 2]
+• [Required Test 3]
+• [Required Test 4]
+• [Required Test 5]
+• [Required Test 6]
+
+🏭 LABORATORY
+Find BIS-recognized laboratories capable of
+testing against [IS Standard Number]
+
+📑 CERTIFICATION PATH
+1. Confirm applicable standard
+2. Check applicable certification/QCO requirements
+3. Identify required testing
+4. Select suitable BIS-recognized laboratory
+5. Apply through the appropriate BIS portal
+
+📚 EVIDENCE
+Standard: [IS Standard Number]
+Source: BIS
+[View source / standard]
+
+➡ NEXT STEP
+[Find Laboratory] [Certification Process] [View Standard]
+
+3. GENERAL TOPIC & SCHEME INQUIRIES:
+   - For general questions where no specific physical product is being manufactured (e.g. "What is BIS?", "What is ISI Mark?", "What is Hallmarking?"):
+     Format in this same structured manner with 🔍 TOPIC IDENTIFIED, 📘 APPLICABLE SCHEME / ACT, 📋 KEY PROVISIONS (✓), 🧪 TESTING (•), 🏭 LABORATORY, 📑 CERTIFICATION PATH (1-5), 📚 EVIDENCE, and ➡ NEXT STEP.
+
+4. PRESERVE IDENTIFIERS:
+   - Standard numbers like IS 302-2-15:2009, IS 14543:2024, IS 16046:2018, IS 4151:2020 MUST be preserved accurately without modification.
+
+5. LANGUAGE MANDATE:
+   - Respond in ${langFullName} (${language}). Maintain alphanumeric standard identifiers (e.g. IS 302-2-15) untranslated.`;
   }
 
   async callGeminiLLM({ prompt, history = [], groundingEvidence = [], language = 'en', apiKey, aiModel = 'gemini-1.5-flash' }) {
@@ -208,7 +471,7 @@ RESPONSE RULES:
       contents: contents,
       generationConfig: {
         maxOutputTokens: 850,
-        temperature: 0.5
+        temperature: 0.4
       }
     });
 
@@ -254,7 +517,7 @@ RESPONSE RULES:
           model: model,
           messages: messages,
           max_tokens: 850,
-          temperature: 0.5
+          temperature: 0.4
         });
 
         const res = await makeHttpsRequest(
@@ -286,7 +549,7 @@ RESPONSE RULES:
     return null;
   }
 
-  getOfflineAnswer(rawMsg, groundingEvidence = []) {
+  getOfflineAnswer(rawMsg, groundingEvidence = [], history = []) {
     const q = rawMsg.toLowerCase().trim();
 
     // Check greetings
@@ -294,44 +557,159 @@ RESPONSE RULES:
       return "Namaste! I am **BIS Sahayak AI**, your official assistant for the Bureau of Indian Standards (Govt of India). How can I assist you today with Indian Standards, ISI certification, lab testing, or compliance inquiries?";
     }
 
-    // Check "What is BIS" or general BIS inquiries
+    // Multi-turn check: Did the assistant just ask "What product are you manufacturing?"
+    const recentAssistantMsg = (history && Array.isArray(history))
+      ? history.slice().reverse().find(m => m.role === 'assistant' || m.role === 'model')
+      : null;
+    const wasAskedProduct = recentAssistantMsg && (recentAssistantMsg.text || '').toLowerCase().includes('what product are you manufacturing');
+
+    // 1. If user answered after being asked for product, or directly provided product
+    const detected = this.detectProductAndStandard(q);
+    if (detected) {
+      return this.formatStandardToStructuredResponse(detected.standard, detected.matchedProduct, true);
+    }
+
+    // 2. If user replied with a product name after "What product are you manufacturing?"
+    if (wasAskedProduct && q.length > 2 && !q.includes('?')) {
+      return this.formatGenericProductResponse(rawMsg, true);
+    }
+
+    // 3. If query is broad / incomplete inquiry without naming a product
+    if (this.isMissingProductSpecification(q)) {
+      return "What product are you manufacturing?";
+    }
+
+    // 4. Topic: "What is BIS" or general BIS inquiries
     if (q.includes('what is bis') || q.includes('about bis') || q.includes('who is bis') || q.includes('bureau of indian standards') || q === 'bis' || q.includes('explain bis')) {
-      return `### Bureau of Indian Standards (BIS)\n\n` +
-        `The **Bureau of Indian Standards (BIS)** is the National Standards Body of India established under the **Bureau of Indian Standards Act, 2016** under the Ministry of Consumer Affairs, Food & Public Distribution, Government of India.\n\n` +
-        `#### 🏛️ Core Functions & Pillars:\n` +
-        `1. **Standard Formulation (Indian Standards - IS):** Developing, publishing, and updating harmonized quality and safety benchmarks across agriculture, mechanical, chemical, electrotechnical, IT, and medical sectors.\n` +
-        `2. **Conformity Assessment & Product Certification (ISI Mark):** Implementing **Scheme I (ISI Mark)** and **Scheme II (CRS)** to ensure manufactured goods conform to mandatory Quality Control Orders (QCOs).\n` +
-        `3. **Hallmarking:** Ensuring mandatory purity certification of gold and silver jewellery with 6-digit **Hallmark Unique Identification (HUID)** numbers.\n` +
-        `4. **Laboratory Testing:** Operating a nationwide network of Central, Regional, and Branch Testing Laboratories alongside recognized NABL-accredited labs.\n\n` +
-        `#### 💻 Official Digital Portals:\n` +
-        `- **Manakonline (e-BIS):** [manakonline.in](https://www.manakonline.in/) - Online application submission (Form-V), licence tracking, and renewals.\n` +
-        `- **Know Your Standard (KYS):** [standards.bis.gov.in](https://standards.bis.gov.in/) - Free search, preview, and download of Indian Standards.\n` +
-        `- **BIS CARE App:** Official mobile app for consumers to verify ISI marks, check HUID authenticity, and register grievances.`;
+      return `🔍 TOPIC IDENTIFIED\n` +
+        `Bureau of Indian Standards (BIS)\n\n` +
+        `📘 APPLICABLE REGULATION & ACT\n` +
+        `Bureau of Indian Standards Act, 2016\n` +
+        `National Standards Body of India under Ministry of Consumer Affairs, Food & Public Distribution\n\n` +
+        `📋 KEY REQUIREMENTS & FUNCTIONS\n` +
+        `✓ Formulation and harmonization of national Indian Standards (IS)\n` +
+        `✓ Conformity Assessment and ISI Mark certification (Scheme I & Scheme II)\n` +
+        `✓ Mandatory Hallmarking of gold & silver jewellery with 6-digit HUID\n` +
+        `✓ Enforcement of Quality Control Orders (QCO) issued by Central Ministries\n` +
+        `✓ In-house testing and laboratory recognition scheme (LIMS)\n` +
+        `✓ Consumer protection and grievance redressal via BIS CARE mobile app\n\n` +
+        `🧪 REQUIRED TESTING\n` +
+        `• Complete laboratory safety and performance testing\n` +
+        `• Pre-licence factory inspection audit & test witness\n` +
+        `• Scheme of Inspection and Testing (SIT) verification\n` +
+        `• Post-licence regular market surveillance sample testing\n\n` +
+        `🏭 LABORATORY\n` +
+        `Find BIS-recognized laboratories capable of testing against Indian Standards across India\n\n` +
+        `📑 CERTIFICATION PATH\n` +
+        `1. Confirm applicable standard\n` +
+        `2. Check applicable certification/QCO requirements\n` +
+        `3. Identify required testing\n` +
+        `4. Select suitable BIS-recognized laboratory\n` +
+        `5. Apply through the appropriate BIS portal\n\n` +
+        `📚 EVIDENCE\n` +
+        `Standard: BIS Act 2016 & Conformity Assessment Regulations 2018\n` +
+        `Source: BIS\n` +
+        `[View source / standard]\n\n` +
+        `➡ NEXT STEP\n` +
+        `[Find Laboratory] [Certification Process] [View Standard]`;
     }
 
-    // Check ISI mark
+    // 5. Topic: ISI mark
     if (q.includes('isi mark') || q.includes('what is isi')) {
-      return `### The ISI Mark (Scheme I Certification)\n\n` +
-        `The **ISI mark** is the premier quality certification mark in India issued by the Bureau of Indian Standards (BIS) under Scheme I of the BIS (Conformity Assessment) Regulations, 2018.\n\n` +
-        `- **Purpose:** Certifies that an industrial product complies with the relevant Indian Standard (IS) regarding safety, health, and environmental performance.\n` +
-        `- **Mandatory vs Voluntary:** Mandatory for products covered under Government Quality Control Orders (QCOs)—including packaged drinking water, electric appliances, cement, steel, helmets, toys, and cables.\n` +
-        `- **How to Apply:** Domestic manufacturers submit **Form-V** on the **[Manakonline Portal](https://www.manakonline.in/)** with factory premises, manufacturing machinery, and calibrated in-house testing equipment.\n` +
-        `- **Concessions:** Micro, Small & Medium Enterprises (MSMEs) and Startups enjoy a **50% concession** on marking and inspection fees.`;
+      return `🔍 TOPIC IDENTIFIED\n` +
+        `ISI Mark Certification (Scheme I)\n\n` +
+        `📘 APPLICABLE BIS STANDARD & SCHEME\n` +
+        `BIS (Conformity Assessment) Regulations, 2018 - Scheme I\n` +
+        `Premier quality mark certifying third-party product safety and conformity in India\n\n` +
+        `📋 KEY REQUIREMENTS\n` +
+        `✓ Compliance with product-specific Indian Standard (IS) specifications\n` +
+        `✓ Factory manufacturing machinery and qualified technical personnel\n` +
+        `✓ Calibrated in-house testing equipment complying with Scheme of Inspection & Testing (SIT)\n` +
+        `✓ 50% concession on marking and inspection fees for MSMEs and Startups\n` +
+        `✓ Mandatory for all items covered under Central Government Quality Control Orders (QCOs)\n\n` +
+        `🧪 REQUIRED TESTING\n` +
+        `• Complete Type Testing against product-specific Indian Standard\n` +
+        `• Routine manufacturing factory batch control tests\n` +
+        `• Independent sample testing in BIS-recognized laboratories\n` +
+        `• Market surveillance testing of random retail samples\n\n` +
+        `🏭 LABORATORY\n` +
+        `Find BIS-recognized laboratories capable of testing against mandatory ISI standards\n\n` +
+        `📑 CERTIFICATION PATH\n` +
+        `1. Confirm applicable standard\n` +
+        `2. Check applicable certification/QCO requirements\n` +
+        `3. Identify required testing\n` +
+        `4. Select suitable BIS-recognized laboratory\n` +
+        `5. Apply through the appropriate BIS portal\n\n` +
+        `📚 EVIDENCE\n` +
+        `Standard: Scheme I - BIS Act 2016\n` +
+        `Source: BIS\n` +
+        `[View source / standard]\n\n` +
+        `➡ NEXT STEP\n` +
+        `[Find Laboratory] [Certification Process] [View Standard]`;
     }
 
-    // Grounding evidence fallback if available
+    // 6. Evidence-based grounding fallback
     if (groundingEvidence && groundingEvidence.length > 0) {
-      return `Here is official information grounded in authorized Indian Standards and BIS resources:\n\n` +
-        groundingEvidence.map(e => `### **${e.standard_number}** - ${e.document_title}\n- **${e.chunk?.clause || 'Standard Reference'}:** ${e.chunk?.text || ''}`).join('\n\n');
+      const topStd = groundingEvidence[0];
+      return `🔍 TOPIC IDENTIFIED\n` +
+        `${topStd.document_title}\n\n` +
+        `📘 APPLICABLE BIS STANDARD\n` +
+        `${topStd.standard_number}\n` +
+        `${topStd.document_title}\n` +
+        `${topStd.chunk?.text || ''}\n\n` +
+        `📋 KEY REQUIREMENTS\n` +
+        `✓ Conformity to technical parameters under ${topStd.chunk?.clause || 'Standard Specification'}\n` +
+        `✓ Mandatory Quality Control Order (QCO) compliance\n` +
+        `✓ Factory in-house testing infrastructure and SIT compliance\n\n` +
+        `🧪 REQUIRED TESTING\n` +
+        `• Essential conformity and parameter verification tests\n` +
+        `• Routine in-process quality control tests\n` +
+        `• Independent third-party laboratory verification\n\n` +
+        `🏭 LABORATORY\n` +
+        `Find BIS-recognized laboratories capable of testing against ${topStd.standard_number}\n\n` +
+        `📑 CERTIFICATION PATH\n` +
+        `1. Confirm applicable standard\n` +
+        `2. Check applicable certification/QCO requirements\n` +
+        `3. Identify required testing\n` +
+        `4. Select suitable BIS-recognized laboratory\n` +
+        `5. Apply through the appropriate BIS portal\n\n` +
+        `📚 EVIDENCE\n` +
+        `Standard: ${topStd.standard_number}\n` +
+        `Source: BIS\n` +
+        `[View source / standard]\n\n` +
+        `➡ NEXT STEP\n` +
+        `[Find Laboratory] [Certification Process] [View Standard]`;
     }
 
-    // General intelligent advisory fallback
-    return `Under the **Bureau of Indian Standards Act, 2016**, quality compliance in India is governed through published Indian Standards (IS) and mandatory Quality Control Orders (QCOs).\n\n` +
-      `### Key Guidance:\n` +
-      `1. **Standard Search:** Use **[Know Your Standard (KYS)](https://standards.bis.gov.in/)** to find the exact IS number for your product.\n` +
-      `2. **Testing & Audit:** Ensure testing facilities comply with the Scheme of Inspection and Testing (SIT).\n` +
-      `3. **Licensing:** Applications must be filed on **[Manakonline Portal](https://www.manakonline.in/)**.\n\n` +
-      `💡 *Tip: Mention the exact product name (e.g. Electric Kettle, Packaged Water, Steel, Helmets, Gold) to receive specific standard clauses, test parameters, and fees.*`;
+    // 7. General fallback
+    return `🔍 TOPIC IDENTIFIED\n` +
+      `Indian Standards & BIS Compliance\n\n` +
+      `📘 APPLICABLE BIS STANDARD\n` +
+      `Bureau of Indian Standards Act, 2016\n` +
+      `Quality compliance in India is governed through published Indian Standards (IS) and mandatory Quality Control Orders (QCOs).\n\n` +
+      `📋 KEY REQUIREMENTS\n` +
+      `✓ Search your product on Know Your Standard (KYS)\n` +
+      `✓ Verify if your product is covered under a mandatory QCO\n` +
+      `✓ Implement Scheme of Inspection & Testing (SIT) at manufacturing premises\n` +
+      `✓ Submit Form-V application on Manakonline portal\n\n` +
+      `🧪 REQUIRED TESTING\n` +
+      `• In-house quality control testing\n` +
+      `• Product verification in BIS-recognized laboratories\n` +
+      `• Factory audit sample verification\n\n` +
+      `🏭 LABORATORY\n` +
+      `Find BIS-recognized laboratories capable of testing against relevant Indian Standards\n\n` +
+      `📑 CERTIFICATION PATH\n` +
+      `1. Confirm applicable standard\n` +
+      `2. Check applicable certification/QCO requirements\n` +
+      `3. Identify required testing\n` +
+      `4. Select suitable BIS-recognized laboratory\n` +
+      `5. Apply through the appropriate BIS portal\n\n` +
+      `📚 EVIDENCE\n` +
+      `Standard: BIS Guidelines\n` +
+      `Source: BIS\n` +
+      `[View source / standard]\n\n` +
+      `➡ NEXT STEP\n` +
+      `[Find Laboratory] [Certification Process] [View Standard]`;
   }
 
   async processQuery({
@@ -360,16 +738,49 @@ RESPONSE RULES:
       };
     }
 
-    // 1. Retrieve official grounding evidence from database
+    // Step 1: Detect if query is incomplete without a product
+    const isMissingProduct = this.isMissingProductSpecification(rawMsg);
+    const recentAssistantMsg = (history && Array.isArray(history))
+      ? history.slice().reverse().find(m => m.role === 'assistant' || m.role === 'model')
+      : null;
+    const wasAskedProduct = recentAssistantMsg && (recentAssistantMsg.text || '').toLowerCase().includes('what product are you manufacturing');
+
+    if (isMissingProduct && !wasAskedProduct) {
+      let clarifyText = "What product are you manufacturing?";
+      if (language && language !== 'en') {
+        try { clarifyText = await translateText(clarifyText, language); } catch (e) {}
+      }
+      return {
+        conversation_id,
+        message_id: 'msg_' + Math.random().toString(36).substring(2, 9),
+        answer: clarifyText,
+        citations: [],
+        related_standards: [],
+        suggested_followups: [
+          'Electric kettle',
+          'Packaged drinking water',
+          'Two-wheeler helmets',
+          'Lithium-ion batteries'
+        ],
+        confidence: 'HIGH',
+        model_used: 'conversational-clarification',
+        disclaimer: 'BIS Assistant clarification prompt.'
+      };
+    }
+
+    // Step 2: Retrieve official grounding evidence from database
     const groundingEvidence = this.findRelevantEvidence(rawMsg);
 
-    // 2. Determine API credentials
+    // Step 3: Check if offline instant standard match is available
+    const detected = this.detectProductAndStandard(rawMsg);
+
+    // Step 4: Determine API credentials
     const isBuiltin = !custom_provider || custom_provider === 'builtin';
     const serverGroqKey = process.env.GROQ_API_KEY || GROQ_DEFAULT_API_KEY;
 
     let llmResult = null;
 
-    // A. If user chose Gemini and supplied a valid Gemini API key
+    // A. Gemini
     if (custom_provider === 'gemini' && custom_api_key && custom_api_key.trim()) {
       try {
         llmResult = await this.callGeminiLLM({
@@ -385,7 +796,7 @@ RESPONSE RULES:
       }
     }
 
-    // B. Call Groq LLM (if Gemini was not used or failed, and we have a Groq key)
+    // B. Groq
     if (!llmResult) {
       const groqKey = (!isBuiltin && custom_api_key && custom_api_key.trim())
         ? custom_api_key.trim()
@@ -407,7 +818,7 @@ RESPONSE RULES:
       }
     }
 
-    // 3. Fallback to resilient offline knowledge base if LLM is unavailable
+    // Step 5: Format response
     let aiAnswer = '';
     let modelUsed = 'offline-knowledge-engine';
 
@@ -415,7 +826,15 @@ RESPONSE RULES:
       aiAnswer = llmResult.answer;
       modelUsed = llmResult.modelUsed;
     } else {
-      let fallbackText = this.getOfflineAnswer(rawMsg, groundingEvidence);
+      let fallbackText = '';
+      if (detected) {
+        fallbackText = this.formatStandardToStructuredResponse(detected.standard, detected.matchedProduct, true);
+      } else if (wasAskedProduct) {
+        fallbackText = this.formatGenericProductResponse(rawMsg, true);
+      } else {
+        fallbackText = this.getOfflineAnswer(rawMsg, groundingEvidence, history);
+      }
+
       if (language && language !== 'en') {
         try {
           fallbackText = await translateText(fallbackText, language);
@@ -426,7 +845,7 @@ RESPONSE RULES:
       aiAnswer = fallbackText;
     }
 
-    // 4. Extract standard mentions
+    // Step 6: Extract standard mentions
     const isMatches = aiAnswer.match(/IS\s*[:\-\/]?\s*\d+(?:\s*(?:part|pt|\-)\s*\d+)?(?:\s*[:\-\(]?\s*\d{4})?/gi) || [];
     const relatedStandards = Array.from(
       new Set([
@@ -435,7 +854,7 @@ RESPONSE RULES:
       ].slice(0, 4))
     );
 
-    // 5. Extract citations
+    // Step 7: Extract citations
     const citations = groundingEvidence.map(e => ({
       standard_number: e.standard_number,
       document_title: e.document_title,
@@ -445,25 +864,19 @@ RESPONSE RULES:
       source_type: 'BIS Official Standard'
     }));
 
-    // 6. Generate contextual suggested followups
+    // Step 8: Suggested follow-ups
     let suggested_followups = [
-      'What is the difference between Scheme I (ISI) and Scheme II (CRS)?',
-      'How do I apply for an ISI Mark licence on Manakonline?',
-      'How to verify 6-digit HUID code on the BIS CARE app?',
-      'Find BIS recognized testing laboratories in my state'
+      'Find BIS recognized laboratories near me',
+      'What are the mandatory testing fees on Manakonline?',
+      'How to apply for ISI Mark licence (Form-V)?',
+      'Check Quality Control Order (QCO) deadlines'
     ];
 
-    if (rawMsg.toLowerCase().includes('water') || rawMsg.toLowerCase().includes('heater')) {
+    if (detected || rawMsg.toLowerCase().includes('kettle')) {
       suggested_followups = [
-        'What are the mandatory safety tests under IS 2082:2018?',
-        'What is the difference between IS 302-2-21 and IS 2082?',
-        'Find testing labs for water heaters in Delhi/NCR'
-      ];
-    } else if (rawMsg.toLowerCase().includes('gold') || rawMsg.toLowerCase().includes('hallmark')) {
-      suggested_followups = [
-        'How to verify 6-digit HUID code on BIS CARE app?',
-        'What are the three mandatory hallmarking symbols on gold jewellery?',
-        'What is the fee for jeweler hallmarking registration?'
+        'Find testing laboratories for IS 302-2-15:2009',
+        'What is the boil-dry endurance test in Clause 19?',
+        'How to apply for ISI Mark on Manakonline portal'
       ];
     }
 

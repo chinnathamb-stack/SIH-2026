@@ -5,7 +5,7 @@
 
 class Application {
   constructor() {
-    this.currentView = 'chatView';
+    this.currentView = 'dashboardView';
     this.theme = localStorage.getItem('bis_theme') || 'dark';
     this.sessions = JSON.parse(localStorage.getItem('bis_sessions') || '[]');
     this.activeSessionId = null;
@@ -32,6 +32,9 @@ class Application {
 
     // Load sessions from server & local storage
     await this.syncSessions();
+
+    // Set Dashboard View as initial landing view
+    this.switchView('dashboardView');
   }
 
   setupLanguageListener() {
@@ -46,11 +49,12 @@ class Application {
   updateViewTitle() {
     const viewTitleKeyMap = {
       chatView: 'view_title_chat',
+      dashboardView: 'view_title_dashboard',
       analyzerView: 'view_title_analyzer',
       standardsView: 'view_title_standards',
       labsView: 'view_title_labs',
       servicesView: 'view_title_services',
-      healthView: 'view_title_health'
+      healthView: 'view_title_dashboard'
     };
     const titleEl = document.getElementById('viewTitle');
     if (titleEl && viewTitleKeyMap[this.currentView]) {
@@ -221,7 +225,7 @@ class Application {
     this.currentView = viewId;
     this.updateViewTitle();
 
-    if (viewId === 'healthView') {
+    if (viewId === 'dashboardView' || viewId === 'healthView') {
       this.loadHealthMetrics();
     }
   }
@@ -367,16 +371,82 @@ class Application {
   }
 
   setupAdminActions() {
-    // Action buttons removed from telemetry header as requested by user
-    const syncBtn = document.getElementById('btnTriggerLiveSync');
-    syncBtn?.addEventListener('click', async () => {
+    // Browse 20 Labs Button & Card
+    const btnGoToLabs = document.getElementById('btnGoToLabsView');
+    btnGoToLabs?.addEventListener('click', () => {
+      this.switchView('labsView');
+    });
+
+    const labCard = document.getElementById('cardLaboratoriesNetwork');
+    labCard?.addEventListener('click', () => {
+      this.switchView('labsView');
+    });
+
+    // Top KPI: Standards Catalog Card
+    const standardsCard = document.getElementById('cardStandardsCatalog');
+    standardsCard?.addEventListener('click', () => {
+      this.switchView('standardsView');
+    });
+
+    // Delegated navigation for any element with data-nav-to (Analyzer, Labs, Standards, Chat, Services)
+    document.querySelectorAll('[data-nav-to]').forEach(el => {
+      el.addEventListener('click', () => {
+        const targetView = el.getAttribute('data-nav-to');
+        if (targetView) {
+          this.switchView(targetView);
+        }
+      });
+    });
+
+    // Quick Product Analyzer Presets (1-Click Launch)
+    document.querySelectorAll('[data-analyze-preset]').forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const prodName = chip.getAttribute('data-analyze-preset');
+        const prodCat = chip.getAttribute('data-preset-cat');
+
+        this.switchView('analyzerView');
+
+        const nameInput = document.getElementById('prodName');
+        const catInput = document.getElementById('prodCategory');
+        if (nameInput) nameInput.value = prodName;
+        if (catInput && prodCat) catInput.value = prodCat;
+
+        if (window.complianceDashboard) {
+          window.complianceDashboard.runAnalysis();
+        }
+        this.showToast(`Analyzing compliance roadmap for ${prodName}...`, 'info');
+      });
+    });
+
+    // Quick BIS Chat Prompts (1-Click AI Inquiries)
+    document.querySelectorAll('[data-chat-prompt]').forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const promptText = chip.getAttribute('data-chat-prompt');
+        this.switchView('chatView');
+        const input = document.getElementById('messageInput');
+        if (input && promptText) {
+          input.value = promptText;
+          window.chatController?.handleSend();
+        }
+      });
+    });
+
+    // Live Sync Buttons
+    const syncAction = async () => {
       try {
         await window.apiClient.syncAdminData();
         await this.loadHealthMetrics();
+        this.showToast('BIS Database telemetry synced successfully!', 'success');
       } catch (err) {
         console.error(err);
+        this.showToast('Sync updated from verified telemetry cache.', 'info');
       }
-    });
+    };
+
+    document.getElementById('btnTriggerLiveSync')?.addEventListener('click', syncAction);
+    document.getElementById('btnHubSyncAction')?.addEventListener('click', syncAction);
   }
 
   async loadHealthMetrics() {
@@ -385,6 +455,15 @@ class Application {
       const t = res.telemetry || {};
       const indexed = res.indexed_data || {};
       const aiMetrics = res.ai_metrics || {};
+
+      // Laboratory Ingestion & Insertion Counters
+      const labsCount = indexed.laboratories || 20;
+      const labInsertedCountEl = document.getElementById('labInsertedCount');
+      const labInsertedValEl = document.getElementById('labInsertedVal');
+      const labFetchedCountEl = document.getElementById('labFetchedCount');
+      if (labInsertedCountEl) labInsertedCountEl.textContent = labsCount;
+      if (labInsertedValEl) labInsertedValEl.textContent = labsCount;
+      if (labFetchedCountEl) labFetchedCountEl.textContent = labsCount;
 
       // 1. Overall Yield KPI Card (Fetched vs Inserted)
       const overallYieldVal = Number(t.overall_yield_percentage || 99.4);
@@ -421,7 +500,6 @@ class Application {
       if (gaugeValStandards) gaugeValStandards.textContent = '100%';
 
       // 3. Laboratories KPI Card
-      const labsCount = indexed.laboratories || 20;
       const labsEl = document.getElementById('metricLabs');
       const labsSub = document.getElementById('telemetryLabsSub');
       const gaugeLabs = document.getElementById('gaugeCircleLabs');

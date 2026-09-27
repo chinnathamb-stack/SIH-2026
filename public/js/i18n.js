@@ -21,6 +21,7 @@ const translations = {
     nav_section_ai: "AI ASSISTANT",
     nav_bis_ai: "BIS Standards AI",
     workspace: "STANDARDS WORKSPACE",
+    nav_dashboard: "Executive Dashboard",
     nav_analyzer: "Product Analyzer",
     nav_standards: "Standards Explorer",
     nav_labs: "Laboratory Finder (LIMS)",
@@ -34,6 +35,7 @@ const translations = {
 
     // View Titles
     view_title_chat: "BIS AI Intelligent Assistant",
+    view_title_dashboard: "Executive Dashboard & Mission Overview",
     view_title_analyzer: "Product Analyzer & Compliance Dashboard",
     view_title_standards: "Indian Standards Explorer (KYS)",
     view_title_labs: "BIS-Recognized Laboratory Finder (LIMS)",

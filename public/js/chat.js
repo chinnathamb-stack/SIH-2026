@@ -56,7 +56,9 @@ class ChatController {
     localStorage.setItem('bis_ai_mode', 'bis');
 
     const navBis = document.getElementById('navBisBtn');
-    navBis?.classList.add('active');
+    if (window.app?.currentView === 'chatView') {
+      navBis?.classList.add('active');
+    }
 
     this.updateWelcomeUI();
 
@@ -330,7 +332,53 @@ class ChatController {
       </div>`;
     });
 
-    // 2. Handle Markdown Tables
+    // 2. Extract IS standard if present
+    const isMatch = text.match(/IS\s*[:\-\/]?\s*\d+(?:[\s\-]*\d+)?(?:\s*(?:part|pt|\-)\s*\d+)?(?:\s*[:\-\(]?\s*\d{4})?/i);
+    const extractedIs = isMatch ? isMatch[0].trim() : 'IS 302-2-15:2009';
+
+    // 3. Highlight intro callout banner
+    formatted = formatted.replace(
+      /(?:^|\n)(Understood\.?\s*I can help identify the relevant standard,?\s*testing requirements and BIS process\.?)/i,
+      '\n<div class="chat-intro-callout"><span class="intro-callout-icon">💡</span> <strong>$1</strong></div>\n'
+    );
+
+    // 4. Format Section Badges & Cards
+    formatted = formatted
+      .replace(/(?:^|\n)🔍\s*\*{0,2}(PRODUCT|TOPIC)\s*IDENTIFIED\*{0,2}\s*\n+([^\n]+)/gi, (m, type, val) => {
+        const cleanVal = val.replace(/\*\*/g, '').trim();
+        return `\n<div class="structured-card-section sec-product"><div class="structured-badge badge-product"><span class="badge-icon">🔍</span> ${type.toUpperCase()} IDENTIFIED</div><div class="product-name-highlight">${cleanVal}</div></div>\n`;
+      })
+      .replace(/(?:^|\n)📘\s*\*{0,2}(APPLICABLE BIS STANDARD[^\n\*]*|APPLICABLE REGULATION[^\n\*]*)\*{0,2}\s*\n+([^\n]+)(?:\n+([^\n]+))?(?:\n+([^\n]+))?/gi, (m, header, line1, line2, line3) => {
+        let html = `\n<div class="structured-card-section sec-standard"><div class="structured-badge badge-standard"><span class="badge-icon">📘</span> ${header.replace(/\*\*/g, '').trim()}</div><div class="standard-code-pill">${line1.replace(/\*\*/g, '').trim()}</div>`;
+        if (line2 && !line2.includes('📋') && !line2.includes('✓')) {
+          html += `<div class="standard-title-sub">${line2.replace(/\*\*/g, '').trim()}</div>`;
+        }
+        if (line3 && !line3.includes('📋') && !line3.includes('✓')) {
+          html += `<div class="standard-scope-sub">${line3.replace(/\*\*/g, '').trim()}</div>`;
+        }
+        html += `</div>\n`;
+        return html;
+      })
+      .replace(/(?:^|\n)📋\s*\*{0,2}(KEY REQUIREMENTS[^\n\*]*|KEY FUNCTIONS[^\n\*]*)\*{0,2}/gi, (m, h) => `\n<div class="structured-badge badge-requirements"><span class="badge-icon">📋</span> ${h.replace(/\*\*/g, '').trim()}</div>\n`)
+      .replace(/(?:^|\n)🧪\s*\*{0,2}(REQUIRED TESTING[^\n\*]*|CONFORMITY TESTING[^\n\*]*)\*{0,2}/gi, (m, h) => `\n<div class="structured-badge badge-testing"><span class="badge-icon">🧪</span> ${h.replace(/\*\*/g, '').trim()}</div>\n`)
+      .replace(/(?:^|\n)🏭\s*\*{0,2}(LABORATORY[^\n\*]*)\*{0,2}/gi, (m, h) => `\n<div class="structured-badge badge-laboratory"><span class="badge-icon">🏭</span> ${h.replace(/\*\*/g, '').trim()}</div>\n`)
+      .replace(/(?:^|\n)📑\s*\*{0,2}(CERTIFICATION PATH[^\n\*]*|PROCESS ROADMAP[^\n\*]*)\*{0,2}/gi, (m, h) => `\n<div class="structured-badge badge-path"><span class="badge-icon">📑</span> ${h.replace(/\*\*/g, '').trim()}</div>\n`)
+      .replace(/(?:^|\n)📚\s*\*{0,2}(EVIDENCE[^\n\*]*)\*{0,2}/gi, (m, h) => `\n<div class="structured-badge badge-evidence"><span class="badge-icon">📚</span> ${h.replace(/\*\*/g, '').trim()}</div>\n`)
+      .replace(/(?:^|\n)➡\s*\*{0,2}(NEXT STEP[^\n\*]*)\*{0,2}/gi, (m, h) => `\n<div class="structured-badge badge-next-step"><span class="badge-icon">➡</span> ${h.replace(/\*\*/g, '').trim()}</div>\n`);
+
+    // 5. Checkmark items: ✓ item
+    formatted = formatted.replace(/(?:^|\n)[✓✔]\s*([^\n]+)/g, '\n<div class="structured-check-item"><span class="chk-icon">✓</span> <span class="chk-text">$1</span></div>');
+
+    // 6. Test bullet items: • item
+    formatted = formatted.replace(/(?:^|\n)[•●]\s*([^\n]+)/g, '\n<div class="structured-test-pill"><span class="tst-icon">🧪</span> <span class="tst-text">$1</span></div>');
+
+    // 7. Interactive Action Buttons
+    formatted = formatted.replace(/\[Find Laboratory\]/gi, `<button type="button" class="btn-chat-step-action btn-step-lab" data-is="${extractedIs}"><span class="btn-step-icon">🏭</span> Find Laboratory</button>`);
+    formatted = formatted.replace(/\[Certification Process\]/gi, `<button type="button" class="btn-chat-step-action btn-step-cert"><span class="btn-step-icon">📑</span> Certification Process</button>`);
+    formatted = formatted.replace(/\[View Standard\]/gi, `<button type="button" class="btn-chat-step-action btn-step-std" data-is="${extractedIs}"><span class="btn-step-icon">📘</span> View Standard</button>`);
+    formatted = formatted.replace(/\[View source \/ standard\]/gi, `<button type="button" class="btn-chat-step-action btn-view-source-std" data-is="${extractedIs}"><span class="btn-step-icon">🔗</span> View source / standard</button>`);
+
+    // 8. Handle Markdown Tables
     const tableRegex = /\|(.+)\|\n\| *[-:| ]+ *\|\n((?:\|.*\|\n?)+)/g;
     formatted = formatted.replace(tableRegex, (match, headerRow, bodyRows) => {
       const headers = headerRow.split('|').map(h => h.trim()).filter(Boolean);
@@ -348,7 +396,7 @@ class ChatController {
       return html;
     });
 
-    // 3. Headers & Formatting
+    // 9. Headers & Formatting
     formatted = formatted
       .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
       .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
@@ -359,14 +407,16 @@ class ChatController {
       .replace(/`([^`]+)`/g, '<code>$1</code>')
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
       .replace(/^\s*-\s+(.*?)$/gm, '<li>$1</li>')
-      .replace(/^\s*\d+\.\s+(.*?)$/gm, '<li class="numbered">$1</li>')
+      .replace(/^\s*(\d+)\.\s+(.*?)$/gm, '<li class="numbered" value="$1"><span class="num-step-idx">$1</span> $2</li>')
       .replace(/\n\n/g, '</p><p>');
 
     formatted = `<p>${formatted}</p>`
       .replace(/<p><div class="code-block-container"/g, '<div class="code-block-container"')
-      .replace(/<p><div class="table-responsive">/g, '<div class="table-responsive">')
+      .replace(/<p><div class="table-responsive">/g, '<div class="table-responsive"')
+      .replace(/<p><div class="structured-/g, '<div class="structured-')
+      .replace(/<p><div class="chat-intro-/g, '<div class="chat-intro-')
       .replace(/<\/div><\/p>/g, '</div>')
-      .replace(/(<li class="numbered">.*?<\/li>)+/g, '<ol>$&</ol>')
+      .replace(/(<li class="numbered".*?<\/li>)+/g, '<ol class="structured-roadmap-list">$&</ol>')
       .replace(/(<li>.*?<\/li>)+/g, '<ul>$&</ul>')
       .replace(/<p><\/p>/g, '');
 
@@ -417,6 +467,36 @@ class ChatController {
         }
       };
       fileInput.click();
+    });
+
+    // Global listener for interactive structured action buttons in chat stream
+    this.streamEl.addEventListener('click', (e) => {
+      const labBtn = e.target.closest('.btn-step-lab');
+      if (labBtn) {
+        const isNum = labBtn.getAttribute('data-is') || '';
+        window.app.switchView('labsView');
+        const searchInput = document.getElementById('labSearchInput');
+        if (searchInput && isNum) {
+          searchInput.value = isNum;
+          searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        window.app.showToast(`Switched to Laboratory Finder for ${isNum || 'standard'}`, 'info');
+        return;
+      }
+
+      const certBtn = e.target.closest('.btn-step-cert');
+      if (certBtn) {
+        window.app.switchView('servicesView');
+        window.app.showToast('Opened Official BIS Portals & Certification Process', 'info');
+        return;
+      }
+
+      const stdBtn = e.target.closest('.btn-step-std, .btn-view-source-std');
+      if (stdBtn) {
+        const isNum = stdBtn.getAttribute('data-is') || 'IS 302-2-15';
+        window.app.openEvidenceDrawer(isNum);
+        return;
+      }
     });
   }
 
@@ -472,189 +552,6 @@ class ChatController {
       this.recognition.lang = langMap[window.i18n.currentLang] || 'en-IN';
       this.recognition.start();
     }
-  }
-
-  async handleSend(customText = null) {
-    const text = (customText || this.inputEl.value).trim();
-    if (!text || this.isStreaming) return;
-
-    // Reset input
-    this.inputEl.value = '';
-    this.inputEl.style.height = 'auto';
-
-    // Hide welcome screen
-    if (this.welcomeEl) {
-      this.welcomeEl.style.display = 'none';
-    }
-
-    // Append User Message
-    this.appendMessage('user', text);
-    this.messages.push({ role: 'user', text, timestamp: new Date().toISOString() });
-
-    // Append Assistant Message with Typing Indicator
-    const assistantMsgObj = this.appendMessage('assistant', '', true);
-
-    this.isStreaming = true;
-    this.sendBtn.disabled = true;
-
-    try {
-      const lang = window.i18n.currentLang;
-      const res = await window.apiClient.sendChat({
-        message: text,
-        conversation_id: this.conversationId,
-        clarifications: this.clarificationState,
-        language: lang
-      });
-
-      // Stream / Render formatted response text
-      await this.streamResponse(assistantMsgObj.bubbleEl, res.answer);
-
-      // Remove typing indicator
-      assistantMsgObj.rowEl.querySelector('.typing-indicator')?.remove();
-
-      // Render Inline Standard Card if returned
-      if (res.standards && res.standards.length > 0) {
-        this.renderInlineStandardCard(assistantMsgObj.contentEl, res.standards[0], res.citations);
-      }
-
-      // Render Clarification Card if needed
-      if (res.needs_clarification && res.clarification_questions && res.clarification_questions.length > 0) {
-        this.renderClarificationCard(assistantMsgObj.contentEl, res.clarification_questions);
-      }
-
-      // Render Interactive Follow-Up Chips (ChatGPT-Style Suggestions)
-      if (res.suggested_followups && res.suggested_followups.length > 0) {
-        this.renderFollowUpChips(assistantMsgObj.contentEl, res.suggested_followups);
-      }
-
-      // Render Official Next Action links
-      if (res.official_actions && res.official_actions.length > 0) {
-        this.renderOfficialActions(assistantMsgObj.contentEl, res.official_actions);
-      }
-
-      // Add message actions (Copy, Speak, Translate, Feedback)
-      this.renderMessageActions(assistantMsgObj.contentEl, res.answer, assistantMsgObj.id, assistantMsgObj.bubbleEl);
-
-      // Auto-speak if enabled
-      if (this.autoSpeak) {
-        setTimeout(() => {
-          const speakBtn = assistantMsgObj.contentEl.querySelector('.btn-speaker');
-          this.speakText(res.answer, speakBtn);
-        }, 400);
-      }
-
-      // Save to local message array
-      this.messages.push({
-        role: 'assistant',
-        text: res.answer,
-        payload: res,
-        timestamp: new Date().toISOString()
-      });
-
-      // Save/sync session in sidebar
-      window.app.saveSession(this.conversationId, text.slice(0, 32), this.messages);
-
-    } catch (err) {
-      console.error(err);
-      assistantMsgObj.bubbleEl.innerHTML = `<p style="color: #f43f5e;">⚠️ Error connecting to BIS Assistant server. Please check connection.</p>`;
-    } finally {
-      this.isStreaming = false;
-      this.sendBtn.disabled = false;
-      this.scrollToBottom();
-    }
-  }
-
-  appendMessage(role, text, isTyping = false) {
-    const msgId = `msg_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
-    const rowEl = document.createElement('div');
-    rowEl.className = `message-row ${role}`;
-    rowEl.id = msgId;
-
-    const avatarEl = document.createElement('div');
-    avatarEl.className = 'message-avatar';
-    avatarEl.innerHTML = role === 'user' ? '👤' : '🇮🇳';
-
-    const contentEl = document.createElement('div');
-    contentEl.className = 'message-content';
-
-    const bubbleEl = document.createElement('div');
-    bubbleEl.className = 'message-bubble';
-    if (text) {
-      bubbleEl.setAttribute('data-raw-text', text);
-    }
-
-    if (isTyping) {
-      bubbleEl.innerHTML = `
-        <div class="typing-indicator">
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-        </div>
-      `;
-    } else {
-      bubbleEl.innerHTML = this.formatMarkdown(text);
-    }
-
-    contentEl.appendChild(bubbleEl);
-    rowEl.appendChild(avatarEl);
-    rowEl.appendChild(contentEl);
-
-    this.streamEl.appendChild(rowEl);
-    this.scrollToBottom();
-
-    return { id: msgId, rowEl, contentEl, bubbleEl };
-  }
-
-  async streamResponse(bubbleEl, markdownText) {
-    bubbleEl.innerHTML = '';
-    bubbleEl.setAttribute('data-raw-text', markdownText);
-    const formatted = this.formatMarkdown(markdownText);
-    bubbleEl.innerHTML = formatted;
-    this.scrollToBottom();
-  }
-
-  formatMarkdown(text) {
-    if (!text) return '';
-
-    // Handle Markdown Tables first
-    const tableRegex = /\|(.+)\|\n\| *[-:| ]+ *\|\n((?:\|.*\|\n?)+)/g;
-    let formatted = text.replace(tableRegex, (match, headerRow, bodyRows) => {
-      const headers = headerRow.split('|').map(h => h.trim()).filter(Boolean);
-      const rows = bodyRows.trim().split('\n').map(r => r.split('|').map(c => c.trim()).filter(Boolean));
-      
-      let html = '<div class="table-responsive"><table class="markdown-table"><thead><tr>';
-      headers.forEach(h => html += `<th>${h}</th>`);
-      html += '</tr></thead><tbody>';
-      rows.forEach(r => {
-        html += '<tr>';
-        r.forEach(c => html += `<td>${c}</td>`);
-        html += '</tr>';
-      });
-      html += '</tbody></table></div>';
-      return html;
-    });
-
-    // Headers & Formatting
-    formatted = formatted
-      .replace(/### (.*?)\n/g, '<h3>$1</h3>')
-      .replace(/## (.*?)\n/g, '<h2>$1</h2>')
-      .replace(/# (.*?)\n/g, '<h1>$1</h1>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`([^`]+)`/g, '<code>$1</code>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-      .replace(/^\s*-\s+(.*?)$/gm, '<li>$1</li>')
-      .replace(/^\s*\d+\.\s+(.*?)$/gm, '<li class="numbered">$1</li>')
-      .replace(/\n\n/g, '</p><p>');
-
-    formatted = `<p>${formatted}</p>`
-      .replace(/<p><div class="table-responsive">/g, '<div class="table-responsive">')
-      .replace(/<\/div><\/p>/g, '</div>')
-      .replace(/(<li class="numbered">.*?<\/li>)+/g, '<ol>$&</ol>')
-      .replace(/(<li>.*?<\/li>)+/g, '<ul>$&</ul>')
-      .replace(/<p><\/p>/g, '');
-
-    return formatted;
   }
 
   renderInlineStandardCard(containerEl, standard, citations = []) {

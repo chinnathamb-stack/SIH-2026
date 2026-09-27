@@ -43,8 +43,12 @@
 
       <!-- Navigation Menu -->
       <nav class="sidebar-nav">
-        <div class="nav-section-title" data-i18n="nav_section_ai">AI ASSISTANT</div>
-        <button class="nav-item active" data-view="chatView" id="navBisBtn">
+        <div class="nav-section-title" data-i18n="workspace">CORE PORTAL</div>
+        <button class="nav-item active" data-view="dashboardView" id="navDashboardBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span data-i18n="nav_dashboard">Executive Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="chatView" id="navBisBtn">
           <span class="nav-mode-icon">🏛️</span>
           <span style="font-weight: 600;" data-i18n="nav_bis_ai">BIS Standards AI</span>
         </button>
@@ -65,10 +69,6 @@
         <button class="nav-item" data-view="servicesView">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           <span data-i18n="nav_services">Official BIS Portals</span>
-        </button>
-        <button class="nav-item" data-view="healthView">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          <span data-i18n="nav_health">Admin & Health</span>
         </button>
       </nav>
 
@@ -102,7 +102,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
           
-          <span class="current-view-title" id="viewTitle" data-i18n="view_title_chat">BIS AI Intelligent Assistant</span>
+          <span class="current-view-title" id="viewTitle" data-i18n="view_title_dashboard">Executive Dashboard & Telemetry</span>
         </div>
 
         <div class="topbar-right">
@@ -153,7 +153,7 @@
       </header>
 
       <!-- VIEW 1: AI ASSISTANT (CHAT VIEW) -->
-      <section class="view-panel active" id="chatView">
+      <section class="view-panel" id="chatView">
         <div class="chat-container">
           
           <!-- Message Stream Area -->
@@ -423,26 +423,24 @@
         </div>
       </section>
 
-      <!-- VIEW 6: ADMIN & SYSTEM HEALTH -->
-      <section class="view-panel" id="healthView">
+      <!-- VIEW: EXECUTIVE DASHBOARD & TELEMETRY -->
+      <section class="view-panel active" id="dashboardView">
         <div class="panel-content-scroll">
           
-          <!-- Header Banner (Clean & Focused - Action buttons removed as requested) -->
-          <div class="telemetry-hero-card">
-            <div class="telemetry-hero-left">
-              <div class="telemetry-badge-row">
-                <span class="telemetry-live-pill">
-                  <span class="pulse-indicator"></span> <span data-i18n="telemetry_live">LIVE TELEMETRY ACTIVE</span>
-                </span>
-                <span class="telemetry-version-tag">SYSTEM METRICS MONITOR</span>
-              </div>
-              <h2 class="panel-title" style="margin-top: 8px;" data-i18n="health_heading">System Health & Ingestion Telemetry</h2>
-              <p class="panel-subtitle" data-i18n="health_sub">Real-time performance dashboard displaying data ingestion yields, verified standards, laboratory network, and server health.</p>
+          <!-- Transparent Header Area letting the full-clarity BIS background shine through -->
+          <div class="dashboard-backdrop-header mb-24">
+            <div class="dashboard-badge-pill">
+              <span class="live-dot"></span>
+              <span>BUREAU OF INDIAN STANDARDS • EXECUTIVE TELEMETRY</span>
             </div>
+            <h1 class="dashboard-hero-title">National Quality & Laboratory Network</h1>
+            <p class="dashboard-hero-desc">
+              Authoritative telemetry tracking conformity assessment testing laboratories, Indian Standards (IS), mandatory Quality Control Orders (QCO), and AI grounding accuracy.
+            </p>
           </div>
 
-          <!-- Top 4 KPI Cards with Radial Circular Gauges and Percentages -->
-          <div class="health-dashboard-grid mt-20" id="healthMetrics">
+          <!-- Top 4 KPI Telemetry Cards with Radial Circular Gauges and Percentages (Format of Image 2) -->
+          <div class="health-dashboard-grid mb-24" id="healthMetrics">
             
             <!-- Card 1: Data Ingestion Yield (Fetched vs Inserted) -->
             <div class="telemetry-card telemetry-gauge-card">
@@ -464,7 +462,7 @@
             </div>
 
             <!-- Card 2: Standards Ingestion & Catalog -->
-            <div class="telemetry-card telemetry-gauge-card">
+            <div class="telemetry-card telemetry-gauge-card" id="cardStandardsCatalog" style="cursor: pointer;" title="Click to browse Indian Standards">
               <div class="telemetry-card-left">
                 <div class="telemetry-rate-badge badge-blue" id="telemetryStandardsBadge">100% VERIFIED</div>
                 <div class="telemetry-main-stat" id="metricStandards">8 Standards</div>
@@ -482,8 +480,8 @@
               </div>
             </div>
 
-            <!-- Card 3: Laboratory Testing Centers -->
-            <div class="telemetry-card telemetry-gauge-card">
+            <!-- Card 3: Laboratory Testing Centers (User's primary requirement with 100% percentage gauge) -->
+            <div class="telemetry-card telemetry-gauge-card" id="cardLaboratoriesNetwork" style="cursor: pointer;" title="Click to browse 20 Laboratories">
               <div class="telemetry-card-left">
                 <div class="telemetry-rate-badge badge-purple" id="telemetryLabsBadge">100% INDEXED</div>
                 <div class="telemetry-main-stat" id="metricLabs">20 Laboratories</div>
@@ -522,81 +520,172 @@
 
           </div>
 
-          <!-- Visual Ingestion Graph & Grounding Analytics Section -->
-          <div class="grid-graph-telemetry mt-24">
-            
-            <!-- Main Graphical Comparison Chart: Fetched vs. Inserted -->
-            <div class="telemetry-section-card graph-main-card">
-              <div class="section-card-header">
-                <div>
-                  <h3 class="section-card-title" data-i18n="pipeline_graph_title">📊 Data Ingestion Graph: Fetched vs. Inserted</h3>
-                  <p class="section-card-subtitle" data-i18n="pipeline_graph_sub">Graphical telemetry comparing extracted source records against verified database records.</p>
-                </div>
-                <!-- Visual Graph Legend -->
-                <div class="graph-legend">
-                  <div class="legend-item"><span class="legend-dot dot-fetched"></span> <span>Fetched</span></div>
-                  <div class="legend-item"><span class="legend-dot dot-inserted"></span> <span>Inserted</span></div>
-                  <div class="legend-item"><span class="legend-dot dot-yield"></span> <span>Yield %</span></div>
-                </div>
+          <!-- Rapid Access System Hub & Interactive Feature Launchpads -->
+          <div class="dashboard-hub-section mt-28">
+            <div class="hub-header-row mb-20">
+              <div class="hub-badge-pill">
+                <span class="hub-pulse-dot"></span>
+                <span>INTELLIGENT COMPLIANCE & NAVIGATION HUB</span>
               </div>
-
-              <!-- Visual Dual Bar Graph Container -->
-              <div class="telemetry-bar-graph" id="pipelineBarGraph">
-                <!-- Dynamically rendered by app.js with comparative dual visual bars -->
-              </div>
+              <h2 class="hub-section-title">Core BIS AssistX Modules & Quick Launchpads</h2>
+              <p class="hub-section-subtitle">
+                Access deep AI product compliance analysis, explore national accredited testing laboratories, search official Indian Standards, and browse government gateways with single-click navigation.
+              </p>
             </div>
 
-            <!-- AI Grounding & Accuracy Radar Card -->
-            <div class="telemetry-section-card graph-side-card">
-              <h3 class="section-card-title" style="margin-bottom: 6px;" data-i18n="ai_grounding_title">🛡️ AI Grounding & Accuracy</h3>
-              <p class="section-card-subtitle" style="margin-bottom: 18px;">RAG precision and multi-layer verification scores.</p>
+            <div class="dashboard-hub-grid">
               
-              <div class="accuracy-graph-list">
-                <div class="accuracy-graph-item">
-                  <div class="accuracy-graph-head">
-                    <span class="accuracy-graph-lbl" data-i18n="metric_zero_hal">Zero-Hallucination Rate</span>
-                    <strong class="accuracy-graph-val" id="valZeroHal">99.5%</strong>
+              <!-- Feature 1: BIS Standards AI Assistant (Primary Flagship Intelligence) -->
+              <div class="hub-feature-card hub-card-chat" data-nav-to="chatView" title="Click to open BIS Standards AI Assistant">
+                <div class="hub-card-top">
+                  <div class="hub-icon-bubble bubble-chat">
+                    <span style="font-size: 20px;">🏛️</span>
                   </div>
-                  <div class="accuracy-bar-track">
-                    <div class="accuracy-bar-fill bar-fill-emerald" id="barZeroHal" style="width: 99.5%;"></div>
-                  </div>
+                  <span class="hub-card-badge badge-purple">PRIMARY AI ENGINE</span>
                 </div>
-
-                <div class="accuracy-graph-item">
-                  <div class="accuracy-graph-head">
-                    <span class="accuracy-graph-lbl" data-i18n="metric_citation_match">RAG Clause Citation Match</span>
-                    <strong class="accuracy-graph-val" id="valCitationMatch">98.8%</strong>
-                  </div>
-                  <div class="accuracy-bar-track">
-                    <div class="accuracy-bar-fill bar-fill-cyan" id="barCitationMatch" style="width: 98.8%;"></div>
-                  </div>
+                <h3 class="hub-card-title">BIS Standards AI Assistant</h3>
+                <p class="hub-card-desc">
+                  Ask natural language regulatory questions with verified clause citations, zero-hallucination accuracy, audio voice input, and regional Indian language support.
+                </p>
+                <div class="hub-tags-group">
+                  <span class="hub-mini-tag">RAG Grounded</span>
+                  <span class="hub-mini-tag">Clause Evidence</span>
+                  <span class="hub-mini-tag">Voice & Audio</span>
+                  <span class="hub-mini-tag">7 Languages</span>
                 </div>
-
-                <div class="accuracy-graph-item">
-                  <div class="accuracy-graph-head">
-                    <span class="accuracy-graph-lbl" data-i18n="metric_multilingual">Multilingual Precision (7 Langs)</span>
-                    <strong class="accuracy-graph-val" id="valMultilingual">99.4%</strong>
-                  </div>
-                  <div class="accuracy-bar-track">
-                    <div class="accuracy-bar-fill bar-fill-purple" id="barMultilingual" style="width: 99.4%;"></div>
-                  </div>
+                <!-- Quick AI Consultation Prompts -->
+                <div class="hub-presets-row" onclick="event.stopPropagation()">
+                  <span class="hub-presets-label">⚡ 1-Click Inquiries:</span>
+                  <button type="button" class="hub-preset-chip" data-chat-prompt="I want to manufacture an electric kettle. What BIS requirements must my product satisfy under IS 302-2-15?">Electric Kettle IS 302</button>
+                  <button type="button" class="hub-preset-chip" data-chat-prompt="What are mandatory testing steps to setup Packaged Drinking Water bottling plant under IS 14543?">Drinking Water IS 14543</button>
+                  <button type="button" class="hub-preset-chip" data-chat-prompt="How do MSME and startup manufacturers get 50% concession on BIS marking fees?">MSME 50% Concession</button>
                 </div>
-
-                <div class="accuracy-graph-item">
-                  <div class="accuracy-graph-head">
-                    <span class="accuracy-graph-lbl" data-i18n="metric_cache_hit">Grounding Cache Hit Ratio</span>
-                    <strong class="accuracy-graph-val" id="valCacheHit">94.8%</strong>
-                  </div>
-                  <div class="accuracy-bar-track">
-                    <div class="accuracy-bar-fill bar-fill-amber" id="barCacheHit" style="width: 94.8%;"></div>
-                  </div>
+                <div class="hub-card-bottom">
+                  <span class="hub-action-link">Start AI Consultation <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
                 </div>
               </div>
+
+              <!-- Feature 2: Product Compliance Analyzer & Roadmap (Direct requested link) -->
+              <div class="hub-feature-card hub-card-analyzer" data-nav-to="analyzerView" title="Click to open Product Compliance Analyzer">
+                <div class="hub-card-top">
+                  <div class="hub-icon-bubble bubble-analyzer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  </div>
+                  <span class="hub-card-badge badge-blue">COMPLIANCE ENGINE</span>
+                </div>
+                <h3 class="hub-card-title">Product Compliance Analyzer</h3>
+                <p class="hub-card-desc">
+                  Generate automated BIS compliance roadmaps, determine mandatory ISI Mark (Scheme-I) vs. CRS registration, and review testing schedules for your products.
+                </p>
+                <div class="hub-tags-group">
+                  <span class="hub-mini-tag">Scheme I (ISI)</span>
+                  <span class="hub-mini-tag">CRS IT Goods</span>
+                  <span class="hub-mini-tag">Audits & Testing</span>
+                </div>
+                <!-- Quick Preset Launchers -->
+                <div class="hub-presets-row" onclick="event.stopPropagation()">
+                  <span class="hub-presets-label">⚡ 1-Click Presets:</span>
+                  <button type="button" class="hub-preset-chip" data-analyze-preset="Electric Kettle" data-preset-cat="Electrical & Electronics">Electric Kettle</button>
+                  <button type="button" class="hub-preset-chip" data-analyze-preset="LED Luminaire" data-preset-cat="Electrical & Electronics">LED Luminaire</button>
+                  <button type="button" class="hub-preset-chip" data-analyze-preset="Mobile Phone" data-preset-cat="Electronics & IT Goods (CRS)">Mobile Phone</button>
+                </div>
+                <div class="hub-card-bottom">
+                  <span class="hub-action-link">Launch Product Analyzer <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </div>
+              </div>
+
+              <!-- Feature 3: BIS & NABL Laboratory Network (Direct requested link) -->
+              <div class="hub-feature-card hub-card-labs" data-nav-to="labsView" title="Click to browse 20 Laboratories">
+                <div class="hub-card-top">
+                  <div class="hub-icon-bubble bubble-labs">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31L4.66 18.2A2 2 0 0 0 6.36 21h11.28a2 2 0 0 0 1.7-2.8L14 9.31V2"/><line x1="8" y1="2" x2="16" y2="2"/></svg>
+                  </div>
+                  <span class="hub-card-badge badge-cyan">20 NATIONAL LABS</span>
+                </div>
+                <h3 class="hub-card-title">Laboratory Finder (LIMS)</h3>
+                <p class="hub-card-desc">
+                  Locate all 20 accredited national and regional testing laboratories across India, filter by state/region, and identify exact testing scopes for IS standards.
+                </p>
+                <div class="hub-tags-group">
+                  <span class="hub-mini-tag">Central Lab (CLD)</span>
+                  <span class="hub-mini-tag">NABL Accredited</span>
+                  <span class="hub-mini-tag">State Filtering</span>
+                </div>
+                <div class="hub-card-bottom">
+                  <span class="hub-action-link">Open Laboratory Locator <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </div>
+              </div>
+
+              <!-- Feature 4: Indian Standards (IS) Explorer -->
+              <div class="hub-feature-card hub-card-standards" data-nav-to="standardsView" title="Click to browse Indian Standards">
+                <div class="hub-card-top">
+                  <div class="hub-icon-bubble bubble-standards">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                  </div>
+                  <span class="hub-card-badge badge-emerald">KYS CATALOG</span>
+                </div>
+                <h3 class="hub-card-title">Standards Explorer (KYS)</h3>
+                <p class="hub-card-desc">
+                  Search through Indian Standards, browse mandatory testing clauses, verify Quality Control Orders (QCOs), and inspect official Gazette notifications.
+                </p>
+                <div class="hub-tags-group">
+                  <span class="hub-mini-tag">IS 302-2-15</span>
+                  <span class="hub-mini-tag">IS 616:2017</span>
+                  <span class="hub-mini-tag">IS 14543</span>
+                </div>
+                <div class="hub-card-bottom">
+                  <span class="hub-action-link">Explore Standards <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </div>
+              </div>
+
+              <!-- Feature 5: Official BIS & Manakonline Portals -->
+              <div class="hub-feature-card hub-card-services" data-nav-to="servicesView" title="Click to view official BIS portals">
+                <div class="hub-card-top">
+                  <div class="hub-icon-bubble bubble-services">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  </div>
+                  <span class="hub-card-badge badge-amber">12 PORTALS</span>
+                </div>
+                <h3 class="hub-card-title">Official BIS Portals Directory</h3>
+                <p class="hub-card-desc">
+                  Direct one-click access to 12 government portals including Manakonline, LIMS Portal, Know Your Standards, Care App, and Ministry Gazette notifications.
+                </p>
+                <div class="hub-tags-group">
+                  <span class="hub-mini-tag">Manakonline</span>
+                  <span class="hub-mini-tag">LIMS Testing</span>
+                  <span class="hub-mini-tag">e-BIS</span>
+                </div>
+                <div class="hub-card-bottom">
+                  <span class="hub-action-link">Access Government Portals <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </div>
+              </div>
+
+              <!-- Feature 6: Live Compliance Sync & Quick Evidence Drawer -->
+              <div class="hub-feature-card hub-card-sync">
+                <div class="hub-card-top">
+                  <div class="hub-icon-bubble bubble-sync">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                  </div>
+                  <span class="hub-card-badge badge-green">REALTIME SYNC</span>
+                </div>
+                <h3 class="hub-card-title">Live Telemetry & Verification</h3>
+                <p class="hub-card-desc">
+                  Inspect database ingestion consistency, trigger on-demand synchronization with official BIS registries, and inspect cited clauses.
+                </p>
+                <div class="hub-tags-group">
+                  <span class="hub-mini-tag">99.4% Ingestion Yield</span>
+                  <span class="hub-mini-tag">Zero Hallucination</span>
+                </div>
+                <div class="hub-card-bottom" style="margin-top: 14px;">
+                  <button type="button" class="btn-primary btn-sm" id="btnHubSyncAction" style="width: 100%;">
+                    <span>Sync BIS Database</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                  </button>
+                </div>
+              </div>
+
             </div>
-
           </div>
-
-        </div>
       </section>
 
     </main>
